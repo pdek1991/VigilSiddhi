@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VigilSiddhi Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better visual impact and responsiveness */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+
+        /* Header styling for logo and title */
+        .dashboard-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem; /* Slightly reduced margin */
+            padding-top: 0.75rem; /* Slightly reduced padding */
+        }
+
+        .dashboard-logo {
+            max-width: 120px; /* Reduced logo size */
+            height: auto;
+            border-radius: 0.5rem; /* Rounded corners for the logo */
+            margin-bottom: 0.5rem; /* Reduced margin */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-title {
+            font-size: 2.25rem; /* Slightly smaller title */
+            font-weight: 700; /* Bolder title */
+            color: #63b3ed; /* A nice blue for the title */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Main dashboard grid for channels */
+        .dashboard-grid {
+            flex-grow: 1; /* Allow the grid to take available space */
+            display: grid;
+            /* Adjusted minmax for channel blocks to fit more on screen */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem; /* Slightly reduced gap */
+            padding: 0.75rem; /* Slightly reduced padding */
+            max-width: 100%; /* Ensure it doesn't overflow */
+            margin: 0 auto; /* Center the grid */
+        }
+
+        /* Channel block styling */
+        .channel-block {
+            background-color: #2d3748; /* Slightly lighter dark background */
+            border-radius: 0.6rem; /* Slightly smaller rounded corners */
+            padding: 0.6rem; /* Slightly reduced padding */
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
+            transition: transform 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Hide overflow for content */
+        }
+
+        .channel-block:hover {
+            transform: translateY(-3px); /* Slight lift on hover */
+        }
+
+        .channel-name {
+            font-size: 1rem; /* Slightly smaller text */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.6rem; /* Slightly reduced margin */
+            text-align: center;
+            color: #a0aec0; /* Lighter grey for channel names */
+        }
+
+        /* Channel-specific device layout grid */
+        .channel-device-grid {
+            display: grid;
+            /* Define 4 columns: VS | CP | DA | DA_OUT */
+            grid-template-columns: 1fr 1.5fr 1fr 1fr;
+            grid-template-rows: repeat(3, auto); /* 3 rows for VS/DA/CP alignment */
+            gap: 0.4rem; /* Slightly reduced gap */
+            /* Define grid areas for precise placement as per image */
+            grid-template-areas:
+                "vs-m cp-vs42m da-m da-m-out"
+                "vs-p .        da-p .       " /* . for empty cells */
+                "vs-b cp-pgm42m da-b da-b-out";
+        }
+
+        /* Individual device block styling */
+        .device-status {
+            min-height: 2.5rem; /* Reduced height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.4rem; /* Slightly smaller rounded corners */
+            font-size: 0.7rem; /* Reduced font size */
+            font-weight: 500; /* font-medium */
+            color: #ffffff; /* White text for status blocks */
+            text-align: center;
+            padding: 0.2rem; /* Reduced padding */
+            word-break: break-word; /* Break long words */
+            line-height: 1.2; /* Adjust line height for better fit */
+            transition: background-color 0.3s ease-in-out; /* Smooth color transitions */
+        }
+
+        /* Assign grid areas to individual device blocks */
+        .device-status[data-area="vs-m"] { grid-area: vs-m; }
+        .device-status[data-area="vs-p"] { grid-area: vs-p; }
+        .device-status[data-area="vs-b"] { grid-area: vs-b; }
+        .device-status[data-area="da-m"] { grid-area: da-m; }
+        .device-status[data-area="da-p"] { grid-area: da-p; }
+        .device-status[data-area="da-b"] { grid-area: da-b; }
+        .device-status[data-area="cp-vs42m"] { grid-area: cp-vs42m; }
+        .device-status[data-area="cp-pgm42m"] { grid-area: cp-pgm42m; }
+        .device-status[data-area="da-m-out"] { grid-area: da-m-out; }
+        .device-status[data-area="da-b-out"] { grid-area: da-b-out; }
+
+        /* Styles for the larger Crosspoint blocks */
+        .device-status.large-cp-block {
+            min-height: 5.5rem; /* Reduced height */
+            display: flex; /* Ensure content is centered */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Global status blocks at the bottom of the page */
+        .global-group-status-container {
+            padding: 1rem; /* Reduced padding */
+            background-color: #2d3748;
+            border-radius: 0.6rem; /* Slightly smaller rounded corners */
+            margin: 0.75rem auto; /* Reduced margin */
+            max-width: 95%; /* Adjusted width */
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
+            flex-shrink: 0; /* Prevent it from shrinking */
+        }
+
+        .global-blocks-grid {
+            display: flex; /* Use flex for horizontal arrangement */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 0.6rem; /* Slightly reduced gap */
+            justify-content: center;
+        }
+
+        .global-status-block {
+            min-width: 7rem; /* Reduced width */
+            min-height: 3.5rem; /* Reduced height */
+            flex: 1 1 auto; /* Allow blocks to grow/shrink */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.4rem; /* Slightly smaller rounded corners */
+            font-size: 0.8rem; /* Reduced font size */
+            font-weight: 600;
+            color: #ffffff;
+            text-align: center;
+            padding: 0.4rem; /* Reduced padding */
+            word-break: break-word;
+            line-height: 1.2;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        /* Status colors */
+        .status-ok { background-color: #10b981; } /* Green-500 */
+        .status-alarm { background-color: #ef4444; } /* Red-500 */
+        .status-warning { background-color: #f59e0b; } /* Yellow-500 */
+        .status-unknown { background-color: #6b7280; } /* Gray-500 */
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Further adjustment */
+            }
+            .channel-device-grid {
+                grid-template-columns: 1fr 1.2fr 1fr 1fr;
+            }
+            .large-cp-block {
+                min-height: 4.8rem; /* Adjusted height */
+            }
+            .global-status-block {
+                min-width: 6.5rem;
+                min-height: 3rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Further adjustment */
+            }
+            .channel-block {
+                padding: 0.5rem;
+            }
+            .channel-name {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+            .device-status {
+                min-height: 2.2rem;
+                font-size: 0.65rem;
+            }
+            .large-cp-block {
+                min-height: 4.5rem; /* Adjusted height */
+            }
+            .dashboard-title {
+                font-size: 1.8rem;
+            }
+            .global-status-block {
+                min-width: 5.5rem;
+                min-height: 2.8rem;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
+            .channel-device-grid {
+                grid-template-columns: 1fr; /* Stack all devices vertically on very small screens */
+                grid-template-areas: none; /* Remove grid areas for stacking */
+            }
+            .device-status {
+                width: 95%; /* Make them take more width when stacked */
+                margin: 0 auto; /* Center them */
+            }
+            .large-cp-block {
+                min-height: 2.5rem; /* Reduce height significantly for stacking */
+            }
+            .global-group-status-container {
+                max-width: 98%;
+            }
+            .global-status-block {
+                min-width: 48%; /* Two blocks per row on smallest screens */
+                min-height: 2.2rem;
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto py-4">
+        <header class="dashboard-header">
+            <img src="VigilSiddhi.jpg" alt="VigilSiddhi Logo" class="dashboard-logo" onerror="this.onerror=null;this.src='https://placehold.co/120x120/63b3ed/ffffff?text=VigilSiddhi+Logo';">
+            <h1 class="dashboard-title">VigilSiddhi Dashboard</h1>
+        </header>
+        <div id="dashboard" class="dashboard-grid">
+            </div>
+    </div>
+
+    <div id="global-group-status" class="global-group-status-container">
+        <h2 class="text-xl font-semibold text-center mb-4 text-blue-400">Overall System Status</h2>
+        <div class="global-blocks-grid">
+            </div>
+    </div>
+
+    <script>
+        // Define the number of channels
+        const NUM_CHANNELS = 50;
+
+        // Define all individual devices for a channel, along with their grid area for layout
+        const channelDevices = [
+            { id: 'VS_M', name: 'VS M', area: 'vs-m' },
+            { id: 'VS_P', name: 'VS P', area: 'vs-p' },
+            { id: 'VS_B', name: 'VS B', area: 'vs-b' },
+            { id: 'CP_VS42M', name: '186-11 VS42M', area: 'cp-vs42m', isLarge: true }, // Mark as large block
+            { id: 'CP_PGM42M', name: '402-11 PGM42M', area: 'cp-pgm42m', isLarge: true }, // Mark as large block
+            { id: 'DA_M', name: 'DA M', area: 'da-m' },
+            { id: 'DA_P', name: 'DA P', area: 'da-p' },
+            { id: 'DA_B', name: 'DA B', area: 'da-b' },
+            { id: 'DA_M_OUT', name: 'DA M OUT', area: 'da-m-out' },
+            { id: 'DA_B_OUT', name: 'DA B OUT', area: 'da-b-out' },
+        ];
+
+        // Define the global group status blocks
+        const globalGroupStatusBlocks = [
+            { id: 'GROUP_ILO_M', name: 'iLO M' },
+            { id: 'GROUP_ILO_P', name: 'iLO P' },
+            { id: 'GROUP_ILO_B', name: 'iLO B' },
+            { id: 'GROUP_ENC_M', name: 'Encoder M' },
+            { id: 'GROUP_ENC_B', name: 'Encoder B' },
+            { id: 'GROUP_CISCO_D9800', name: 'Cisco D9800' },
+            { id: 'GROUP_CISCO_SWITCH', name: 'Cisco Switch' },
+            { id: 'GROUP_NEXUS_SWITCH', name: 'Nexus Switch' },
+            { id: 'GROUP_KMX', name: 'KMX' },
+        ];
+
+        // Flag to ensure initial load is all green
+        let initialLoad = true;
+
+        // Function to generate a random status for simulation
+        function getRandomStatus() {
+            if (initialLoad) {
+                return 'ok'; // All green on initial load
+            }
+            const statuses = ['ok', 'alarm', 'warning', 'unknown'];
+            return statuses[Math.floor(Math.random() * statuses.length)];
+        }
+
+        // Function to update a single status block (device or global group)
+        function updateStatusBlock(elementId, status) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                // Remove existing status classes
+                element.classList.remove('status-ok', 'status-alarm', 'status-warning', 'status-unknown');
+
+                // Add new status class based on the status value
+                switch (status.toLowerCase()) {
+                    case 'ok':
+                        element.classList.add('status-ok');
+                        break;
+                    case 'alarm':
+                        element.classList.add('status-alarm');
+                        break;
+                    case 'warning':
+                        element.classList.add('status-warning');
+                        break;
+                    default:
+                        element.classList.add('status-unknown'); // Default to unknown for any other status
+                        break;
+                }
+            }
+        }
+
+        // Function to simulate fetching channel status data
+        async function fetchChannelStatus(channelNum) {
+            await new Promise(resolve => setTimeout(resolve, 100)); // Simulate API call delay
+
+            const channelData = {
+                channelId: `channel-${channelNum}`,
+                channelName: `Channel ${String(channelNum).padStart(2, '0')}`,
+                devices: {}
+            };
+
+            channelDevices.forEach(device => {
+                channelData.devices[device.id] = getRandomStatus(); // Simulate random status
+            });
+
+            return channelData;
+        }
+
+        // Function to simulate fetching global group status data
+        async function fetchGlobalGroupStatus() {
+            await new Promise(resolve => setTimeout(resolve, 100)); // Simulate API call delay
+
+            const globalStatuses = {};
+            globalGroupStatusBlocks.forEach(groupBlock => {
+                globalStatuses[groupBlock.id] = getRandomStatus(); // Simulate random status
+            });
+            return globalStatuses;
+        }
+
+        // Function to render the dashboard (channels and global blocks)
+        async function renderDashboard() {
+            const dashboardContainer = document.getElementById('dashboard');
+            dashboardContainer.innerHTML = ''; // Clear existing channel content
+
+            // Render individual channel blocks
+            for (let i = 1; i <= NUM_CHANNELS; i++) {
+                const channelId = `channel-${i}`;
+                const channelName = `Channel ${String(i).padStart(2, '0')}`;
+
+                const channelBlock = document.createElement('div');
+                channelBlock.id = channelId;
+                channelBlock.className = 'channel-block';
+
+                let channelDevicesHtml = '';
+                // Create a map for quick lookup of devices by their area for grid placement
+                const deviceMap = new Map(channelDevices.map(d => [d.area, d]));
+
+                // Define the order of grid cells based on grid-template-areas
+                const gridAreasOrder = [
+                    'vs-m', 'cp-vs42m', 'da-m', 'da-m-out',
+                    'vs-p', '.', 'da-p', '.',
+                    'vs-b', 'cp-pgm42m', 'da-b', 'da-b-out'
+                ];
+
+                gridAreasOrder.forEach(area => {
+                    if (area === '.') {
+                        channelDevicesHtml += `<div class="empty-cell"></div>`; // Placeholder for empty grid cells
+                    } else {
+                        const device = deviceMap.get(area);
+                        if (device) {
+                            channelDevicesHtml += `
+                                <div id="${channelId}-${device.id}"
+                                     class="device-status status-unknown ${device.isLarge ? 'large-cp-block' : ''}"
+                                     data-area="${device.area}">
+                                    ${device.name}
+                                </div>
+                            `;
+                        }
+                    }
+                });
+
+                channelBlock.innerHTML = `
+                    <h2 class="channel-name">${channelName}</h2>
+                    <div class="channel-device-grid">
+                        ${channelDevicesHtml}
+                    </div>
+                `;
+                dashboardContainer.appendChild(channelBlock);
+            }
+
+            // Render global group status blocks
+            const globalGroupStatusContainer = document.querySelector('#global-group-status .global-blocks-grid');
+            globalGroupStatusContainer.innerHTML = ''; // Clear existing global blocks
+
+            globalGroupStatusBlocks.forEach(groupBlock => {
+                const blockDiv = document.createElement('div');
+                blockDiv.id = `global-${groupBlock.id}`;
+                blockDiv.className = 'global-status-block status-unknown';
+                blockDiv.textContent = groupBlock.name;
+                globalGroupStatusContainer.appendChild(blockDiv);
+            });
+
+            // Initial update of all statuses
+            await updateAllStatuses();
+            initialLoad = false; // After initial load, allow random statuses
+        }
+
+        // Function to update all channel and global statuses
+        async function updateAllStatuses() {
+            // Update channel-specific devices
+            for (let i = 1; i <= NUM_CHANNELS; i++) {
+                const channelData = await fetchChannelStatus(i); // Fetch data for each channel
+                for (const deviceId in channelData.devices) {
+                    updateStatusBlock(`${channelData.channelId}-${deviceId}`, channelData.devices[deviceId]);
+                }
+            }
+
+            // Update global group status blocks
+            const globalStatuses = await fetchGlobalGroupStatus();
+            for (const blockId in globalStatuses) {
+                updateStatusBlock(`global-${blockId}`, globalStatuses[blockId]);
+            }
+        }
+
+        // Initialize the dashboard when the window loads
+        window.onload = function() {
+            renderDashboard();
+            // Set up auto-update every 5 seconds (adjust as needed)
+            setInterval(updateAllStatuses, 5000);
+        };
+    </script>
+</body>
+</html>
