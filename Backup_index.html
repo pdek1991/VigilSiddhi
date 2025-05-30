@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VigilSiddhi Dashboard</title>
-    <link rel="icon" type="image/x-icon" href="Media/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles for better visual impact and responsiveness */
@@ -16,120 +15,90 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh; /* Ensure body takes full viewport height */
-            margin: 0; /* Reset default body margin */
-            padding: 0; /* Reset default body padding */
         }
 
         /* Header styling for logo and title */
         .dashboard-header {
             display: flex;
-            align-items: center; /* Align items vertically in the center */
-            justify-content: space-between; /* Pushes logo to left, title to center */
-            margin-bottom: 1rem; 
-            padding: 0.75rem 1.5rem; /* Add horizontal padding for full width utilization */
-            width: 100%; /* Ensure header uses full width */
-            box-sizing: border-box; /* Include padding in width */
-        }
-
-        .dashboard-logo-container {
-            flex-shrink: 0; /* Prevent logo from shrinking */
-            display: flex;
-            align-items: center; /* Align items vertically */
-            padding-right: 1.5rem; /* Increased space between logo and title */
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem; /* Slightly reduced margin */
+            padding-top: 0.75rem; /* Slightly reduced padding */
         }
 
         .dashboard-logo {
-            max-width: 80px; /* Reduced logo size */
+            max-width: 120px; /* Reduced logo size */
             height: auto;
             border-radius: 0.5rem; /* Rounded corners for the logo */
+            margin-bottom: 0.5rem; /* Reduced margin */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         .dashboard-title {
-            flex-grow: 1; /* Allows title to take available space and center */
-            text-align: center; /* Keep title centered */
-            font-size: 1.5rem; /* Smaller title */
-            font-weight: 700; 
+            font-size: 2.25rem; /* Slightly smaller title */
+            font-weight: 700; /* Bolder title */
             color: #63b3ed; /* A nice blue for the title */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            margin: 0; /* Remove default margins */
         }
 
         /* Main dashboard grid for channels */
         .dashboard-grid {
             flex-grow: 1; /* Allow the grid to take available space */
             display: grid;
-            /* Adjusted for dynamic channels per row, with increased minimum width to prevent text truncation */
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); 
-            gap: 0.75rem; /* Gap between blocks */
-            padding: 0.75rem; /* Padding around the grid */
-            width: 100%; /* Utilize full width */
-            box-sizing: border-box; /* Include padding in width */
-            margin: 0; /* Remove auto margins */
+            /* Adjusted minmax for channel blocks to fit more on screen */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem; /* Slightly reduced gap */
+            padding: 0.75rem; /* Slightly reduced padding */
+            max-width: 100%; /* Ensure it doesn't overflow */
+            margin: 0 auto; /* Center the grid */
         }
 
-        /* Channel block styling for square shape */
+        /* Channel block styling */
         .channel-block {
             background-color: #2d3748; /* Slightly lighter dark background */
-            border-radius: 0.6rem; 
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); 
+            border-radius: 0.6rem; /* Slightly smaller rounded corners */
+            padding: 0.6rem; /* Slightly reduced padding */
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
             transition: transform 0.2s ease-in-out;
-            position: relative; /* Needed for absolute positioning of inner content */
-            padding-bottom: 100%; /* This creates the square aspect ratio */
-            height: 0; /* Important for padding-bottom hack to work */
-            overflow: hidden; /* Hide anything outside the square */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Hide overflow for content */
         }
 
         .channel-block:hover {
             transform: translateY(-3px); /* Slight lift on hover */
         }
 
-        /* Inner container for channel block content to fill the square */
-        .channel-block-inner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex; /* Make it flex to arrange name and grid */
-            flex-direction: column;
-            padding: 0.6rem; /* Original padding for content inside the square */
-            box-sizing: border-box; /* Include padding in inner dimensions */
-            overflow: hidden; /* NO SCROLLING HERE */
-        }
-
         .channel-name {
-            flex-shrink: 0; /* Prevent channel name from shrinking */
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.6rem;
+            font-size: 1rem; /* Slightly smaller text */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.6rem; /* Slightly reduced margin */
             text-align: center;
-            color: #a0aec0;
+            color: #a0aec0; /* Lighter grey for channel names */
         }
 
-        /* Channel-specific device layout grid inside the inner block */
+        /* Channel-specific device layout grid */
         .channel-device-grid {
-            flex-grow: 1; /* Allow device grid to take remaining space */
             display: grid;
-            /* Adjusted column widths: last column slightly wider to prevent truncation of "OUT" blocks */
-            grid-template-columns: 1fr 1.5fr 1fr 1.1fr;
-            grid-template-rows: repeat(3, auto);
-            gap: 0.4rem;
+            /* Define 4 columns: VS | CP | DA | DA_OUT */
+            grid-template-columns: 1fr 1.5fr 1fr 1fr;
+            grid-template-rows: repeat(3, auto); /* 3 rows for VS/DA/CP alignment */
+            gap: 0.4rem; /* Slightly reduced gap */
+            /* Define grid areas for precise placement as per image */
             grid-template-areas:
                 "vs-m cp-vs42m da-m da-m-out"
-                "vs-p .        da-p .       "
+                "vs-p .        da-p .       " /* . for empty cells */
                 "vs-b cp-pgm42m da-b da-b-out";
         }
 
         /* Individual device block styling */
         .device-status {
-            min-height: 2rem; /* Adjusted min-height for small square */
-            display: flex; /* Changed to flex */
-            flex-direction: column; /* Stack content vertically */
+            min-height: 2.5rem; /* Reduced height */
+            display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 0.4rem; /* Slightly smaller rounded corners */
-            font-size: 0.65rem; /* Adjusted font size for small square */
+            font-size: 0.7rem; /* Reduced font size */
             font-weight: 500; /* font-medium */
             color: #ffffff; /* White text for status blocks */
             text-align: center;
@@ -151,22 +120,23 @@
         .device-status[data-area="da-m-out"] { grid-area: da-m-out; }
         .device-status[data-area="da-b-out"] { grid-area: da-b-out; }
 
-        /* Styles for the larger Crosspoint blocks (with 2-row labels) */
+        /* Styles for the larger Crosspoint blocks */
         .device-status.large-cp-block {
-            min-height: 3rem; /* Adjusted min-height for horizontal rectangle */
-            font-size: 0.7rem; /* Adjusted font size for horizontal rectangle */
+            min-height: 5.5rem; /* Reduced height */
+            display: flex; /* Ensure content is centered */
+            align-items: center;
+            justify-content: center;
         }
 
         /* Global status blocks at the bottom of the page */
         .global-group-status-container {
-            padding: 1rem 1.5rem; /* Add horizontal padding for full width utilization */
+            padding: 1rem; /* Reduced padding */
             background-color: #2d3748;
-            border-radius: 0.6rem; 
-            margin: 0.75rem 0; /* Remove auto margins, adjust vertical margin */
-            width: 100%; /* Utilize full width */
-            box-sizing: border-box; /* Include padding in width */
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); 
-            flex-shrink: 0;
+            border-radius: 0.6rem; /* Slightly smaller rounded corners */
+            margin: 0.75rem auto; /* Reduced margin */
+            max-width: 95%; /* Adjusted width */
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
+            flex-shrink: 0; /* Prevent it from shrinking */
         }
 
         .global-blocks-grid {
@@ -203,16 +173,13 @@
         /* Responsive adjustments */
         @media (max-width: 1024px) {
             .dashboard-grid {
-                grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); /* Adjusted min-width */
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Further adjustment */
             }
             .channel-device-grid {
-                grid-template-columns: 1fr 1.2fr 1fr 1fr; /* Reverted to 1fr as overall width is less */
-            }
-            .device-status {
-                min-height: 1.8rem; /* Adjusted min-height */
+                grid-template-columns: 1fr 1.2fr 1fr 1fr;
             }
             .large-cp-block {
-                min-height: 2.5rem; /* Adjusted min-height */
+                min-height: 4.8rem; /* Adjusted height */
             }
             .global-status-block {
                 min-width: 6.5rem;
@@ -223,7 +190,7 @@
 
         @media (max-width: 768px) {
             .dashboard-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Adjusted min-width */
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Further adjustment */
             }
             .channel-block {
                 padding: 0.5rem;
@@ -232,18 +199,15 @@
                 font-size: 0.9rem;
                 margin-bottom: 0.5rem;
             }
-            .channel-device-grid {
-                grid-template-columns: 1fr 1.2fr 1fr 1fr; /* Reverted to 1fr as overall width is less */
-            }
             .device-status {
-                min-height: 1.6rem; /* Adjusted min-height */
+                min-height: 2.2rem;
                 font-size: 0.65rem;
             }
             .large-cp-block {
-                min-height: 2.2rem; /* Adjusted min-height */
+                min-height: 4.5rem; /* Adjusted height */
             }
             .dashboard-title {
-                font-size: 1.2rem; /* Smaller on smaller screens */
+                font-size: 1.8rem;
             }
             .global-status-block {
                 min-width: 5.5rem;
@@ -257,22 +221,15 @@
                 grid-template-columns: 1fr; /* Single column on very small screens */
             }
             .channel-device-grid {
-                /* When single column, stack internal elements vertically */
-                grid-template-columns: 1fr; 
-                grid-template-rows: auto;
+                grid-template-columns: 1fr; /* Stack all devices vertically on very small screens */
                 grid-template-areas: none; /* Remove grid areas for stacking */
             }
-            /* Ensure all device status blocks take full width when stacked */
-            .device-status[data-area] {
-                grid-area: auto !important; /* Override grid-area for stacking */
-                width: 100%;
-            }
             .device-status {
-                min-height: 1.5rem; /* Adjusted min-height */
-                font-size: 0.6rem;
+                width: 95%; /* Make them take more width when stacked */
+                margin: 0 auto; /* Center them */
             }
             .large-cp-block {
-                min-height: 2rem; /* Adjusted min-height */
+                min-height: 2.5rem; /* Reduce height significantly for stacking */
             }
             .global-group-status-container {
                 max-width: 98%;
@@ -286,13 +243,11 @@
     </style>
 </head>
 <body>
-    <div class="py-4"> 
+    <div class="container mx-auto py-4">
         <header class="dashboard-header">
-            <div class="dashboard-logo-container">
-                <img src="Media/logo.png" alt="VigilSiddhi Logo" class="dashboard-logo" onerror="this.onerror=null;this.src='https://placehold.co/80x80/63b3ed/ffffff?text=VigilSiddhi+Logo';">
-            </div>
+            <!-- Set the image source from the Media folder -->
+            <img src="Media/logo.png" alt="VigilSiddhi Logo" class="dashboard-logo" onerror="this.onerror=null;this.src='https://placehold.co/120x120/63b3ed/ffffff?text=VigilSiddhi+Logo';">
             <h1 class="dashboard-title">VigilSiddhi Dashboard</h1>
-            <div></div>
         </header>
         <div id="dashboard" class="dashboard-grid">
         </div>
@@ -309,13 +264,12 @@
         const NUM_CHANNELS = 50;
 
         // Define all individual devices for a channel, along with their grid area for layout
-        // Added iloIp for devices monitored by iLO and labelLines for 2-row labels
         const channelDevices = [
-            { id: 'VS_M', name: 'VS M', area: 'vs-m', iloIp: '192.168.1.10' },
-            { id: 'VS_P', name: 'VS P', area: 'vs-p', iloIp: '192.168.1.11' },
-            { id: 'VS_B', name: 'VS B', area: 'vs-b', iloIp: '192.168.1.12' },
-            { id: 'CP_VS42M', name: '186-11 VS42M', area: 'cp-vs42m', isLarge: true, labelLines: ['VS42M', '186-11'] }, 
-            { id: 'CP_PGM42M', name: '402-11 PGM42M', area: 'cp-pgm42m', isLarge: true, labelLines: ['PGM42M', '402-11'] }, 
+            { id: 'VS_M', name: 'VS M', area: 'vs-m' },
+            { id: 'VS_P', name: 'VS P', area: 'vs-p' },
+            { id: 'VS_B', name: 'VS B', area: 'vs-b' },
+            { id: 'CP_VS42M', name: '186-11 VS42M', area: 'cp-vs42m', isLarge: true }, // Mark as large block
+            { id: 'CP_PGM42M', name: '402-11 PGM42M', area: 'cp-pgm42m', isLarge: true }, // Mark as large block
             { id: 'DA_M', name: 'DA M', area: 'da-m' },
             { id: 'DA_P', name: 'DA P', area: 'da-p' },
             { id: 'DA_B', name: 'DA B', area: 'da-b' },
@@ -336,12 +290,16 @@
             { id: 'GROUP_KMX', name: 'KMX' },
         ];
 
-        // Base URL for your Flask iLO proxy API
-        const ILO_PROXY_API_BASE_URL = 'http://127.0.0.1:5000'; // Adjust if your proxy is on a different address/port
+        // Flag to ensure initial load is all green
+        let initialLoad = true;
 
-        // Function to generate a status for simulated devices (always 'ok' by default)
+        // Function to generate a random status for simulation
         function getRandomStatus() {
-            return 'ok'; 
+            if (initialLoad) {
+                return 'ok'; // All green on initial load
+            }
+            const statuses = ['ok', 'alarm', 'warning', 'unknown'];
+            return statuses[Math.floor(Math.random() * statuses.length)];
         }
 
         // Function to update a single status block (device or global group)
@@ -369,58 +327,30 @@
             }
         }
 
-        // Function to fetch status from the iLO proxy and render it
-        async function fetchIloStatusAndRender(channelNum, deviceId, iloIp) {
-            const elementId = `channel-${channelNum}-${deviceId}`;
-            const element = document.getElementById(elementId);
-            if (!element) return;
-
-            try {
-                const response = await fetch(`${ILO_PROXY_API_BASE_URL}/get_ilo_status/${iloIp}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                const status = data.status; // 'ok', 'warning', 'alarm', 'unknown'
-
-                // Only update the color, keep the original device name text constant
-                updateStatusBlock(elementId, status);
-            } catch (error) {
-                console.error(`Error fetching status for ${iloIp}:`, error);
-                // On error, set to unknown (gray)
-                updateStatusBlock(elementId, 'unknown'); 
-            }
-        }
-
-        // Function to simulate fetching channel status data (or fetch from iLO for specific devices)
+        // Function to simulate fetching channel status data
         async function fetchChannelStatus(channelNum) {
+            await new Promise(resolve => setTimeout(resolve, 100)); // Simulate API call delay
+
             const channelData = {
                 channelId: `channel-${channelNum}`,
                 channelName: `Channel ${String(channelNum).padStart(2, '0')}`,
                 devices: {}
             };
 
-            const promises = channelDevices.map(async device => {
-                if (device.iloIp) {
-                    // For iLO-monitored devices, fetch real status from the proxy
-                    await fetchIloStatusAndRender(channelNum, device.id, device.iloIp);
-                } else {
-                    // For other devices, simulate status (which will be 'ok' by default now)
-                    const elementId = `${channelData.channelId}-${device.id}`;
-                    const status = getRandomStatus();
-                    // Only update the color, keep the original device name text constant
-                    updateStatusBlock(elementId, status);
-                }
+            channelDevices.forEach(device => {
+                channelData.devices[device.id] = getRandomStatus(); // Simulate random status
             });
-            await Promise.all(promises); 
+
             return channelData;
         }
 
         // Function to simulate fetching global group status data
         async function fetchGlobalGroupStatus() {
+            await new Promise(resolve => setTimeout(resolve, 100)); // Simulate API call delay
+
             const globalStatuses = {};
             globalGroupStatusBlocks.forEach(groupBlock => {
-                globalStatuses[groupBlock.id] = 'ok'; // Always 'ok' by default
+                globalStatuses[groupBlock.id] = getRandomStatus(); // Simulate random status
             });
             return globalStatuses;
         }
@@ -456,17 +386,11 @@
                     } else {
                         const device = deviceMap.get(area);
                         if (device) {
-                            let displayText = device.name;
-                            if (device.labelLines) {
-                                // If labelLines exist, join them with a <br> for two rows
-                                displayText = device.labelLines.join('<br>');
-                            }
-                            // Initial status is 'ok' (green) for faster perceived loading
                             channelDevicesHtml += `
                                 <div id="${channelId}-${device.id}"
-                                     class="device-status status-ok ${device.isLarge ? 'large-cp-block' : ''}" 
+                                     class="device-status status-unknown ${device.isLarge ? 'large-cp-block' : ''}"
                                      data-area="${device.area}">
-                                    ${displayText}
+                                    ${device.name}
                                 </div>
                             `;
                         }
@@ -474,11 +398,9 @@
                 });
 
                 channelBlock.innerHTML = `
-                    <div class="channel-block-inner">
-                        <h2 class="channel-name">${channelName}</h2>
-                        <div class="channel-device-grid">
-                            ${channelDevicesHtml}
-                        </div>
+                    <h2 class="channel-name">${channelName}</h2>
+                    <div class="channel-device-grid">
+                        ${channelDevicesHtml}
                     </div>
                 `;
                 dashboardContainer.appendChild(channelBlock);
@@ -491,27 +413,29 @@
             globalGroupStatusBlocks.forEach(groupBlock => {
                 const blockDiv = document.createElement('div');
                 blockDiv.id = `global-${groupBlock.id}`;
-                // Initial status is 'ok' (green) for faster perceived loading
-                blockDiv.className = 'global-status-block status-ok';
+                blockDiv.className = 'global-status-block status-unknown';
                 blockDiv.textContent = groupBlock.name;
                 globalGroupStatusContainer.appendChild(blockDiv);
             });
 
-            // Initial asynchronous update of all statuses (doesn't block rendering)
-            updateAllStatuses(); 
+            // Initial update of all statuses
+            await updateAllStatuses();
+            initialLoad = false; // After initial load, allow random statuses
         }
 
         // Function to update all channel and global statuses
         async function updateAllStatuses() {
-            // Update channel-specific devices (includes iLO fetches and other simulations)
+            // Update channel-specific devices
             for (let i = 1; i <= NUM_CHANNELS; i++) {
-                await fetchChannelStatus(i); 
+                const channelData = await fetchChannelStatus(i); // Fetch data for each channel
+                for (const deviceId in channelData.devices) {
+                    updateStatusBlock(`${channelData.channelId}-${deviceId}`, channelData.devices[deviceId]);
+                }
             }
 
             // Update global group status blocks
             const globalStatuses = await fetchGlobalGroupStatus();
             for (const blockId in globalStatuses) {
-                // Only update the color, keep the original block name text constant
                 updateStatusBlock(`global-${blockId}`, globalStatuses[blockId]);
             }
         }
@@ -520,7 +444,7 @@
         window.onload = function() {
             renderDashboard();
             // Set up auto-update every 5 seconds (adjust as needed)
-            setInterval(updateAllStatuses, 5000); 
+            setInterval(updateAllStatuses, 5000);
         };
     </script>
 </body>
