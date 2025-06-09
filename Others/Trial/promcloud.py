@@ -6,8 +6,8 @@ from prometheus_client import CollectorRegistry, Gauge, generate_latest
 # ----------------------------
 # Configuration
 # ----------------------------
-USERNAME = "1788125"
-PASSWORD = "glc_eyJvIjoiMTIxOTkwOCIsIm4iOiJwZGMtcGRlazE5OTEtZGVmYXVsdC12aWdpbHNpZGRoaSIsImsiOiJwQ0o3ODNnRkFEQzZyMDYzV0UzWTVKTDgiLCJtIjp7InIiOiJwcm9kLWFwLXNvdXRoLTEifX0="  # Replace with your Grafana Cloud API token
+USERNAME = "2490227"
+PASSWORD = "=="
 REMOTE_WRITE_URL = "https://prometheus-prod-43-prod-ap-south-1.grafana.net/api/prom/push"
 
 # Generate 50 unique Sony channel names
