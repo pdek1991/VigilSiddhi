@@ -1,0 +1,29 @@
+[
+  {
+    "id": "GROUP_ILO_M",
+    "name": "iLO M",
+    "type": "VS_M",
+    "additional_ips": [
+      { "ip": "172.19.180.63", "username": "Administrator", "password": "Sony@2024!" },
+     
+    ]
+  },
+  {
+    "id": "GROUP_ILO_P",
+    "name": "iLO P",
+    "type": "VS_P",
+    "additional_ips": [
+      { "ip": "172.19.180.130", "username": "Administrator", "password": "Sony@2024!" },
+      
+    ]
+  },
+  {
+    "id": "GROUP_ILO_B",
+    "name": "iLO B",
+    "type": "VS_B",
+    "additional_ips": [
+      { "ip": "172.19.180.51", "username": "Administrator", "password": "Sony@2024!" },
+      
+    ]
+  }
+]

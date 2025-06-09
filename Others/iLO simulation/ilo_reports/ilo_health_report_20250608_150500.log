@@ -1,0 +1,555 @@
+--- iLO Health and Alarm Comprehensive Report (20250608_150500) ---
+-------------------------------------------------------------------
+
+
+
+==================== Processing iLO: 172.19.180.65 ====================
+
+======== Starting Health and Alarm Collection for iLO: 172.19.180.65 ========
+Scanning Redfish Service Root: https://172.19.180.65/redfish/v1
+  Service Root successful. Redfish Version: 1.6.0
+
+--- Traversing Main Redfish Collections (Systems, Chassis, Managers) ---
+Processing collection: /redfish/v1/Systems
+  Resource: Computer Systems (Computer Systems view) - Status: OK (Health: N/A, State: N/A)
+  Processing 1 members for Computer Systems (Computer Systems view)...
+  *** ALARM (Health): Computer System health is 'Warning'. (Severity: WARNING) ***
+  -> Full JSON for this problematic resource will be detailed at the end.
+  Exploring linked resource: EthernetInterfaces (/redfish/v1/Systems/1/EthernetInterfaces)
+  Resource: System Ethernet Interfaces (Collection of System Ethernet Interfaces) - Status: OK (Health: N/A, State: N/A)
+  Processing 12 members for System Ethernet Interfaces (Collection of System Ethernet Interfaces)...
+  [ERROR] Failed to fetch resource https://172.19.180.65/redfish/v1/Systems/1/EthernetInterfaces/1: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [FATAL] An unexpected error occurred while processing https://172.19.180.65/redfish/v1/Systems/1/EthernetInterfaces: local variable 'resource_identifier' referenced before assignment
+  Exploring linked resource: Memory (/redfish/v1/Systems/1/Memory)
+  Resource: Memory DIMM Collection - Status: OK (Health: N/A, State: N/A)
+  Processing 24 members for Memory DIMM Collection...
+  *** ALARM (State): proc1dimm1 state is 'Absent'. (Severity: UNKNOWN) ***
+  -> Full JSON for this problematic resource will be detailed at the end.
+  *** ALARM (State): proc1dimm2 state is 'Absent'. (Severity: UNKNOWN) ***
+  -> Full JSON for this problematic resource will be detailed at the end.
+  Resource: proc1dimm3 - Status: OK (Health: OK, State: Enabled)
+  [ERROR] Failed to fetch resource https://172.19.180.65/redfish/v1/Systems/1/Memory/proc1dimm4: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [FATAL] An unexpected error occurred while processing https://172.19.180.65/redfish/v1/Systems/1/Memory: local variable 'resource_identifier' referenced before assignment
+  Exploring linked resource: MemoryDomains (/redfish/v1/Systems/1/MemoryDomains)
+  Resource: Memory Domains Collection - Status: OK (Health: N/A, State: N/A)
+  Processing 0 members for Memory Domains Collection...
+  Exploring linked resource: NetworkInterfaces (/redfish/v1/Systems/1/NetworkInterfaces)
+  [ERROR] Failed to fetch resource https://172.19.180.65/redfish/v1/Systems/1/NetworkInterfaces: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [FATAL] An unexpected error occurred while processing https://172.19.180.65/redfish/v1/Systems/1: local variable 'resource_identifier' referenced before assignment
+Processing collection: /redfish/v1/Chassis
+  Resource: Computer System Chassis (Computer System Chassis View) - Status: OK (Health: N/A, State: N/A)
+  Processing 1 members for Computer System Chassis (Computer System Chassis View)...
+  [ERROR] Failed to fetch resource https://172.19.180.65/redfish/v1/Chassis/1: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [FATAL] An unexpected error occurred while processing https://172.19.180.65/redfish/v1/Chassis: local variable 'resource_identifier' referenced before assignment
+Processing collection: /redfish/v1/Managers
+  Resource: Managers (Managers view) - Status: OK (Health: N/A, State: N/A)
+  Processing 1 members for Managers (Managers view)...
+  [ERROR] Failed to fetch resource https://172.19.180.65/redfish/v1/Managers/1: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+  [FATAL] An unexpected error occurred while processing https://172.19.180.65/redfish/v1/Managers: local variable 'resource_identifier' referenced before assignment
+
+--- Checking Log Services for Alarms ---
+
+--- Fetching IML Log Entries (https://172.19.180.65/redfish/v1/Systems/1/LogServices/IML/Entries) ---
+  [WARNING] Failed to fetch IML logs from https://172.19.180.65/redfish/v1/Systems/1/LogServices/IML/Entries: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+--- Fetching Alert Event Log Entries (https://172.19.180.65/redfish/v1/Systems/1/LogServices/Event/Entries) ---
+  Alert Event entries checked.
+
+--- Fetching iLO Event Log (IEL) Entries (https://172.19.180.65/redfish/v1/Managers/1/LogServices/IEL/Entries) ---
+  [WARNING] Failed to fetch iLO Event logs from https://172.19.180.65/redfish/v1/Managers/1/LogServices/IEL/Entries: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+======== Final Overall Status for 172.19.180.65: WARNING ========
+
+==================== End of Report for 172.19.180.65 ====================
+
+
+================================================================================
+======================== OVERALL SYSTEM SUMMARY ========================
+================================================================================
+
+Overall Health of All Monitored iLOs: WARNING
+
+
+================================================================================
+======================== LATEST ACTIVE ALARMS ==========================
+================================================================================
+
+2025-06-08 15:05:03 | Computer System health is 'Warning'. | 172.19.180.65 | WARNING
+2025-06-08 15:05:03 | Unexpected error for Computer System: local variable 'resource_identifier' referenced before assignment | 172.19.180.65 | UNKNOWN
+2025-06-08 15:05:05 | Unexpected error for System Ethernet Interfaces (Collection of System Ethernet Interfaces): local variable 'resource_identifier' referenced before assignment | 172.19.180.65 | UNKNOWN
+2025-06-08 15:05:06 | Unexpected error for Memory DIMM Collection: local variable 'resource_identifier' referenced before assignment | 172.19.180.65 | UNKNOWN
+2025-06-08 15:05:08 | proc1dimm1 state is 'Absent'. | 172.19.180.65 | UNKNOWN
+2025-06-08 15:05:09 | proc1dimm2 state is 'Absent'. | 172.19.180.65 | UNKNOWN
+2025-06-08 15:05:14 | Unexpected error for Computer System Chassis (Computer System Chassis View): local variable 'resource_identifier' referenced before assignment | 172.19.180.65 | UNKNOWN
+2025-06-08 15:05:16 | Unexpected error for Managers (Managers view): local variable 'resource_identifier' referenced before assignment | 172.19.180.65 | UNKNOWN
+
+
+
+================================================================================
+================== FULL JSON FOR PROBLEMATIC RESOURCES ==================
+================================================================================
+
+
+--- Problematic Resource 1 (iLO: 172.19.180.65, URI: /redfish/v1/Systems/1) ---
+{
+  "@odata.context": "/redfish/v1/$metadata#ComputerSystem.ComputerSystem",
+  "@odata.etag": "W/\"0337A1BE\"",
+  "@odata.id": "/redfish/v1/Systems/1",
+  "@odata.type": "#ComputerSystem.v1_17_0.ComputerSystem",
+  "Id": "1",
+  "Actions": {
+    "#ComputerSystem.Reset": {
+      "ResetType@Redfish.AllowableValues": [
+        "On",
+        "ForceOff",
+        "GracefulShutdown",
+        "ForceRestart",
+        "Nmi",
+        "PushPowerButton",
+        "GracefulRestart"
+      ],
+      "target": "/redfish/v1/Systems/1/Actions/ComputerSystem.Reset"
+    }
+  },
+  "AssetTag": "",
+  "Bios": {
+    "@odata.id": "/redfish/v1/systems/1/bios"
+  },
+  "BiosVersion": "U32 v2.68 (07/14/2022)",
+  "Boot": {
+    "BootOptions": {
+      "@odata.id": "/redfish/v1/Systems/1/BootOptions"
+    },
+    "BootOrder": [
+      "Boot001B",
+      "Boot001A",
+      "Boot000A",
+      "Boot000B",
+      "Boot0010",
+      "Boot000E",
+      "Boot0011",
+      "Boot000F",
+      "Boot0014",
+      "Boot0015",
+      "Boot0018",
+      "Boot0019",
+      "Boot0016",
+      "Boot0017",
+      "Boot0012",
+      "Boot0013",
+      "Boot000C"
+    ],
+    "BootSourceOverrideEnabled": "Disabled",
+    "BootSourceOverrideMode": "UEFI",
+    "BootSourceOverrideTarget": "None",
+    "BootSourceOverrideTarget@Redfish.AllowableValues": [
+      "None",
+      "Cd",
+      "Hdd",
+      "Usb",
+      "SDCard",
+      "Utilities",
+      "Diags",
+      "BiosSetup",
+      "Pxe",
+      "UefiShell",
+      "UefiHttp",
+      "UefiTarget"
+    ],
+    "UefiTargetBootSourceOverride": "None",
+    "UefiTargetBootSourceOverride@Redfish.AllowableValues": [
+      "HD(1,GPT,8B48A3CE-3509-4EE9-BE32-F15E0DFC38CC,0x800,0x64000)/\\EFI\\rocky\\shimx64.efi",
+      "HD(1,GPT,19597320-7948-4FF4-9AD7-B63746DCD99D,0x800,0x64000)/\\EFI\\centos\\shimx64.efi",
+      "UsbClass(0xFFFF,0xFFFF,0xFF,0xFF,0xFF)",
+      "PciRoot(0x0)/Pci(0x14,0x0)/USB(0x13,0x0)",
+      "PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)/MAC(B47AF1C93954,0x1)/IPv4(0.0.0.0)",
+      "PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)/MAC(B47AF1C93954,0x1)/IPv4(0.0.0.0)/Uri()",
+      "PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)/MAC(B47AF1C93954,0x1)/IPv6(0000:0000:0000:0000:0000:0000:0000:0000)",
+      "PciRoot(0x0)/Pci(0x1C,0x0)/Pci(0x0,0x0)/MAC(B47AF1C93954,0x1)/IPv6(0000:0000:0000:0000:0000:0000:0000:0000)/Uri()",
+      "PciRoot(0x1)/Pci(0x0,0x0)/Pci(0x0,0x0)/MAC(D4F5EF9E54D8,0x1)/IPv4(0.0.0.0)/Uri()",
+      "PciRoot(0x1)/Pci(0x0,0x0)/Pci(0x0,0x0)/MAC(D4F5EF9E54D8,0x1)/IPv4(0.0.0.0)",
+      "PciRoot(0x3)/Pci(0x2,0x0)/Pci(0x0,0x0)/MAC(D4F5EF75CF78,0x1)/IPv4(0.0.0.0)/Uri()",
+      "PciRoot(0x3)/Pci(0x2,0x0)/Pci(0x0,0x0)/MAC(D4F5EF75CF78,0x1)/IPv4(0.0.0.0)",
+      "PciRoot(0x3)/Pci(0x2,0x0)/Pci(0x0,0x0)/MAC(D4F5EF75CF78,0x1)/IPv6(0000:0000:0000:0000:0000:0000:0000:0000)/Uri()",
+      "PciRoot(0x3)/Pci(0x2,0x0)/Pci(0x0,0x0)/MAC(D4F5EF75CF78,0x1)/IPv6(0000:0000:0000:0000:0000:0000:0000:0000)",
+      "PciRoot(0x1)/Pci(0x0,0x0)/Pci(0x0,0x0)/MAC(D4F5EF9E54D8,0x1)/IPv6(0000:0000:0000:0000:0000:0000:0000:0000)/Uri()",
+      "PciRoot(0x1)/Pci(0x0,0x0)/Pci(0x0,0x0)/MAC(D4F5EF9E54D8,0x1)/IPv6(0000:0000:0000:0000:0000:0000:0000:0000)",
+      "PciRoot(0x3)/Pci(0x0,0x0)/Pci(0x0,0x0)/Scsi(0x17B,0x0)"
+    ]
+  },
+  "EthernetInterfaces": {
+    "@odata.id": "/redfish/v1/Systems/1/EthernetInterfaces"
+  },
+  "HostName": "",
+  "IndicatorLED": "Off",
+  "Links": {
+    "ManagedBy": [
+      {
+        "@odata.id": "/redfish/v1/Managers/1"
+      }
+    ],
+    "Chassis": [
+      {
+        "@odata.id": "/redfish/v1/Chassis/1"
+      }
+    ]
+  },
+  "LocationIndicatorActive": false,
+  "LogServices": {
+    "@odata.id": "/redfish/v1/Systems/1/LogServices"
+  },
+  "Manufacturer": "Synamedia",
+  "Memory": {
+    "@odata.id": "/redfish/v1/Systems/1/Memory"
+  },
+  "MemoryDomains": {
+    "@odata.id": "/redfish/v1/Systems/1/MemoryDomains"
+  },
+  "MemorySummary": {
+    "Status": {
+      "HealthRollup": "Warning"
+    },
+    "TotalSystemMemoryGiB": 64,
+    "TotalSystemPersistentMemoryGiB": 0
+  },
+  "Model": "Video Network Node",
+  "Name": "Computer System",
+  "NetworkInterfaces": {
+    "@odata.id": "/redfish/v1/Systems/1/NetworkInterfaces"
+  },
+  "Oem": {
+    "Hpe": {
+      "@odata.context": "/redfish/v1/$metadata#HpeComputerSystemExt.HpeComputerSystemExt",
+      "@odata.type": "#HpeComputerSystemExt.v2_12_0.HpeComputerSystemExt",
+      "Actions": {
+        "#HpeComputerSystemExt.PowerButton": {
+          "PushType@Redfish.AllowableValues": [
+            "Press",
+            "PressAndHold"
+          ],
+          "target": "/redfish/v1/Systems/1/Actions/Oem/Hpe/HpeComputerSystemExt.PowerButton"
+        },
+        "#HpeComputerSystemExt.SecureSystemErase": {
+          "target": "/redfish/v1/Systems/1/Actions/Oem/Hpe/HpeComputerSystemExt.SecureSystemErase"
+        },
+        "#HpeComputerSystemExt.SystemReset": {
+          "ResetType@Redfish.AllowableValues": [
+            "ColdBoot",
+            "AuxCycle"
+          ],
+          "target": "/redfish/v1/Systems/1/Actions/Oem/Hpe/HpeComputerSystemExt.SystemReset"
+        }
+      },
+      "AggregateHealthStatus": {
+        "AgentlessManagementService": "Unavailable",
+        "AggregateServerHealth": "Warning",
+        "BiosOrHardwareHealth": {
+          "Status": {
+            "Health": "Warning"
+          }
+        },
+        "FanRedundancy": "Redundant",
+        "Fans": {
+          "Status": {
+            "Health": "OK"
+          }
+        },
+        "Memory": {
+          "Status": {
+            "Health": "Warning"
+          }
+        },
+        "Network": {
+          "Status": {
+            "Health": "OK"
+          }
+        },
+        "PowerSupplies": {
+          "PowerSuppliesMismatch": false,
+          "Status": {
+            "Health": "OK"
+          }
+        },
+        "PowerSupplyRedundancy": "Redundant",
+        "Processors": {
+          "Status": {
+            "Health": "OK"
+          }
+        },
+        "SmartStorageBattery": {
+          "Status": {
+            "Health": "OK"
+          }
+        },
+        "Storage": {
+          "Status": {
+            "Health": "OK"
+          }
+        },
+        "Temperatures": {
+          "Status": {
+            "Health": "OK"
+          }
+        }
+      },
+      "Bios": {
+        "Backup": {
+          "Date": "07/14/2022",
+          "Family": "U32",
+          "VersionString": "U32 v2.68 (07/14/2022)"
+        },
+        "Current": {
+          "Date": "07/14/2022",
+          "Family": "U32",
+          "VersionString": "U32 v2.68 (07/14/2022)"
+        },
+        "UefiClass": 2
+      },
+      "CriticalTempRemainOff": false,
+      "CurrentPowerOnTimeSeconds": 1749375213,
+      "DeviceDiscoveryComplete": {
+        "AMSDeviceDiscovery": "NoAMS",
+        "DeviceDiscovery": "vMainDeviceDiscoveryComplete",
+        "SmartArrayDiscovery": "Complete"
+      },
+      "ElapsedEraseTimeInMinutes": 0,
+      "EndOfPostDelaySeconds": null,
+      "EstimatedEraseTimeInMinutes": 0,
+      "IntelligentProvisioningAlwaysOn": true,
+      "IntelligentProvisioningIndex": 9,
+      "IntelligentProvisioningLocation": "System Board",
+      "IntelligentProvisioningVersion": "3.81.2",
+      "IsColdBooting": false,
+      "Links": {
+        "PCISlots": {
+          "@odata.id": "/redfish/v1/Systems/1/PCISlots"
+        },
+        "NetworkAdapters": {
+          "@odata.id": "/redfish/v1/Systems/1/BaseNetworkAdapters"
+        },
+        "SmartStorage": {
+          "@odata.id": "/redfish/v1/Systems/1/SmartStorage"
+        },
+        "USBPorts": {
+          "@odata.id": "/redfish/v1/Systems/1/USBPorts"
+        },
+        "USBDevices": {
+          "@odata.id": "/redfish/v1/Systems/1/USBDevices"
+        },
+        "EthernetInterfaces": {
+          "@odata.id": "/redfish/v1/Systems/1/EthernetInterfaces"
+        },
+        "WorkloadPerformanceAdvisor": {
+          "@odata.id": "/redfish/v1/Systems/1/WorkloadPerformanceAdvisor"
+        },
+        "SecureEraseReportService": {
+          "@odata.id": "/redfish/v1/Systems/1/SecureEraseReportService"
+        },
+        "PCIDevices": [
+          {
+            "@odata.id": "/redfish/v1/Systems/1/PCIDevices"
+          }
+        ]
+      },
+      "PCAPartNumber": "847479-002",
+      "PCASerialNumber": "PWUFL0ARHGQ0M2",
+      "PostDiscoveryCompleteTimeStamp": "2025-06-07T21:58:55Z",
+      "PostDiscoveryMode": null,
+      "PostMode": null,
+      "PostState": "FinishedPost",
+      "PowerAllocationLimit": 1600,
+      "PowerAutoOn": "Restore",
+      "PowerOnDelay": "Minimum",
+      "PowerOnMinutes": 689526,
+      "PowerRegulatorMode": "Max",
+      "PowerRegulatorModesSupported": [
+        "OSControl",
+        "Dynamic",
+        "Max",
+        "Min"
+      ],
+      "ProcessorJitterControl": {
+        "ConfiguredFrequencyLimitMHz": 0,
+        "Mode": "Disabled"
+      },
+      "SMBIOS": {
+        "extref": "/smbios"
+      },
+      "ServerFQDN": "",
+      "SmartStorageConfig": [
+        {
+          "@odata.id": "/redfish/v1/systems/1/smartstorageconfig"
+        }
+      ],
+      "SystemROMAndiLOEraseComponentStatus": {
+        "BIOSSettingsEraseStatus": "Idle",
+        "iLOSettingsEraseStatus": "Idle"
+      },
+      "SystemROMAndiLOEraseStatus": "Idle",
+      "SystemUsage": {
+        "AvgCPU0Freq": 284,
+        "AvgCPU1Freq": 147,
+        "CPU0Power": 36,
+        "CPU1Power": 34,
+        "CPUICUtil": 2,
+        "CPUUtil": 9,
+        "IOBusUtil": 0,
+        "JitterCount": 40,
+        "MemoryBusUtil": 14
+      },
+      "UserDataEraseComponentStatus": {},
+      "UserDataEraseStatus": "Idle",
+      "VirtualProfile": "Inactive"
+    }
+  },
+  "PowerState": "On",
+  "ProcessorSummary": {
+    "Count": 2,
+    "Model": "Intel(R) Xeon(R) Silver 4210R CPU @ 2.40GHz",
+    "Status": {
+      "HealthRollup": "OK"
+    }
+  },
+  "Processors": {
+    "@odata.id": "/redfish/v1/Systems/1/Processors"
+  },
+  "SKU": "869121-B21",
+  "SecureBoot": {
+    "@odata.id": "/redfish/v1/Systems/1/SecureBoot"
+  },
+  "SerialNumber": "MXQ3150GG1",
+  "Status": {
+    "Health": "Warning",
+    "HealthRollup": "Warning",
+    "State": "Enabled"
+  },
+  "Storage": {
+    "@odata.id": "/redfish/v1/Systems/1/Storage"
+  },
+  "SystemType": "Physical",
+  "TrustedModules": [
+    {
+      "Oem": {
+        "Hpe": {
+          "@odata.context": "/redfish/v1/$metadata#HpeTrustedModuleExt.HpeTrustedModuleExt",
+          "@odata.type": "#HpeTrustedModuleExt.v2_0_0.HpeTrustedModuleExt"
+        }
+      },
+      "Status": {
+        "State": "Absent"
+      }
+    }
+  ],
+  "UUID": "31393638-3132-584D-5133-313530474731"
+}
+------------------------------------------------------------
+
+--- Problematic Resource 2 (iLO: 172.19.180.65, URI: /redfish/v1/Systems/1/Memory/proc1dimm1) ---
+{
+  "@odata.context": "/redfish/v1/$metadata#Memory.Memory",
+  "@odata.etag": "W/\"6165906D\"",
+  "@odata.id": "/redfish/v1/Systems/1/Memory/proc1dimm1",
+  "@odata.type": "#Memory.v1_7_1.Memory",
+  "Id": "proc1dimm1",
+  "BusWidthBits": 72,
+  "CacheSizeMiB": -1,
+  "CapacityMiB": 0,
+  "DataWidthBits": 64,
+  "DeviceLocator": "PROC 1 DIMM 1",
+  "ErrorCorrection": "MultiBitECC",
+  "LogicalSizeMiB": 0,
+  "MemoryLocation": {
+    "Channel": 6,
+    "MemoryController": 2,
+    "Slot": 1,
+    "Socket": 1
+  },
+  "MemoryMedia": [
+    "DRAM"
+  ],
+  "MemoryType": "DRAM",
+  "Name": "proc1dimm1",
+  "NonVolatileSizeMiB": 0,
+  "Oem": {
+    "Hpe": {
+      "@odata.context": "/redfish/v1/$metadata#HpeMemoryExt.HpeMemoryExt",
+      "@odata.type": "#HpeMemoryExt.v2_5_0.HpeMemoryExt",
+      "DIMMManufacturingDate": "",
+      "DIMMStatus": "NotPresent",
+      "MinimumVoltageVoltsX10": 0
+    }
+  },
+  "OperatingMemoryModes": [
+    "Volatile"
+  ],
+  "PartNumber": "NOT AVAILABLE   ",
+  "PersistentRegionSizeLimitMiB": 0,
+  "RankCount": null,
+  "SecurityCapabilities": {},
+  "SerialNumber": "NOT AVAILABLE   ",
+  "Status": {
+    "Health": "OK",
+    "State": "Absent"
+  },
+  "VendorID": "0",
+  "VolatileRegionSizeLimitMiB": 0,
+  "VolatileSizeMiB": 0
+}
+------------------------------------------------------------
+
+--- Problematic Resource 3 (iLO: 172.19.180.65, URI: /redfish/v1/Systems/1/Memory/proc1dimm2) ---
+{
+  "@odata.context": "/redfish/v1/$metadata#Memory.Memory",
+  "@odata.etag": "W/\"6165906D\"",
+  "@odata.id": "/redfish/v1/Systems/1/Memory/proc1dimm2",
+  "@odata.type": "#Memory.v1_7_1.Memory",
+  "Id": "proc1dimm2",
+  "BusWidthBits": 72,
+  "CacheSizeMiB": -1,
+  "CapacityMiB": 0,
+  "DataWidthBits": 64,
+  "DeviceLocator": "PROC 1 DIMM 2",
+  "ErrorCorrection": "MultiBitECC",
+  "LogicalSizeMiB": 0,
+  "MemoryLocation": {
+    "Channel": 6,
+    "MemoryController": 2,
+    "Slot": 2,
+    "Socket": 1
+  },
+  "MemoryMedia": [
+    "DRAM"
+  ],
+  "MemoryType": "DRAM",
+  "Name": "proc1dimm2",
+  "NonVolatileSizeMiB": 0,
+  "Oem": {
+    "Hpe": {
+      "@odata.context": "/redfish/v1/$metadata#HpeMemoryExt.HpeMemoryExt",
+      "@odata.type": "#HpeMemoryExt.v2_5_0.HpeMemoryExt",
+      "DIMMManufacturingDate": "",
+      "DIMMStatus": "NotPresent",
+      "MinimumVoltageVoltsX10": 0
+    }
+  },
+  "OperatingMemoryModes": [
+    "Volatile"
+  ],
+  "PartNumber": "NOT AVAILABLE   ",
+  "PersistentRegionSizeLimitMiB": 0,
+  "RankCount": null,
+  "SecurityCapabilities": {},
+  "SerialNumber": "NOT AVAILABLE   ",
+  "Status": {
+    "Health": "OK",
+    "State": "Absent"
+  },
+  "VendorID": "0",
+  "VolatileRegionSizeLimitMiB": 0,
+  "VolatileSizeMiB": 0
+}
+------------------------------------------------------------
+
+================================================================================
+======================== END OF REPORT ========================
+================================================================================

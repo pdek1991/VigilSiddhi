@@ -1,0 +1,274 @@
+http://172.19.181.141:9099/alarmapi/v1/alarms?path=1111:85:35&name=%22
+
+[
+  {
+    "id": {
+      "name": "MODULE_NO",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T15:17:38.000Z",
+      "unmaskedState": "ok",
+      "value": "55928"
+    }
+  },
+  {
+    "id": {
+      "name": "VERSION",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T11:17:16.446Z",
+      "unmaskedState": "ok",
+      "value": "6.0.a.48"
+    }
+  },
+  {
+    "id": {
+      "name": "TEMPERATURE",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T15:17:38.000Z",
+      "unmaskedState": "ok",
+      "value": "31 'C"
+    }
+  },
+  {
+    "id": {
+      "name": "POWER_STATUS",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T15:17:38.000Z",
+      "unmaskedState": "ok",
+      "value": "OK"
+    }
+  },
+  {
+    "id": {
+      "name": "SERIAL_NUMBER",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T15:17:38.000Z",
+      "unmaskedState": "ok",
+      "value": "653829W199587014"
+    }
+  },
+  {
+    "id": {
+      "name": "HARDWARE_REV",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T15:17:38.000Z",
+      "unmaskedState": "ok",
+      "value": "2"
+    }
+  },
+  {
+    "id": {
+      "name": "STATE",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T11:17:15.195Z",
+      "unmaskedState": "ok",
+      "value": "1"
+    }
+  },
+  {
+    "id": {
+      "name": "ID",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T11:17:14.000Z",
+      "unmaskedState": "ok",
+      "value": "779"
+    }
+  },
+  {
+    "id": {
+      "name": "NAME",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T11:17:14.000Z",
+      "unmaskedState": "ok",
+      "value": "Module 149 (55928)"
+    }
+  },
+  {
+    "id": {
+      "name": "MSG",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T11:17:16.446Z",
+      "unmaskedState": "ok",
+      "value": "Unit present"
+    }
+  },
+  {
+    "id": {
+      "name": "SOFTWARE_REV",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T15:17:38.000Z",
+      "unmaskedState": "ok",
+      "value": "     "
+    }
+  },
+  {
+    "id": {
+      "name": "MODULE_TYPE",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T15:17:41.000Z",
+      "unmaskedState": "ok",
+      "value": "DigitalVideoOutputVariant2"
+    }
+  },
+  {
+    "id": {
+      "name": "IDNAME",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T11:17:14.000Z",
+      "unmaskedState": "ok",
+      "value": "Centra Local Router Module"
+    }
+  },
+  {
+    "id": {
+      "name": "FIRMWARE_REV",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T15:17:38.000Z",
+      "unmaskedState": "ok",
+      "value": "0"
+    }
+  },
+  {
+    "id": {
+      "name": "ADDRESS",
+      "path": "1111:85:35"
+    },
+    "origin": "",
+    "state": {
+      "acked": false,
+      "ackedBy": "",
+      "inverted": false,
+      "latchedState": "ok",
+      "masked": false,
+      "state": "ok",
+      "timestamp": "2025-03-27T11:17:14.000Z",
+      "unmaskedState": "ok",
+      "value": "1111:85:35"
+    }
+  }
+]

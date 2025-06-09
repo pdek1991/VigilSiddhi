@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iLO Channels Dashboard</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for fonts, colors, and hover effect */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Styling for individual channel blocks */
+        .channel-block {
+            background-color: #ffffff; /* Default white background, will be overridden by severity color classes */
+            border: 1px solid #e5e7eb; /* Light border */
+            transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, transform 0.2s ease-out; /* Smooth transitions */
+            position: relative; /* Needed for absolute positioning of hover details */
+            min-height: 200px; /* Ensure enough space */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer; /* Indicate interactivity */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            padding: 1.5rem; /* Padding for the content inside */
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            flex: 1; /* Allow blocks to grow and shrink in flex container */
+            margin: 1rem; /* Spacing between blocks */
+        }
+        .channel-block:hover {
+            transform: translateY(-3px); /* Slightly lift on hover */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Larger shadow on hover */
+        }
+
+        /* Severity-based background colors for the channel blocks */
+        .status-red {
+            background-color: #ef4444; /* Red-500 */
+            border-color: #dc2626; /* Red-600 */
+            color: #ffffff; /* White text for contrast */
+        }
+        .status-orange {
+            background-color: #f97316; /* Orange-500 */
+            border-color: #ea580c; /* Orange-600 */
+            color: #ffffff;
+        }
+        .status-green {
+            background-color: #16a34a; /* Green-600 (darker green) */
+            border-color: #15803d; /* Green-700 */
+            color: #ffffff;
+        }
+        .status-gray {
+            background-color: #6b7280; /* Gray-500 */
+            border-color: #4b5563; /* Gray-600 */
+            color: #ffffff;
+        }
+
+        /* Alarm details that appear on hover */
+        .alarm-details {
+            position: absolute;
+            top: 100%; /* Position immediately below the channel block */
+            left: 0;
+            right: 0;
+            background-color: #ffffff; /* White background for details */
+            border: 1px solid #e5e7eb;
+            border-top: none; /* No top border, blends with main block */
+            padding: 0; /* Initially no padding */
+            border-radius: 0 0 0.75rem 0.75rem; /* Rounded bottom corners */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Subtle shadow */
+            max-height: 0; /* Initially hidden */
+            overflow: hidden; /* Hide overflow content */
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Smooth slide-down animation */
+            z-index: 10; /* Ensure it appears above other elements */
+            text-align: left;
+        }
+
+        .channel-block:hover .alarm-details {
+            max-height: 500px; /* Adjust as needed, large enough to contain all alarms */
+            padding: 1rem; /* Padding appears with transition */
+            transition: max-height 0.6s ease-in, padding 0.4s ease-in; /* Faster slide-in */
+        }
+        .alarm-message-item {
+            padding: 0.25rem 0;
+            border-bottom: 1px dashed #e5e7eb; /* Dashed separator */
+            color: #374151; /* Darker text for alarm details */
+            font-size: 0.875rem; /* text-sm */
+        }
+        .alarm-message-item:last-child {
+            border-bottom: none; /* No separator on the last item */
+        }
+        /* Alarm severity text colors within the details list */
+        .alarm-severity-critical {
+            color: #dc2626; /* Red-600 */
+            font-weight: 600; /* font-semibold */
+        }
+        .alarm-severity-warning {
+            color: #ea580c; /* Orange-600 */
+            font-weight: 600;
+        }
+        .alarm-severity-unknown {
+            color: #6b7280; /* Gray-600 */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8 min-h-screen flex flex-col items-center">
+
+    <div class="w-full max-w-4xl mb-6 flex flex-col sm:flex-row justify-between items-center">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 sm:mb-0">iLO Channels Dashboard</h1>
+        <button id="refreshButton" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-300">
+            Refresh Status
+        </button>
+    </div>
+
+    <!-- Container for the two channel blocks -->
+    <div class="w-full max-w-4xl flex flex-col sm:flex-row justify-center items-stretch gap-6">
+
+        <!-- Channel 1 Block -->
+        <div id="channel1Block" class="channel-block status-gray">
+            <h2 class="text-2xl font-bold mb-2">Channel 1</h2>
+            <p id="channel1StatusText" class="text-xl sm:text-2xl font-extrabold text-white mb-4">
+                Loading status...
+            </p>
+            <div id="channel1LoadingIndicator" class="mt-2 animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-white-200"></div>
+
+            <!-- Alarm details for Channel 1 -->
+            <div id="channel1AlarmDetails" class="alarm-details">
+                <h3 class="text-lg font-bold text-gray-800 mb-3">Active Alarms for Channel 1:</h3>
+                <ul id="channel1AlarmList" class="space-y-2">
+                    <!-- Alarms will be populated here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Channel 2 Block -->
+        <div id="channel2Block" class="channel-block status-gray">
+            <h2 class="text-2xl font-bold mb-2">Channel 2</h2>
+            <p id="channel2StatusText" class="text-xl sm:text-2xl font-extrabold text-white mb-4">
+                Loading status...
+            </p>
+            <div id="channel2LoadingIndicator" class="mt-2 animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-white-200"></div>
+
+            <!-- Alarm details for Channel 2 -->
+            <div id="channel2AlarmDetails" class="alarm-details">
+                <h3 class="text-lg font-bold text-gray-800 mb-3">Active Alarms for Channel 2:</h3>
+                <ul id="channel2AlarmList" class="space-y-2">
+                    <!-- Alarms will be populated here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section for all active alarms at the bottom of the screen -->
+    <div id="allAlarmsDisplaySection" class="w-full max-w-4xl mt-8 p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">All Active Alarms Detected (Aggregated)</h2>
+        <div id="alarmTableContainer" class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Device/IP</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Message</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Severity</th>
+                    </tr>
+                </thead>
+                <tbody id="allAlarmsTableBody" class="bg-white divide-y divide-gray-200">
+                    <tr><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">No active alarms to display.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+        const refreshButton = document.getElementById('refreshButton');
+        const channel1Block = document.getElementById('channel1Block');
+        const channel1StatusText = document.getElementById('channel1StatusText');
+        const channel1LoadingIndicator = document.getElementById('channel1LoadingIndicator');
+        const channel1AlarmList = document.getElementById('channel1AlarmList');
+        const channel2Block = document.getElementById('channel2Block');
+        const channel2StatusText = document.getElementById('channel2StatusText');
+        const channel2LoadingIndicator = document.getElementById('channel2LoadingIndicator');
+        const channel2AlarmList = document.getElementById('channel2AlarmList');
+        const allAlarmsTableBody = document.getElementById('allAlarmsTableBody');
+
+
+        // IMPORTANT: Ensure this URL matches your Flask app's host and port
+        const BACKEND_API_URL = 'http://127.0.0.1:5000/api/ilo_statuses'; 
+
+        // Function to determine the highest severity across multiple statuses
+        function getHighestSeverity(statuses) {
+            const severityOrder = {
+                "CRITICAL": 4,
+                "WARNING": 3,
+                "UNKNOWN": 2,
+                "OK": 1
+            };
+            let highestSeverity = "OK";
+            statuses.forEach(status => {
+                if (severityOrder.hasOwnProperty(status)) {
+                    if (severityOrder[status] > severityOrder[highestSeverity]) {
+                        highestSeverity = status;
+                    }
+                }
+            });
+            return highestSeverity;
+        }
+
+        // Function to get color class based on severity
+        function getColorClass(severity) {
+            switch (severity.toUpperCase()) {
+                case "CRITICAL": return "status-red";
+                case "WARNING": return "status-orange";
+                case "OK": return "status-green";
+                default: return "status-gray"; // Fallback for UNKNOWN or other
+            }
+        }
+
+        // Helper function to render a single channel block
+        function renderChannelBlock(channelBlockElement, statusTextElement, loadingIndicatorElement, alarmListElement, iloData) {
+            loadingIndicatorElement.classList.add('hidden'); // Hide loading spinner
+            
+            // Clear previous color classes
+            channelBlockElement.classList.remove('status-red', 'status-orange', 'status-green', 'status-gray');
+
+            if (iloData) {
+                const finalColorClass = getColorClass(iloData.overall_status);
+                statusTextElement.textContent = `${iloData.overall_status}`;
+                channelBlockElement.classList.add(finalColorClass);
+
+                if (iloData.active_alarms && iloData.active_alarms.length > 0) {
+                    iloData.active_alarms.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+                    alarmListElement.innerHTML = iloData.active_alarms.map(alarm => `
+                        <li class="alarm-message-item">
+                            <span class="
+                                ${alarm.severity === 'CRITICAL' ? 'alarm-severity-critical' : ''}
+                                ${alarm.severity === 'WARNING' ? 'alarm-severity-warning' : ''}
+                                ${alarm.severity === 'UNKNOWN' ? 'alarm-severity-unknown' : ''}
+                            ">[${alarm.severity}]</span> ${alarm.time.substring(11,19)}: ${alarm.message}
+                        </li>
+                    `).join('');
+                } else {
+                    alarmListElement.innerHTML = '<li class="text-gray-600 italic">No active alarms.</li>';
+                }
+            } else {
+                // No data for this channel
+                statusTextElement.textContent = "Not Configured / No Data";
+                channelBlockElement.classList.add('status-gray');
+                alarmListElement.innerHTML = '<li class="text-gray-600 italic">This channel is not configured or data could not be retrieved.</li>';
+            }
+        }
+
+
+        async function fetchIloChannelStatuses() {
+            // Reset all blocks to loading state
+            const allChannelBlocks = [
+                { block: channel1Block, text: channel1StatusText, loader: channel1LoadingIndicator, alarms: channel1AlarmList },
+                { block: channel2Block, text: channel2StatusText, loader: channel2LoadingIndicator, alarms: channel2AlarmList }
+            ];
+
+            allChannelBlocks.forEach(channel => {
+                channel.text.textContent = "Loading status...";
+                channel.loader.classList.remove('hidden');
+                channel.block.classList.remove('status-red', 'status-orange', 'status-green');
+                channel.block.classList.add('status-gray');
+                channel.alarms.innerHTML = ''; // Clear hover alarm list
+            });
+
+            refreshButton.disabled = true; // Disable button during fetch
+            
+            // Clear previous alarms from bottom section
+            allAlarmsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">No active alarms to display.</td></tr>';
+
+
+            try {
+                const response = await fetch(BACKEND_API_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const iloData = await response.json(); // Array of iLO objects from backend
+
+                let allActiveAlarmsAggregated = [];
+
+                // Render Channel 1
+                const ilo1Data = iloData[0];
+                renderChannelBlock(channel1Block, channel1StatusText, channel1LoadingIndicator, channel1AlarmList, ilo1Data);
+                if (ilo1Data && ilo1Data.active_alarms) {
+                    ilo1Data.active_alarms.forEach(alarm => allActiveAlarmsAggregated.push({ ...alarm, ilo_ip: ilo1Data.ilo_ip }));
+                }
+
+                // Render Channel 2
+                const ilo2Data = iloData[1]; // Assuming second iLO in array is for Channel 2
+                renderChannelBlock(channel2Block, channel2StatusText, channel2LoadingIndicator, channel2AlarmList, ilo2Data);
+                if (ilo2Data && ilo2Data.active_alarms) {
+                    ilo2Data.active_alarms.forEach(alarm => allActiveAlarmsAggregated.push({ ...alarm, ilo_ip: ilo2Data.ilo_ip }));
+                }
+
+                // Populate bottom alarms table (aggregated from all channels)
+                if (allActiveAlarmsAggregated.length > 0) {
+                    allActiveAlarmsAggregated.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+                    allAlarmsTableBody.innerHTML = allActiveAlarmsAggregated.map(alarm => `
+                        <tr class="${alarm.severity === 'CRITICAL' ? 'bg-red-50' : alarm.severity === 'WARNING' ? 'bg-orange-50' : ''}">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${alarm.time}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${alarm.ilo_ip}</td>
+                            <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">${alarm.message}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold
+                                ${alarm.severity === 'CRITICAL' ? 'text-red-600' : ''}
+                                ${alarm.severity === 'WARNING' ? 'text-orange-600' : ''}
+                                ${alarm.severity === 'UNKNOWN' ? 'text-gray-600' : ''}
+                            ">${alarm.severity}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    allAlarmsTableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">No active alarms to display.</td></tr>';
+                }
+
+
+            } catch (error) {
+                console.error("Error fetching iLO statuses:", error);
+                allChannelBlocks.forEach(channel => {
+                    channel.text.textContent = "Error fetching data.";
+                    channel.loader.classList.add('hidden');
+                    channel.block.classList.remove('status-red', 'status-orange', 'status-green');
+                    channel.block.classList.add('status-gray');
+                    channel.alarms.innerHTML = `<li class="text-red-600">Failed to connect to backend: ${error.message}.</li>`;
+                });
+                allAlarmsTableBody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-red-600 text-center">Failed to load alarms: ${error.message}. Ensure backend is running.</td></tr>`;
+            } finally {
+                refreshButton.disabled = false; // Re-enable button
+            }
+        }
+
+        // Initial fetch when the page loads
+        document.addEventListener('DOMContentLoaded', fetchIloChannelStatuses);
+
+        // Add event listener to the refresh button
+        refreshButton.addEventListener('click', fetchIloChannelStatuses);
+    </script>
+</body>
+</html>

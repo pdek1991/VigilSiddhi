@@ -12,7 +12,8 @@ import os
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Configure logging for better visibility
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Set level to DEBUG to see all detailed messages
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 # Enable CORS for all origins. In production, restrict this to your frontend's origin.
@@ -38,11 +39,20 @@ def load_configs():
         "VS_B": []  # Collect all VS_B IPs from channels + additional
     }
 
+    logging.info("--- Attempting to load iLO configuration files ---")
+    # Print current working directory to verify file path
+    logging.info(f"Current working directory: {os.getcwd()}")
+
+
     try:
         # Load channel iLO config
-        if os.path.exists(CHANNEL_ILO_CONFIG_FILE):
+        channel_config_found = os.path.exists(CHANNEL_ILO_CONFIG_FILE)
+        if channel_config_found:
+            logging.info(f"Found channel iLO config file: {CHANNEL_ILO_CONFIG_FILE}")
             with open(CHANNEL_ILO_CONFIG_FILE, 'r') as f:
                 channel_configs = json.load(f)
+                logging.info(f"Successfully loaded {len(channel_configs)} channel configurations from {CHANNEL_ILO_CONFIG_FILE}.")
+                logging.debug(f"Content of {CHANNEL_ILO_CONFIG_FILE}:\n{json.dumps(channel_configs, indent=2)}")
                 for channel_data in channel_configs:
                     channel_id = channel_data.get('channel_id')
                     if channel_id is None:
@@ -60,18 +70,23 @@ def load_configs():
                                 "type": device_id # Store device type (e.g., "VS_M")
                             }
                             CHANNEL_DEVICE_IP_MAP[(channel_id, device_id)] = ip
+                            logging.debug(f"Mapped Channel {channel_id}, Device {device_id} to IP {ip}. Added to ILO_CREDENTIALS_MAP and CHANNEL_DEVICE_IP_MAP.")
                             # Add to collective global map
                             if device_id in GLOBAL_COLLECTIVE_IP_MAP:
                                 GLOBAL_COLLECTIVE_IP_MAP[device_id].append(ip)
                         else:
                             logging.warning(f"Skipping malformed device entry in channel {channel_id}: {device}")
         else:
-            logging.warning(f"Channel iLO config file not found: {CHANNEL_ILO_CONFIG_FILE}")
+            logging.error(f"Channel iLO config file NOT FOUND: {CHANNEL_ILO_CONFIG_FILE}. Please ensure it's in the same directory as the script or provide absolute path.")
 
         # Load global iLO config (for additional servers contributing to global blocks)
-        if os.path.exists(GLOBAL_ILO_CONFIG_FILE):
+        global_config_found = os.path.exists(GLOBAL_ILO_CONFIG_FILE)
+        if global_config_found:
+            logging.info(f"Found global iLO config file: {GLOBAL_ILO_CONFIG_FILE}")
             with open(GLOBAL_ILO_CONFIG_FILE, 'r') as f:
                 global_configs = json.load(f)
+                logging.info(f"Successfully loaded {len(global_configs)} global configurations from {GLOBAL_ILO_CONFIG_FILE}.")
+                logging.debug(f"Content of {GLOBAL_ILO_CONFIG_FILE}:\n{json.dumps(global_configs, indent=2)}")
                 for group_data in global_configs:
                     group_type = group_data.get('type') # e.g., "VS_M" for GROUP_ILO_M
                     if group_type and group_type in GLOBAL_COLLECTIVE_IP_MAP:
@@ -85,20 +100,29 @@ def load_configs():
                                     "password": password,
                                     "type": group_type
                                 }
-                                GLOBAL_COLLECTIVE_IP_MAP[group_type].append(ip)
+                                # Add to the list only if it's not already there (to avoid duplicates if an IP is in both channel and global configs for the same type)
+                                if ip not in GLOBAL_COLLECTIVE_IP_MAP[group_type]:
+                                    GLOBAL_COLLECTIVE_IP_MAP[group_type].append(ip)
+                                logging.debug(f"Mapped Global type {group_type} to additional IP {ip}. Added to ILO_CREDENTIALS_MAP and GLOBAL_COLLECTIVE_IP_MAP.")
                             else:
                                 logging.warning(f"Skipping malformed additional IP entry for group {group_type}: {additional_ip_data}")
         else:
-            logging.warning(f"Global iLO config file not found: {GLOBAL_ILO_CONFIG_FILE}")
+            logging.error(f"Global iLO config file NOT FOUND: {GLOBAL_ILO_CONFIG_FILE}. Please ensure it's in the same directory as the script or provide absolute path.")
 
-        logging.info(f"Loaded {len(ILO_CREDENTIALS_MAP)} iLO credentials.")
-        logging.debug(f"CHANNEL_DEVICE_IP_MAP: {CHANNEL_DEVICE_IP_MAP}")
-        logging.debug(f"GLOBAL_COLLECTIVE_IP_MAP: {GLOBAL_COLLECTIVE_IP_MAP}")
+        logging.info(f"Finished loading configs. Total iLO credentials loaded: {len(ILO_CREDENTIALS_MAP)}")
+        if not ILO_CREDENTIALS_MAP:
+            logging.critical("ILO_CREDENTIALS_MAP is EMPTY after loading configs. This means no iLOs will be monitored!")
+
+        logging.debug(f"Final ILO_CREDENTIALS_MAP: {json.dumps(ILO_CREDENTIALS_MAP, indent=2)}")
+        # Convert tuple keys to string for JSON dumping as JSON keys must be strings
+        logging.debug(f"Final CHANNEL_DEVICE_IP_MAP: {json.dumps({str(k): v for k, v in CHANNEL_DEVICE_IP_MAP.items()}, indent=2)}")
+        logging.debug(f"Final GLOBAL_COLLECTIVE_IP_MAP: {json.dumps(GLOBAL_COLLECTIVE_IP_MAP, indent=2)}")
 
     except json.JSONDecodeError as e:
-        logging.error(f"Error decoding JSON config file: {e}")
+        logging.error(f"Error decoding JSON config file. Please check JSON syntax: {e}")
+        logging.exception("JSON decoding error details:") # Log full traceback
     except Exception as e:
-        logging.error(f"An unexpected error occurred while loading configs: {e}")
+        logging.exception(f"An unexpected error occurred while loading configs: {e}")
 
 load_configs() # Load configs on startup
 
@@ -269,17 +293,20 @@ def get_ilo_status(channel_id_str, device_id):
     try:
         channel_id = int(channel_id_str)
     except ValueError:
+        logging.error(f"API CALL: Received invalid channel_id_str: '{channel_id_str}'. Must be an integer.")
         return jsonify({"status": "error", "message": "Invalid channel_id", "alarms": []}), 400
 
+    logging.debug(f"API CALL: Request received for (Channel: {channel_id}, Device: {device_id})")
     ip = CHANNEL_DEVICE_IP_MAP.get((channel_id, device_id))
     if not ip:
-        logging.warning(f"IP not found for Channel {channel_id}, Device {device_id}. Returning unknown.")
-        return jsonify({"status": "unknown", "message": "iLO IP not configured for this device/channel", "alarms": []})
+        logging.warning(f"API CALL: IP not found in CHANNEL_DEVICE_IP_MAP for Channel {channel_id}, Device {device_id}. Returning unknown.")
+        logging.debug(f"Current CHANNEL_DEVICE_IP_MAP keys: {list(CHANNEL_DEVICE_IP_MAP.keys())}")
+        return jsonify({"status": "unknown", "message": f"iLO IP not configured for Channel {channel_id} Device {device_id}", "alarms": []})
 
     credentials = ILO_CREDENTIALS_MAP.get(ip)
     if not credentials:
-        logging.error(f"Credentials not found for iLO IP: {ip}")
-        return jsonify({"status": "error", "message": "iLO IP not configured or credentials missing", "alarms": []}), 404
+        logging.error(f"API CALL: Credentials not found in ILO_CREDENTIALS_MAP for iLO IP: {ip}. This means config file is missing credentials for this IP.")
+        return jsonify({"status": "error", "message": f"iLO IP {ip} configured, but credentials missing", "alarms": []}), 404
 
     username = credentials['username']
     password = credentials['password']
@@ -298,11 +325,13 @@ def get_collective_ilo_status(block_type):
     Flask endpoint to get the collective status and all active alarms
     for a group of iLO servers (e.g., all VS_M servers).
     """
+    logging.debug(f"API CALL: Request received for collective block type: {block_type}")
     ips_to_check = GLOBAL_COLLECTIVE_IP_MAP.get(block_type)
 
     if not ips_to_check:
-        logging.warning(f"No IPs configured for collective block type: {block_type}. Returning unknown.")
-        return jsonify({"status": "unknown", "message": "No IPs configured for this collective block type", "alarms": []})
+        logging.warning(f"API CALL: No IPs configured in GLOBAL_COLLECTIVE_IP_MAP for collective block type: {block_type}. Returning unknown.")
+        logging.debug(f"Current GLOBAL_COLLECTIVE_IP_MAP keys: {list(GLOBAL_COLLECTIVE_IP_MAP.keys())}")
+        return jsonify({"status": "unknown", "message": f"No IPs configured for collective block type {block_type}", "alarms": []})
 
     highest_overall_priority = 0
     all_active_alarms = []
@@ -310,7 +339,7 @@ def get_collective_ilo_status(block_type):
     for ip in ips_to_check:
         credentials = ILO_CREDENTIALS_MAP.get(ip)
         if not credentials:
-            logging.warning(f"Credentials not found for collective iLO IP: {ip}. Skipping.")
+            logging.warning(f"API CALL: Credentials not found in ILO_CREDENTIALS_MAP for collective iLO IP: {ip}. Skipping.")
             continue
 
         username = credentials['username']
@@ -332,7 +361,7 @@ def get_collective_ilo_status(block_type):
         next((s for s, p in [("Critical", 4), ("Warning", 3), ("Unknown", 2), ("OK", 1), ("Informational", 0)] if p == highest_overall_priority), "Unknown")
     )
 
-    logging.info(f"Collective status for {block_type}: {collective_dashboard_status} with {len(all_active_alarms)} alarms.")
+    logging.info(f"API CALL: Collective status for {block_type}: {collective_dashboard_status} with {len(all_active_alarms)} alarms.")
     return jsonify({
         "block_type": block_type,
         "status": collective_dashboard_status,
@@ -341,5 +370,37 @@ def get_collective_ilo_status(block_type):
 
 
 if __name__ == '__main__':
+    # Test code to print alarms locally
+    print("\n--- Running Local Alarm Test ---")
+
+    # Pick a sample IP from the loaded configurations for testing
+    sample_ip = None
+    # Prioritize finding a VS_M from Channel 1 if available
+    if (1, 'VS_M') in CHANNEL_DEVICE_IP_MAP:
+        sample_ip = CHANNEL_DEVICE_IP_MAP[(1, 'VS_M')]
+    else:
+        # Fallback to any IP found in ILO_CREDENTIALS_MAP
+        for ip, creds in ILO_CREDENTIALS_MAP.items():
+            sample_ip = ip
+            break
+
+    if sample_ip:
+        sample_username = ILO_CREDENTIALS_MAP[sample_ip]['username']
+        sample_password = ILO_CREDENTIALS_MAP[sample_ip]['password']
+        print(f"Attempting to fetch alarms for sample IP: {sample_ip}")
+
+        test_status, test_alarms = get_active_iml_alarms(sample_ip, sample_username, sample_password)
+
+        print(f"\nOverall Status for {sample_ip}: {test_status}")
+        print("\nActive Alarms:")
+        if test_alarms:
+            for alarm in test_alarms:
+                print(f"  IP: {alarm['server_ip']}, Message: {alarm['message']}, Severity: {alarm['severity']}, Time: {alarm['timestamp']}")
+        else:
+            print("  No active alarms found for this IP.")
+    else:
+        print("No iLO IPs configured in channel_ilo_config.json or global_ilo_config.json to run local test.")
+
+    print("\n--- Starting Flask App ---")
     # Run the Flask app on port 5000
     app.run(host='0.0.0.0', port=5000, debug=False)

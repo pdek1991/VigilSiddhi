@@ -1,0 +1,4480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+****************************************************************************
+*  Copyright (c) 2021,  Skyline Communications NV  All Rights Reserved.    *
+****************************************************************************
+
+By using this driver, you expressly agree with the usage terms and
+conditions set out below.
+This driver and all related materials are protected by copyrights and
+other intellectual property rights that exclusively belong
+to Skyline Communications.
+
+A user license granted for this driver is strictly for personal use only.
+This driver may not be used in any way by anyone without the prior
+written consent of Skyline Communications. Any sublicensing of this
+driver is forbidden.
+
+Any modifications to this driver by the user are only allowed for
+personal use and within the intended purpose of the driver,
+and will remain the sole responsibility of the user.
+Skyline Communications will not be responsible for any damages or
+malfunctions whatsoever of the driver resulting from a modification
+or adaptation by the user.
+
+The content of this driver is confidential information.
+The user hereby agrees to keep this confidential information strictly
+secret and confidential and not to disclose or reveal it, in whole
+or in part, directly or indirectly to any person, entity, organization
+or administration without the prior written consent of
+Skyline Communications.
+
+Any inquiries can be addressed to:
+
+	Skyline Communications NV
+	Ambachtenstraat 33
+	B-8870 Izegem
+	Belgium
+	Tel.	: +32 51 31 35 69
+	Fax.	: +32 51 31 01 29
+	E-mail	: info@skyline.be
+	Web		: www.skyline.be
+	Contact	: Ben Vandenberghe
+
+
+
+Revision History (auto generated):
+
+DATE          VERSION    AUTHOR                         COMMENTS
+
+02/06/2021    1.0.0.1    FAN, Skyline Communications    NF: Command: GetDevices
+                                                        NF: Command: GetAlarms
+                                                        NF: DVE implementation: Devices -> Alarms
+02/03/2023    1.0.0.2    FAN, Skyline Communications    Fix: The bus address is by default set to 'ByPassProxy'.
+06/07/2023    1.0.0.3    CHA, Skyline Communications    NF: add custom DVE name feature
+14/09/2023    1.0.0.4    CHA, Skyline Communications    Change: Rework internal flow to incroporate GetAlarmChanges endpoint
+15/03/2024    1.0.0.5    RME, Skyline Communications    NF: Redundant Connection added. Allows the communication to fall back on a backup device.
+22/08/2023    1.0.1.1    CHA, Skyline Communications    Change: Gets alarm changes through subscription after first polling of devices and alarms
+-->
+<Protocol xmlns="http://www.skyline.be/protocol">
+  <Name>Grass Valley Orbit</Name>
+  <Description>Grass Valley Orbit DataMiner driver</Description>
+  <Version>1.0.0.5</Version>
+  <IntegrationID>DMS-DRV-7215</IntegrationID>
+  <Provider>Skyline Communications</Provider>
+  <Vendor>Grass Valley</Vendor>
+  <VendorOID>1.3.6.1.4.1.8813.2.381</VendorOID>
+  <DeviceOID>41</DeviceOID>
+  <ElementType>Router</ElementType>
+  <Type relativeTimers="true" options="exportProtocol:Grass Valley Orbit - Grass Valley Orbit Device:1400">http</Type>
+  <!-- SuppressValidator 1.21.5 There is currently no data that can be placed on a General page -->
+  <!-- SuppressValidator 1.22.5 There is currently no data placed on General page -->
+  <Display defaultPage="Devices" pageOrder="Devices;Alarms;----------;Web Interface#[id:401]" wideColumnPages="Devices;Alarms" />
+  <!-- /SuppressValidator 1.22.5 -->
+  <!-- /SuppressValidator 1.21.5 -->
+  <SNMP includepages="true">auto</SNMP>
+  <Relations>
+    <!--Overview Alarms -> Overview Devices-->
+    <Relation path="1000;1200" />
+    <!--DVE Table Alarms -> DVE Table Devices-->
+    <Relation path="1600;1400" />
+  </Relations>
+  <ExportRules>
+    <!--Set DVE Page Order-->
+    <ExportRule table="*" tag="Protocol/Display" attribute="defaultPage" value="General" />
+    <ExportRule table="*" tag="Protocol/Display" attribute="pageOrder" value="General" />
+    <ExportRule table="*" tag="Protocol/Display" attribute="wideColumnPages" value="" />
+    <!--Rename Parameter Descriptions-->
+    <ExportRule table="*" tag="Protocol/Params/Param/Description" value="" regex=" \(.*\)" />
+    <ExportRule table="*" tag="Protocol/Params/Param/Description" value="" regex=" \[IDX\]" />
+    <!--DVE Table Alarms-->
+    <ExportRule table="*" whereTag="Protocol/Params/Param/Name" whereValue="DveTableAlarms" tag="Protocol/Params/Param/Description" value="Overview Alarms" />
+    <ExportRule table="*" whereTag="Protocol/Params/Param/Name" whereValue="DveTableAlarms" tag="Protocol/Params/Param/Display/Positions/Position/Page" value="General" />
+    <ExportRule table="*" whereTag="Protocol/Params/Param/Name" whereValue="DveTableAlarms" tag="Protocol/Params/Param/Display/Positions/Position/Column" value="0" />
+    <ExportRule table="*" whereTag="Protocol/Params/Param/Name" whereValue="DveTableAlarms" tag="Protocol/Params/Param/Display/Positions/Position/Row" value="1" />
+  </ExportRules>
+  <Params>
+    <Param id="3">
+      <Name>StartGetAlarmsLoop</Name>
+      <Description>Start Get Channel Details Loop</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="4">
+      <Name>ProcessGetAlarmsContent</Name>
+      <Description>Process Get Alarms Content</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="5">
+      <Name>ProcesssGetDevicesContent</Name>
+      <Description>Process Get Devices Content</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="7" trending="false">
+      <Name>PolledWithSubscriptionStatus</Name>
+      <Description>Subscription Poll Status</Description>
+      <Type>read</Type>
+      <Information>
+        <Subtext><![CDATA[Check if device and alarms have been populated in the element. If so element switches to subscription to receive alarm changes.]]></Subtext>
+      </Information>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <LengthType>next param</LengthType>
+        <Type>double</Type>
+        <DefaultValue>0</DefaultValue>
+        <Exceptions>
+          <Exception id="1" value="-1">
+            <Display state="disabled">Internal Error</Display>
+            <Value>-1</Value>
+          </Exception>
+        </Exceptions>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Devices</Page>
+            <Column>0</Column>
+            <Row>2</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Disabled</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Enabled</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="8">
+      <Name>SubscriptionId</Name>
+      <Description>Subscription Id</Description>
+      <Type>read</Type>
+      <Information>
+        <Subtext><![CDATA[Subscription Id used to get alarm changes]]></Subtext>
+      </Information>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>false</RTDisplay>
+      </Display>
+    </Param>
+    <Param id="9">
+      <Name>CreateSubscriberRequestBody</Name>
+      <Description>Create Subscriber Request Body</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="10" trending="false">
+      <Name>CreateSubscriberStatusCode</Name>
+      <Description>Create Subscriber Status Code</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="11">
+      <Name>CreateSubscriber</Name>
+      <Description>Create Subscriber</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="12" trending="false">
+      <Name>GetAlarmChangesStatusCode</Name>
+      <Description>Get Alarm Changes Status Code</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="13" trending="false">
+      <Name>GetAlarmChangesResponse</Name>
+      <Description>Get Alarm Changes Response</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="20" trending="false">
+      <Name>GetAlarmsStatusCode</Name>
+      <Description>Get Alarms Status Code</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="21" trending="false">
+      <Name>GetAlarmsContent</Name>
+      <Description>Get Alarms Content</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="22" trending="false">
+      <Name>SessionParameterAlarmPath</Name>
+      <Description>Session Parameter Alarm Path</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="23" trending="false">
+      <Name>GetDevicesStatusCode</Name>
+      <Description>Get Devices Status Code</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="24" trending="false">
+      <Name>GetDevicesContent</Name>
+      <Description>Get Devices Content</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="100" save="true" trending="false">
+      <Name>getAlarmChangesPollingInterval</Name>
+      <Description>Get Alarm Changes Polling Interval</Description>
+      <Type>read</Type>
+      <Information>
+        <Subtext><![CDATA[Time interval in which the device makes an API request for alarm changes. (Default: 10 seconds)]]></Subtext>
+      </Information>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+        <DefaultValue>10</DefaultValue>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Alarms</Page>
+            <Column>0</Column>
+            <Row>0</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type options="time">number</Type>
+      </Measurement>
+    </Param>
+    <Param id="150" setter="true">
+      <Name>getAlarmChangesPollingInterval</Name>
+      <Description>Get Alarm Changes Polling Interval</Description>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Alarms</Page>
+            <Column>0</Column>
+            <Row>0</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type options="time">number</Type>
+      </Measurement>
+    </Param>
+    <Param id="101">
+      <Name>getAlarmChangesPollCounter</Name>
+      <Description>Get Alarm Changes Poll Counter</Description>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+        <DefaultValue>0</DefaultValue>
+      </Interprete>
+    </Param>
+    <Param id="102">
+      <Name>value0</Name>
+      <Description>Value 0</Description>
+      <Type>fixed</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>fixed</LengthType>
+        <Length>1</Length>
+        <Value>0</Value>
+      </Interprete>
+    </Param>
+    <Param id="200" trending="false">
+      <Name>buttonRefreshDevices</Name>
+      <Description />
+      <Information>
+        <Subtext><![CDATA[This button will refresh the devices in the table overview devices.]]></Subtext>
+      </Information>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Devices</Page>
+            <Column>0</Column>
+            <Row>0</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type width="110">button</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Refresh Devices</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="201">
+      <Name>TableEventMessage</Name>
+      <Description>Table Event Message</Description>
+      <Type>write</Type>
+      <Information>
+        <Text>DVE Change Message</Text>
+        <Subtext><![CDATA[This parameter contains data that is passed between QActions to keep the Main Tables and the DVE tables in sync.]]></Subtext>
+      </Information>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay onAppLevel="true">true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="202">
+      <Name>RefreshDevicesProgress</Name>
+      <Description>Refresh Devices Progress</Description>
+      <Type>read</Type>
+      <Information>
+        <Subtext>Shows if the refresh is still in progress or if it is complete.</Subtext>
+      </Information>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Units>%</Units>
+        <Range>
+          <Low>0</Low>
+          <High>100</High>
+        </Range>
+        <Positions>
+          <Position>
+            <Page>Devices</Page>
+            <Column>0</Column>
+            <Row>1</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>progress</Type>
+      </Measurement>
+    </Param>
+    <Param id="203" trending="false" save="true">
+      <Name>AutomaticRemoval</Name>
+      <Description>Automatic Removal</Description>
+      <Information>
+        <Subtext>When enabled, the not detected devices and their linked DVE's will be removed automatically.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <LengthType>next param</LengthType>
+        <Type>double</Type>
+        <DefaultValue>0</DefaultValue>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Devices</Page>
+            <Column>0</Column>
+            <Row>3</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <MaL>0</MaL>
+        <Normal>1</Normal>
+      </Alarm>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Disabled</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Enabled</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="303" setter="true">
+      <Name>AutomaticRemoval</Name>
+      <Description>Automatic Removal</Description>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <LengthType>next param</LengthType>
+        <Type>double</Type>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Devices</Page>
+            <Column>0</Column>
+            <Row>3</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>togglebutton</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Disabled</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Enabled</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <!--Redundancy Settings-->
+    <Param id="400" trending="false">
+      <Name>pollingIp</Name>
+      <Description>Polling IP</Description>
+      <Information>
+        <Subtext>The element settings configured IP:Port combination</Subtext>
+      </Information>
+      <Type>ip</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="401" trending="false" save="true">
+      <Name>DynamicPollingIp</Name>
+      <Description>Dynamic Polling IP</Description>
+      <Information>
+        <Subtext>Currently used IP Address and Port to communicate with the device.</Subtext>
+      </Information>
+      <Type options="dynamic ip">read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>3</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="402" trending="false" save="true">
+      <Name>RedundantIpAddress</Name>
+      <Description>Redundant IP Address</Description>
+      <Information>
+        <Subtext>IP Address the driver will switch too in case of time-outs on the IP Address specified in the element settings.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+        <DefaultValue>-1</DefaultValue>
+        <Exceptions>
+          <Exception id="1" value="-1">
+            <Display state="disabled">N/A</Display>
+            <Value>-1</Value>
+          </Exception>
+        </Exceptions>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 No default thresholds available that work for all users. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>1</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="452">
+      <Name>RedundantIpAddress</Name>
+      <Description>Redundant IP Address</Description>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>1</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+        <Discreets>
+          <Discreet>
+            <Display state="disabled">N/A</Display>
+            <Value>-1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="403" trending="true" save="true">
+      <Name>RedundantIpPort</Name>
+      <Description>Redundant IP Port</Description>
+      <Information>
+        <Subtext>IP Port the driver will switch too in case of time-outs on the IP Address specified in the element settings.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+        <DefaultValue>9000</DefaultValue>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 No default thresholds available that work for all users. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <!-- SuppressValidator 2.9.7 Parameter has no unit of measurement. -->
+      <Display>
+        <!-- /SuppressValidator 2.9.7 -->
+        <RTDisplay>true</RTDisplay>
+        <Range>
+          <Low>0</Low>
+          <High>65535</High>
+        </Range>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>2</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>number</Type>
+      </Measurement>
+    </Param>
+    <Param id="453" setter="true">
+      <Name>RedundantIpPort</Name>
+      <Description>Redundant IP Port</Description>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.9.7 Parameter has no unit of measurement -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Range>
+          <Low>0</Low>
+          <High>65535</High>
+        </Range>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>2</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <!-- /SuppressValidator 2.9.7 -->
+      <Measurement>
+        <Type>number</Type>
+      </Measurement>
+    </Param>
+    <Param id="404" trending="true">
+      <Name>DynamicPollingLastSwitchTime</Name>
+      <Description>Last Time Polling IP Switched</Description>
+      <Information>
+        <Subtext>This parameter gives an indication on when the last time was that the driver switched from main connection to redundant or from redundant to main connection.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+        <Decimals>8</Decimals>
+        <DefaultValue>-1</DefaultValue>
+        <Exceptions>
+          <Exception id="1" value="-1">
+            <Display state="disabled">N/A</Display>
+            <Value>-1</Value>
+          </Exception>
+        </Exceptions>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 No default thresholds available that work for all users. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Decimals>8</Decimals>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>4</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type options="datetime">number</Type>
+      </Measurement>
+    </Param>
+    <Param id="405" trending="true">
+      <Name>DynamicPollingActiveConnection</Name>
+      <Description>Active Connection</Description>
+      <Information>
+        <Subtext>Indicates whether the driver is polling through the MAIN IP or polling through the Redundant IP.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <Normal>0</Normal>
+        <WaH>1</WaH>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>5</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Main Connection</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Redundant Connection</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="455">
+      <Name>DynamicPollingActiveConnection</Name>
+      <Description>Active Connection</Description>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>5</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Message>Warning: the communication will switch over to the other connection which may cause a small interruption in retrieving the alarm information. Continue?</Message>
+      <Measurement>
+        <Type>togglebutton</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Main Connection</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Redundant Connection</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="410" trending="false">
+      <Name>AfterStartupTrigger</Name>
+      <Description>After Startup Trigger</Description>
+      <Type>read</Type>
+      <Information>
+        <Subtext>After Startup Trigger</Subtext>
+      </Information>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="411" trending="false">
+      <Name>ReInitializePollingLogic</Name>
+      <Description>Reinitialize Polling Logic</Description>
+      <Type>read</Type>
+      <Information>
+        <Subtext>Reinitialize polling logic.</Subtext>
+      </Information>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+    </Param>
+    <Param id="900">
+      <Name>pageBtn_Redundancy</Name>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Devices</Page>
+            <Column>0</Column>
+            <Row>5</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type width="110">pagebutton</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Redundancy...</Display>
+            <Value>Redundancy</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="950">
+      <Name>Title_End_Generic</Name>
+      <Type>fixed</Type>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <!--Note that by adding multiple positions,
+					the same title end can be re-used for closing different group boxes.
+					Indeed, Cube only uses the positions in order to potentially group a title begin to a title end.-->
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>6</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type options="end">title</Type>
+      </Measurement>
+    </Param>
+    <Param id="951">
+      <Name>Title_Begin_Redundancy</Name>
+      <Description>Redundancy</Description>
+      <Type>fixed</Type>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Redundancy</Page>
+            <Column>0</Column>
+            <Row>0</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type options="begin">title</Type>
+      </Measurement>
+    </Param>
+    <Param id="1000" trending="true">
+      <Name>OverviewAlarms</Name>
+      <Description>Overview Alarms</Description>
+      <Type>array</Type>
+      <ArrayOptions index="0" partial="true:2000">
+        <ColumnOption idx="0" pid="1001" type="retrieved" options="" />
+        <ColumnOption idx="1" pid="1002" type="retrieved" options="" />
+        <ColumnOption idx="2" pid="1003" type="retrieved" options=";foreignKey=1200" />
+        <ColumnOption idx="3" pid="1004" type="retrieved" options="" />
+        <ColumnOption idx="4" pid="1005" type="retrieved" options="" />
+        <ColumnOption idx="5" pid="1006" type="retrieved" options="" />
+        <ColumnOption idx="6" pid="1007" type="retrieved" options="" />
+        <ColumnOption idx="7" pid="1008" type="retrieved" options="" />
+        <ColumnOption idx="8" pid="1009" type="retrieved" options="" />
+        <ColumnOption idx="9" pid="1010" type="retrieved" options="" />
+        <ColumnOption idx="10" pid="1011" type="retrieved" options="" />
+        <ColumnOption idx="11" pid="1012" type="retrieved" options="" />
+        <ColumnOption idx="12" pid="1013" type="retrieved" options="" />
+        <ColumnOption idx="13" pid="1014" type="retrieved" options="" />
+      </ArrayOptions>
+      <Information>
+        <Subtext><![CDATA[This table list all the received alarms of the device.]]></Subtext>
+      </Information>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Alarms</Page>
+            <Column>0</Column>
+            <Row>2</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type options="tab=columns:1001|0-1002|1-1003|2-1014|13-1004|3-1005|4-1006|5-1007|6-1008|7-1009|8-1010|9-1011|10-1012|11-1013|12,width:100-100-100-100-100-100-133-100-100-100-100-100-144-110,sort:STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-INT|ASC|0-STRING,lines:20,filter:true">table</Type>
+      </Measurement>
+    </Param>
+    <Param id="1001" trending="false">
+      <Name>OverviewAlarms_Index</Name>
+      <Description>Index [IDX] (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This is the key used to identity the alarms from the table overview alarms.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1002" trending="false">
+      <Name>OverviewAlarms_Name</Name>
+      <Description>Name (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the name of the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1003" trending="false">
+      <Name>OverviewAlarms_Path</Name>
+      <Description>Path (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the path of the alarm. The path identifies the device for which the alarms is obtained.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1004" trending="false">
+      <Name>OverviewAlarms_Value</Name>
+      <Description>Value (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the path of the alarm. The path identifies the device for which the alarms is obtained.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1005" trending="false">
+      <Name>OverviewAlarms_Origin</Name>
+      <Description>Origin (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the origin of the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+        <Exceptions>
+          <Exception id="1" value="-1">
+            <Display state="disabled">N/A</Display>
+            <Value />
+          </Exception>
+        </Exceptions>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1006" trending="true">
+      <Name>OverviewAlarms_AcknowledgeStatus</Name>
+      <Description>Acknowledge Status (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays if the alarm is acknowledged or not.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <MaL>0</MaL>
+        <Normal>1</Normal>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Not Acknowledged</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Acknowledged</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1007" trending="false">
+      <Name>OverviewAlarms_Acknowledger</Name>
+      <Description>Acknowledger (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays who has acknowledged the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+        <Exceptions>
+          <Exception id="1" value="-1">
+            <Display state="disabled">N/A</Display>
+            <Value />
+          </Exception>
+        </Exceptions>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1008" trending="true">
+      <Name>OverviewAlarms_Inverted</Name>
+      <Description>Inverted (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays if the alarm is inverted.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <Normal>0</Normal>
+        <MaH>1</MaH>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Not Inverted</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Inverted</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1009" trending="false">
+      <Name>OverviewAlarms_LatchedState</Name>
+      <Description>Latched State (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the latched state. This is the worst state that this alarm has been in since the user has reset the latches.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>OK</Display>
+            <Value>ok</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Warning</Display>
+            <Value>warning</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Caution</Display>
+            <Value>caution</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Fail</Display>
+            <Value>fail</Value>
+          </Discreet>
+          <Discreet>
+            <Display>No State</Display>
+            <Value>nostate</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1010" trending="true">
+      <Name>OverviewAlarms_Masked</Name>
+      <Description>Masked (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays if the alarm is masked.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <Normal>0</Normal>
+        <MaH>1</MaH>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Not Masked</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Masked</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1011" trending="false">
+      <Name>OverviewAlarms_State</Name>
+      <Description>State (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the state of the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <Normal>ok;nostate</Normal>
+        <WaH />
+        <CH>fail</CH>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>OK</Display>
+            <Value>ok</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Warning</Display>
+            <Value>warning</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Caution</Display>
+            <Value>caution</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Fail</Display>
+            <Value>fail</Value>
+          </Discreet>
+          <Discreet>
+            <Display>No State</Display>
+            <Value>nostate</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1012" trending="false">
+      <Name>OverviewAlarms_Timestamp</Name>
+      <Description>Timestamp (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the timestamp of the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+        <Decimals>8</Decimals>
+      </Interprete>
+      <Alarm>
+        <Monitored>false</Monitored>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Decimals>8</Decimals>
+      </Display>
+      <Measurement>
+        <Type options="datetime">number</Type>
+      </Measurement>
+    </Param>
+    <Param id="1013" trending="false">
+      <Name>OverviewAlarms_UnmaskedState</Name>
+      <Description>Unmasked State (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the Unmasked State.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>OK</Display>
+            <Value>ok</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Warning</Display>
+            <Value>warning</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Caution</Display>
+            <Value>caution</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Fail</Display>
+            <Value>fail</Value>
+          </Discreet>
+          <Discreet>
+            <Display>No State</Display>
+            <Value>nostate</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1014" trending="false">
+      <Name>OverviewAlarms_DeviceName</Name>
+      <Description>Device Name (Overview Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the name of the device, for which the alarms is obtained.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1200" trending="true">
+      <Name>OverviewDevices</Name>
+      <Description>Overview Devices</Description>
+      <Type>array</Type>
+      <ArrayOptions index="0">
+        <ColumnOption idx="0" pid="1201" type="retrieved" options="" />
+        <ColumnOption idx="1" pid="1202" type="retrieved" options=";save" />
+        <ColumnOption idx="2" pid="1205" type="retrieved" options=";save" />
+        <ColumnOption idx="3" pid="1206" type="retrieved" options=";save" />
+        <ColumnOption idx="4" pid="1203" type="custom" options="" />
+        <ColumnOption idx="5" pid="1204" type="custom" options="" />
+      </ArrayOptions>
+      <Information>
+        <Subtext><![CDATA[This table list all the devices that are registred on the Grass Valley Orbit.]]></Subtext>
+      </Information>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>Devices</Page>
+            <Column>0</Column>
+            <Row>4</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type options=";tab=columns:1201|0-1205|2-1202|1-1206|3-1203|4-1204|5,width:132-100-131-100-100-100,sort:STRING-STRING-STRING-STRING-STRING-STRING,lines:15,filter:true">table</Type>
+      </Measurement>
+    </Param>
+    <Param id="1201" trending="false">
+      <Name>OverviewDevices_DevicePath</Name>
+      <Description>Device Path [IDX] (Overview Devices)</Description>
+      <Information>
+        <Subtext>This is the key used to identity the devices from the table overview devices.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1202" trending="false">
+      <Name>OverviewDevices_DetectionStatus</Name>
+      <Description>Detection Status (Overview Devices)</Description>
+      <Information>
+        <Subtext>This column determines if the device is detected on the system.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Not Detected</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Detected</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1203" trending="false">
+      <Name>OverviewDevices_Create</Name>
+      <Description>Create (Overview Devices)</Description>
+      <Information>
+        <Subtext>This column triggers the process to create an DVE for the device.</Subtext>
+      </Information>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type width="110">button</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Create</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <!-- SuppressValidator 2.49.1 Not that critical. -->
+    <Param id="1204" trending="false">
+      <Name>OverviewDevices_Remove</Name>
+      <Description>Remove (Overview Devices)</Description>
+      <Information>
+        <Subtext>This column triggers the process to remove the DVE of the device. The device will be removed as well if it has the Detection Status (ParameterID 1202) 'Not Detected'.</Subtext>
+      </Information>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type width="110">button</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Remove</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <!-- /SuppressValidator 2.49.1 -->
+    <Param id="1205" trending="false">
+      <Name>OverviewDevices_DeviceName</Name>
+      <Description>Device Name (Overview Devices)</Description>
+      <Information>
+        <Subtext>This column displays the name of the device.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>false</Monitored>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1206" trending="false">
+      <Name>OverviewDevicesDveName</Name>
+      <Description>DVE Name (Overview Devices)</Description>
+      <Type>read</Type>
+      <Information>
+        <Subtext><![CDATA[Custom Name that would be used in the DVE if filled. By default, the device path is used.]]></Subtext>
+      </Information>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1256">
+      <Name>OverviewDevicesDveName</Name>
+      <Description>DVE Name (Overview Devices)</Description>
+      <Type>write</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1400" trending="true">
+      <Name>DveTableDevices</Name>
+      <Description>DVE Table Devices</Description>
+      <Type>array</Type>
+      <ArrayOptions index="0" options="naming=/1403;">
+        <ColumnOption idx="0" pid="1401" type="retrieved" options="" />
+        <ColumnOption idx="1" pid="1402" type="retrieved" options=";element" />
+        <ColumnOption idx="2" pid="1403" type="retrieved" options=";save" />
+      </ArrayOptions>
+      <Information>
+        <Subtext><![CDATA[This table contains all the dve entries.]]></Subtext>
+      </Information>
+      <Display>
+        <RTDisplay onAppLevel="true">true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type options=";tab=columns:1401|0-1403|2-1402|1,width:132-100-100,sort:STRING-STRING-STRING,lines:0,filter:true">table</Type>
+      </Measurement>
+    </Param>
+    <Param id="1401" trending="false" export="1400">
+      <Name>DveTableDevices_DevicePath</Name>
+      <Description>Device Path (DVE Table Devices)</Description>
+      <Information>
+        <Subtext>This is the key used to identity the devices from the table dve devices table.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Positions>
+          <Position>
+            <Page>General</Page>
+            <Column>0</Column>
+            <Row>0</Row>
+          </Position>
+        </Positions>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1402" trending="false">
+      <Name>DveTableDevices_ExportDve</Name>
+      <Description>Export DVE (DVE Table Devices)</Description>
+      <Information>
+        <Subtext>Export DVE</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <LengthType>next param</LengthType>
+        <Type>string</Type>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1403" trending="false">
+      <Name>DveTableDevicesName</Name>
+      <Description>Name [IDX] (DVE Table Devices)</Description>
+      <Type>read</Type>
+      <Information>
+        <Subtext>Name of DVE element in DataMiner.</Subtext>
+      </Information>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1600" trending="true" export="true">
+      <Name>DveTableAlarms</Name>
+      <Description>DVE Table Alarms</Description>
+      <Type>array</Type>
+      <ArrayOptions index="0" partial="true:2000">
+        <ColumnOption idx="0" pid="1601" type="retrieved" options="" />
+        <ColumnOption idx="1" pid="1602" type="retrieved" options="" />
+        <ColumnOption idx="2" pid="1603" type="retrieved" options=";foreignKey=1400" />
+        <ColumnOption idx="3" pid="1604" type="retrieved" options="" />
+        <ColumnOption idx="4" pid="1605" type="retrieved" options="" />
+        <ColumnOption idx="5" pid="1606" type="retrieved" options="" />
+        <ColumnOption idx="6" pid="1607" type="retrieved" options="" />
+        <ColumnOption idx="7" pid="1608" type="retrieved" options="" />
+        <ColumnOption idx="8" pid="1609" type="retrieved" options="" />
+        <ColumnOption idx="9" pid="1610" type="retrieved" options="" />
+        <ColumnOption idx="10" pid="1611" type="retrieved" options="" />
+        <ColumnOption idx="11" pid="1612" type="retrieved" options="" />
+        <ColumnOption idx="12" pid="1613" type="retrieved" options="" />
+        <ColumnOption idx="13" pid="1614" type="retrieved" options="" />
+      </ArrayOptions>
+      <Information>
+        <Subtext><![CDATA[This table list all the received alarms for the dve.]]></Subtext>
+      </Information>
+      <Display>
+        <RTDisplay onAppLevel="true">true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type options="tab=columns:1601|0-1602|1-1603|2-1614|13-1604|3-1605|4-1606|5-1607|6-1608|7-1609|8-1610|9-1611|10-1612|11-1613|12,width:100-100-100-100-100-100-133-100-100-100-100-100-144-110,sort:STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-STRING-INT|ASC|0-STRING,lines:20,filter:true">table</Type>
+      </Measurement>
+    </Param>
+    <Param id="1601" trending="false" export="true">
+      <Name>DveTableAlarms_Index</Name>
+      <Description>Index [IDX] (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This is the key used to identity the alarms from the table overview alarms.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1602" trending="false" export="true">
+      <Name>DveTableAlarms_Name</Name>
+      <Description>Name (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the name of the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1603" trending="false" export="true">
+      <Name>DveTableAlarms_Path</Name>
+      <Description>Path (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the path of the alarm. The path identifies the device for which the alarms is obtained.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1604" trending="false" export="true">
+      <Name>DveTableAlarms_Value</Name>
+      <Description>Value (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the path of the alarm. The path identifies the device for which the alarms is obtained.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1605" trending="false" export="true">
+      <Name>DveTableAlarms_Origin</Name>
+      <Description>Origin (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the origin of the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+        <Exceptions>
+          <Exception id="1" value="-1">
+            <Display state="disabled">N/A</Display>
+            <Value />
+          </Exception>
+        </Exceptions>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1606" trending="true" export="true">
+      <Name>DveTableAlarms_AcknowledgeStatus</Name>
+      <Description>Acknowledge Status (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays if the alarm is acknowledged or not.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <MaL>0</MaL>
+        <Normal>1</Normal>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Not Acknowledged</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Acknowledged</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1607" trending="false" export="true">
+      <Name>DveTableAlarms_Acknowledger</Name>
+      <Description>Acknowledger (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays who has acknowledged the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+        <Exceptions>
+          <Exception id="1" value="-1">
+            <Display state="disabled">N/A</Display>
+            <Value />
+          </Exception>
+        </Exceptions>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+    <Param id="1608" trending="true" export="true">
+      <Name>DveTableAlarms_Inverted</Name>
+      <Description>Inverted (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays if the alarm is inverted.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <Normal>0</Normal>
+        <MaH>1</MaH>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Not Inverted</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Inverted</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1609" trending="false" export="true">
+      <Name>DveTableAlarms_LatchedState</Name>
+      <Description>Latched State (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the latched state.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>OK</Display>
+            <Value>ok</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Warning</Display>
+            <Value>warning</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Caution</Display>
+            <Value>caution</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Fail</Display>
+            <Value>fail</Value>
+          </Discreet>
+          <Discreet>
+            <Display>No State</Display>
+            <Value>nostate</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1610" trending="true" export="true">
+      <Name>DveTableAlarms_Masked</Name>
+      <Description>Masked (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays if the alarm is masked.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <Alarm>
+        <Monitored>true</Monitored>
+        <Normal>0</Normal>
+        <MaH>1</MaH>
+      </Alarm>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>Not Masked</Display>
+            <Value>0</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Masked</Display>
+            <Value>1</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1611" trending="false" export="true">
+      <Name>DveTableAlarms_State</Name>
+      <Description>State (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the state of the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>OK</Display>
+            <Value>ok</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Warning</Display>
+            <Value>warning</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Caution</Display>
+            <Value>caution</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Fail</Display>
+            <Value>fail</Value>
+          </Discreet>
+          <Discreet>
+            <Display>No State</Display>
+            <Value>nostate</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1612" trending="false" export="true">
+      <Name>DveTableAlarms_Timestamp</Name>
+      <Description>Timestamp (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the timestamp of the alarm.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>numeric text</RawType>
+        <Type>double</Type>
+        <LengthType>next param</LengthType>
+        <Decimals>8</Decimals>
+      </Interprete>
+      <Display>
+        <RTDisplay>true</RTDisplay>
+        <Decimals>8</Decimals>
+      </Display>
+      <Measurement>
+        <Type options="datetime">number</Type>
+      </Measurement>
+    </Param>
+    <Param id="1613" trending="false" export="true">
+      <Name>DveTableAlarms_UnmaskedState</Name>
+      <Description>Unmasked State (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the Unmasked State.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>discreet</Type>
+        <Discreets>
+          <Discreet>
+            <Display>OK</Display>
+            <Value>ok</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Warning</Display>
+            <Value>warning</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Caution</Display>
+            <Value>caution</Value>
+          </Discreet>
+          <Discreet>
+            <Display>Fail</Display>
+            <Value>fail</Value>
+          </Discreet>
+          <Discreet>
+            <Display>No State</Display>
+            <Value>nostate</Value>
+          </Discreet>
+        </Discreets>
+      </Measurement>
+    </Param>
+    <Param id="1614" trending="false" export="true">
+      <Name>DveTableAlarms_DeviceName</Name>
+      <Description>Device Name (DVE Table Alarms)</Description>
+      <Information>
+        <Subtext>This column displays the name of the device, for which the alarms is obtained.</Subtext>
+      </Information>
+      <Type>read</Type>
+      <Interprete>
+        <RawType>other</RawType>
+        <Type>string</Type>
+        <LengthType>next param</LengthType>
+      </Interprete>
+      <!-- SuppressValidator 2.5.1 The alarm value is row + customer dependent. -->
+      <Alarm>
+        <Monitored>true</Monitored>
+      </Alarm>
+      <!-- /SuppressValidator 2.5.1 -->
+      <Display>
+        <RTDisplay>true</RTDisplay>
+      </Display>
+      <Measurement>
+        <Type>string</Type>
+      </Measurement>
+    </Param>
+  </Params>
+  <QActions>
+    <QAction id="1" name="Precompiled Code" encoding="csharp" options="precompile" dllImport="newtonsoft.json\13.0.3\lib\net45\Newtonsoft.Json.dll;system.threading.tasks.dataflow\7.0.0\lib\net462\System.Threading.Tasks.Dataflow.dll;skyline.dataminer.core.dataminersystem.common\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Common.dll;skyline.dataminer.core.dataminersystem.protocol\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Protocol.dll;newtonsoft.json\13.0.2\lib\net45\"><![CDATA[
+//---------------------------------
+// QAction_1.cs
+//---------------------------------
+namespace QAction_1
+{
+}
+//---------------------------------
+// Enums\AutomaticRemoval.cs
+//---------------------------------
+namespace Skyline.Protocol.Enums
+{
+	public enum AutomaticRemoval
+	{
+		Disabled = 0,
+		Enabled = 1,
+	}
+}
+//---------------------------------
+// Enums\DetectionStatus.cs
+//---------------------------------
+namespace Skyline.Protocol.Enums
+{
+	public enum DetectionStatus
+	{
+		NotDetected = 0,
+		Detected = 1,
+	}
+}
+
+//---------------------------------
+// Enums\TableAction.cs
+//---------------------------------
+namespace Skyline.Protocol.Enums
+{
+	public enum TableAction
+	{
+		RemoveEntry = 0,
+		CreateEntry = 1,
+		ChangeCustomName = 2,
+	}
+}
+
+//---------------------------------
+// Enums\Triggers.cs
+//---------------------------------
+namespace Skyline.Protocol.Triggers
+{
+	public enum ProtocolTriggers
+	{
+		RefreshDevices_2 = 2,
+		ProcessGetAlarmsResponse_3 = 3,
+		ProcessGetDevicesResponse_4 = 4,
+		GetAlarmsFromDevice_5 = 5,
+		StartAlarmsResponseLoop_6 = 6,
+		RunQaction3_7 = 7,
+		RunCreateSubscriber_8 = 8,
+		RunCreateSubscriberRequest_9 = 9,
+		AfterGetAlarmChangesIncreaseCounter_10 = 10,
+		AfterStartup_15 = 15,
+		ReinitializeTrigger_411 = 411,
+	}
+}
+//---------------------------------
+// HttpManager\HttpManager.cs
+//---------------------------------
+namespace Skyline.Protocol.HttpManager
+{
+	public static class HttpManager
+	{
+		/// <summary>
+		/// Determines whether the response header received is expected or not.
+		/// </summary>
+		/// <param name="header">The HTTP header received.</param>
+		/// <returns>Whether the received header is an expected one.</returns>
+		public static bool IsHtttpHeaderExpected(string header)
+		{
+			return !string.IsNullOrWhiteSpace(header) && header.Contains("200");
+		}
+
+		/// <summary>
+		/// Checks if the provided JSON text has the most basic structure to be considered valid. If this fails, no attempts to deserialize should be attempted.
+		/// </summary>
+		/// <param name="content">The JSON in text format.</param>
+		/// <returns>Whether the base text has the most basic JSON structure, to attempt a deserialization.</returns>
+		public static bool IsValidJsonBasic(string content)
+		{
+			content = content.Trim();
+			bool isValid = !string.IsNullOrWhiteSpace(content);
+			isValid &= (content.StartsWith("{") && content.EndsWith("}")) || // Object
+						(content.StartsWith("[") && content.EndsWith("]")); // Array;
+
+			return isValid;
+		}
+	}
+}
+
+//---------------------------------
+// JsonData\OrbitAlarmChanges.cs
+//---------------------------------
+namespace Skyline.Protocol.JsonData
+{
+	using Newtonsoft.Json;
+
+	public class OrbitAlarmChanges
+	{
+		[JsonProperty("items")]
+		public AlarmChangeItem[] Items { get; set; }
+	}
+
+	public class AlarmChangeItem
+	{
+		[JsonProperty("update")]
+		public OrbitAlarm Update { get; set; }
+
+		[JsonProperty("delete")]
+		public Id Delete { get; set; }
+	}
+}
+
+//---------------------------------
+// JsonData\OrbitAlarms.cs
+//---------------------------------
+namespace Skyline.Protocol.JsonData
+{
+	using System;
+	using Newtonsoft.Json;
+
+	public class OrbitAlarms
+	{
+		[JsonProperty("alarms")]
+		public OrbitAlarm[] AlarmElements { get; set; }
+	}
+
+	public class OrbitAlarm
+	{
+		[JsonProperty("id")]
+		public Id Id { get; set; }
+
+		[JsonProperty("origin")]
+		public string Origin { get; set; }
+
+		[JsonProperty("state")]
+		public State State { get; set; }
+	}
+
+	public class Id
+	{
+		[JsonProperty("name")]
+		public string Name { get; set; }
+
+		[JsonProperty("path")]
+		public string Path { get; set; }
+	}
+
+	public class State
+	{
+		[JsonProperty("acked")]
+		public bool IsAcknowledged { get; set; }
+
+		[JsonProperty("ackedBy")]
+		public string Acknowledger { get; set; }
+
+		[JsonProperty("inverted")]
+		public bool IsInverted { get; set; }
+
+		[JsonProperty("latchedState")]
+		public string LatchedState { get; set; }
+
+		[JsonProperty("masked")]
+		public bool Ismasked { get; set; }
+
+		[JsonProperty("state")]
+		public string AlarmState { get; set; }
+
+		[JsonProperty("timestamp")]
+		public DateTime Timestamp { get; set; }
+
+		[JsonProperty("unmaskedState")]
+		public string UnmaskedState { get; set; }
+
+		[JsonProperty("value")]
+		public string Value { get; set; }
+	}
+}
+
+//---------------------------------
+// JsonData\OrbitDevices.cs
+//---------------------------------
+namespace Skyline.Protocol.JsonData
+{
+	using System;
+	using Newtonsoft.Json;
+
+	public class OrbitDevices
+	{
+		[JsonProperty("devicePaths")]
+		public string[] DevicePaths { get; set; }
+	}
+}
+
+//---------------------------------
+// JsonData\SubscriberRequest.cs
+//---------------------------------
+namespace Skyline.Protocol.JsonData
+{
+	using Newtonsoft.Json;
+
+	public class SubscriberRequest
+	{
+		public SubscriberRequest()
+		{
+			Type = "pull";
+			Filter = new SubscriberAlarms[] {};
+		}
+
+		[JsonProperty("type")]
+		public string Type { get; set; }
+
+		[JsonProperty("filter")]
+		public SubscriberAlarms[] Filter { get; set; }
+	}
+
+	public class SubscriberAlarms
+	{
+		[JsonProperty("path")]
+		public string Path { get; set; }
+	}
+}
+
+//---------------------------------
+// JsonData\TableEvent.cs
+//---------------------------------
+namespace Skyline.Protocol.JsonData
+{
+	using System;
+	using System.Collections.Generic;
+	using Skyline.Protocol.Enums;
+
+	[Serializable]
+	public class TableEvent
+	{
+		public IReadOnlyList<string> Paths { get; set; }
+
+		public IReadOnlyList<string> Names { get; set; }
+
+		public TableAction Action { get; set; }
+	}
+}
+
+//---------------------------------
+// Logging\Logging.cs
+//---------------------------------
+namespace Skyline.Protocol.Logging
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+	using Skyline.DataMiner.Scripting;
+
+	public static class LogHandler
+	{
+		/// <summary>
+		/// Logs an exception in the DMA element's logs, including its inner exception if present. Uses a standardized message format. It writes the message with the Run method location.
+		/// </summary>
+		/// <param name="protocol">Link with Skyline DataMiner.</param>
+		/// <param name="exception">The exception object that needs to be written in the logs.</param>
+		public static void LogException(this SLProtocol protocol, Exception exception)
+		{
+			LogException(protocol, exception, "Run");
+		}
+
+		/// <summary>
+		/// Logs an exception in the DMA element's logs, including its inner exception if present. Uses a standardized message format.
+		/// </summary>
+		/// <param name="protocol">Link with Skyline DataMiner.</param>
+		/// <param name="exception">The exception object that needs to be written in the logs.</param>
+		/// <param name="location">The method name where the message was generated.</param>
+		public static void LogException(this SLProtocol protocol, Exception exception, string location)
+		{
+			string text = string.Format("QA{0}|{1}|{2}| There was an exception while running this code: {3}\n{4}", protocol.QActionID, protocol.GetTriggerParameter(), location, exception.Message, exception.StackTrace);
+
+			if (exception.InnerException != null)
+			{
+				text += string.Format("\nThere was also an inner exception: {0}\n{1}", exception.InnerException.Message, exception.InnerException.StackTrace);
+			}
+
+			protocol.Log(text, LogType.Error, LogLevel.NoLogging);
+		}
+
+		/// <summary>
+		/// Logs an information message on the logs, using a standardized message format. It writes the message with the Run method location.
+		/// </summary>
+		/// <param name="protocol">Link with Skyline DataMiner.</param>
+		/// <param name="message">The message to be written on the logs.</param>
+		public static void LogInfo(this SLProtocol protocol, string message)
+		{
+			LogInfo(protocol, "Run", message);
+		}
+
+		/// <summary>
+		/// Logs an information message on the logs, using a standardized message format.
+		/// </summary>
+		/// <param name="protocol">Link with Skyline DataMiner.</param>
+		/// <param name="location">The method name where the message was generated.</param>
+		/// <param name="message">The message to be written on the logs.</param>
+		public static void LogInfo(this SLProtocol protocol, string location, string message)
+		{
+			protocol.Log(string.Format("QA{0}|{1}| {2}", protocol.QActionID, location, message), LogType.Information, LogLevel.NoLogging);
+		}
+
+		/// <summary>
+		/// Logs an error message on the logs, using a standardized message format. It writes the message with the Run method location.
+		/// </summary>
+		/// <param name="protocol">Link with Skyline DataMiner.</param>
+		/// <param name="message">The message to be written on the logs.</param>
+		public static void LogError(this SLProtocol protocol, string message)
+		{
+			LogError(protocol, "Run", message);
+		}
+
+		/// <summary>
+		/// Logs an error message on the logs, using a standardized message format.
+		/// </summary>
+		/// <param name="protocol">Link with Skyline DataMiner.</param>
+		/// <param name="location">The method name where the message was generated.</param>
+		/// <param name="message">The message to be written on the logs.</param>
+		public static void LogError(this SLProtocol protocol, string location, string message)
+		{
+			protocol.Log(string.Format("QA{0}|{1}| {2}", protocol.QActionID, location, message), LogType.Error, LogLevel.NoLogging);
+		}
+
+		/// <summary>
+		/// Simplified method that logs all the information contained within a list of rows for a given table.
+		/// </summary>
+		/// <param name="protocol">Link with Skyline DataMiner.</param>
+		/// <param name="table">The list of rows representing a table that will be printed.</param>
+		public static void LogTable(this SLProtocol protocol, List<QActionTableRow> table)
+		{
+			StringBuilder builder = new StringBuilder();
+
+			builder.Append("\n===Table===\n");
+
+			foreach (QActionTableRow row in table)
+			{
+				builder.Append("Row key: ");
+				builder.Append(row.Key);
+				builder.Append(" => ");
+
+				for (int i = 0; i < row.ColumnCount; i++)
+				{
+					builder.Append(row.Columns[i]);
+					builder.Append(" | ");
+				}
+
+				builder.Remove(builder.Length - 2, 2);
+				builder.Append("\n");
+			}
+
+			builder.Append("===END===");
+			LogInfo(protocol, builder.ToString());
+		}
+	}
+}
+//---------------------------------
+// LoopManager\LoopManager.cs
+//---------------------------------
+namespace Skyline.Protocol.LoopManager
+{
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using Skyline.DataMiner.Scripting;
+
+	/// <summary>
+	/// A class to manage C#-based loops for HTTP requests. It's only used to manage and advance the loops, not for managing data returned. Data should be taken care of separately.
+	/// </summary>
+	public class LoopManager
+	{
+		private readonly int getDataTriggerId;
+		private readonly int sessionParameterId;
+
+		private readonly HashSet<string> totalQueue;
+		private readonly HashSet<string> remainingQueue;
+		private string currentRequest;
+		private bool hasLoopFinished;
+
+		public LoopManager(int getDataTriggerId, int sessionParameterId)
+		{
+			remainingQueue = new HashSet<string>();
+			totalQueue = new HashSet<string>();
+			currentRequest = string.Empty;
+			this.getDataTriggerId = getDataTriggerId;
+			this.sessionParameterId = sessionParameterId;
+		}
+
+		public bool HasLoopFinished
+		{
+			get { return hasLoopFinished; }
+		}
+
+		public string CurrentRequest
+		{
+			get { return currentRequest; }
+		}
+
+		/// <summary>
+		/// Determines whether or not there are more available labels to be obtained.
+		/// </summary>
+		/// <param name="protocol">Link with SLProtocolExt process.</param>
+		public void UpdateLoopStatus(SLProtocolExt protocol)
+		{
+			UpdateProgress(protocol);
+
+			hasLoopFinished = !remainingQueue.Any();
+		}
+
+		/// <summary>
+		/// Attempts to get a new label, in case there are more labels to get.
+		/// </summary>
+		/// <param name="protocol">Link with SLProtocolExt process.</param>
+		public void SendNextRequest(SLProtocolExt protocol)
+		{
+			if (!hasLoopFinished)
+			{
+				protocol.SetParameter(sessionParameterId, currentRequest);
+				protocol.CheckTrigger(getDataTriggerId); // Get the current data from the server
+			}
+		}
+
+		/// <summary>
+		/// Sets up all information for a new loop.
+		/// </summary>
+		/// <param name="newData">The array of all data to be request.</param>
+		public void PrepareNewLoop(IEnumerable<string> newData)
+		{
+			StartLoop();
+
+			totalQueue.UnionWith(newData);
+			remainingQueue.UnionWith(newData);
+		}
+
+		/// <summary>
+		/// Removes the current information, and updates with the next label channel in the cycle.
+		/// </summary>
+		public void PrepareNextRequest()
+		{
+			if (remainingQueue.Contains(currentRequest))
+			{
+				remainingQueue.Remove(currentRequest);
+			}
+
+			currentRequest = remainingQueue.FirstOrDefault();
+		}
+
+		/// <summary>
+		/// This method runs all required sub-methods to advance the loop once.
+		/// </summary>
+		/// <param name="protocol">Link with the SLProtocol process.</param>
+		public void AdvanceLoopOneStep(SLProtocolExt protocol)
+		{
+			PrepareNextRequest();
+			UpdateLoopStatus(protocol);
+			SendNextRequest(protocol);
+		}
+
+		/// <summary>
+		/// Clears everything from the current loop, to avoid issues with potential checks after a finished loop.
+		/// </summary>
+		public void EndLoop()
+		{
+			totalQueue.Clear();
+			remainingQueue.Clear();
+
+			currentRequest = string.Empty;
+			hasLoopFinished = true;
+		}
+
+		public void StartLoop()
+		{
+			totalQueue.Clear();
+			remainingQueue.Clear();
+
+			currentRequest = string.Empty;
+			hasLoopFinished = false;
+		}
+
+		private void UpdateProgress(SLProtocolExt protocol)
+		{
+			int progress;
+			if (totalQueue.Count == 0)
+			{
+				progress = 100;
+			}
+			else
+			{
+				double completedRequests = totalQueue.Count - remainingQueue.Count;
+				progress = (int)Math.Round((completedRequests / totalQueue.Count) * 100);
+			}
+
+			protocol.SetParameter(Parameter.refreshdevicesprogress_202, progress);
+		}
+	}
+}
+//---------------------------------
+// Tables\Alarm.cs
+//---------------------------------
+namespace Skyline.Protocol.Tables
+{
+	using System;
+
+	public class Alarm
+	{
+		public string Name { get; set; }
+
+		public string DeviceName { get; set; }
+
+		public string Path { get; set; }
+
+		public string Value { get; set; }
+
+		public string Origin { get; set; }
+
+		public bool AcknowledgeStatus { get; set; }
+
+		public string Acknowledger { get; set; }
+
+		public bool Inverted { get; set; }
+
+		public string LatchedState { get; set; }
+
+		public bool Masked { get; set; }
+
+		public DateTime Timestamp { get; set; }
+
+		public string UnmaskedState { get; set; }
+
+		public string State { get; set; }
+
+		public string AlarmIndex => $"{Name}/{Path}";
+	}
+}
+
+//---------------------------------
+// Tables\Alarms.cs
+//---------------------------------
+namespace Skyline.Protocol.Tables
+{
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Linq;
+	using Skyline.DataMiner.Net.Helper;
+	using Skyline.DataMiner.Net.Messages;
+	using Skyline.DataMiner.Scripting;
+
+	using Skyline.Protocol.JsonData;
+
+	using Parameter = Skyline.DataMiner.Scripting.Parameter;
+
+	public class Alarms : IEnumerable<Alarm>
+	{
+		public static readonly string DefaultValue = "-1";
+
+		private readonly List<Alarm> alarms;
+
+		public Alarms(SLProtocolExt protocol)
+		{
+			var alarmsColumnIdx = new uint[]
+				{
+					Parameter.Overviewalarms.Idx.overviewalarms_index_1001,
+					Parameter.Overviewalarms.Idx.overviewalarms_name_1002,
+					Parameter.Overviewalarms.Idx.overviewalarms_path_1003,
+					Parameter.Overviewalarms.Idx.overviewalarms_value_1004,
+					Parameter.Overviewalarms.Idx.overviewalarms_origin_1005,
+					Parameter.Overviewalarms.Idx.overviewalarms_acknowledgestatus_1006,
+					Parameter.Overviewalarms.Idx.overviewalarms_acknowledger_1007,
+					Parameter.Overviewalarms.Idx.overviewalarms_inverted_1008,
+					Parameter.Overviewalarms.Idx.overviewalarms_latchedstate_1009,
+					Parameter.Overviewalarms.Idx.overviewalarms_masked_1010,
+					Parameter.Overviewalarms.Idx.overviewalarms_state_1011,
+					Parameter.Overviewalarms.Idx.overviewalarms_timestamp_1012,
+					Parameter.Overviewalarms.Idx.overviewalarms_unmaskedstate_1013,
+					Parameter.Overviewalarms.Idx.overviewalarms_devicename_1014,
+				};
+
+			var alarmColumns = (object[])protocol.NotifyProtocol(
+				(int)NotifyType.NT_GET_TABLE_COLUMNS,
+				Parameter.Overviewalarms.tablePid,
+				alarmsColumnIdx);
+
+			var indexes = (object[])alarmColumns[0];
+			var names = (object[])alarmColumns[1];
+			var paths = (object[])alarmColumns[2];
+			var values = (object[])alarmColumns[3];
+			var origins = (object[])alarmColumns[4];
+			var acknowledgeStatuses = (object[])alarmColumns[5];
+			var acknowledgers = (object[])alarmColumns[6];
+			var inverteds = (object[])alarmColumns[7];
+			var latchedStatuses = (object[])alarmColumns[8];
+			var maskeds = (object[])alarmColumns[9];
+			var states = (object[])alarmColumns[10];
+			var timestamps = (object[])alarmColumns[11];
+			var unmaskedStates = (object[])alarmColumns[12];
+			var deviceNames = (object[])alarmColumns[13];
+
+			alarms = new List<Alarm>();
+
+			for (int i = 0; i < indexes.Length; i++)
+			{
+				alarms.Add(new Alarm
+				{
+					Name = Convert.ToString(names[i]),
+					Path = Convert.ToString(paths[i]),
+					Value = Convert.ToString(values[i]),
+					Origin = Convert.ToString(origins[i]) != DefaultValue ? Convert.ToString(origins[i]) : String.Empty,
+					AcknowledgeStatus = Convert.ToBoolean(Convert.ToInt32(acknowledgeStatuses[i])),
+					Acknowledger = Convert.ToString(acknowledgers[i]) != DefaultValue ? Convert.ToString(acknowledgers[i]) : String.Empty,
+					Inverted = Convert.ToBoolean(Convert.ToInt32(inverteds[i])),
+					LatchedState = Convert.ToString(latchedStatuses[i]),
+					Masked = Convert.ToBoolean(Convert.ToInt32(maskeds[i])),
+					State = Convert.ToString(states[i]),
+					Timestamp = DateTime.FromOADate(Convert.ToDouble(timestamps[i])),
+					UnmaskedState = Convert.ToString(unmaskedStates[i]),
+					DeviceName = Convert.ToString(deviceNames[i]),
+				});
+			}
+		}
+
+		public IReadOnlyList<Alarm> Collection
+		{
+			get
+			{
+				return alarms;
+			}
+		}
+
+		public Alarm this[string name, string devicePath]
+		{
+			get
+			{
+				return alarms.Find(x => x.Name == name && x.Path == devicePath);
+			}
+		}
+
+		public void Add(string name, string devicePath)
+		{
+			alarms.Add(new Alarm
+			{
+				Name = name,
+				Path = devicePath,
+				Value = String.Empty,
+				Origin = String.Empty,
+				AcknowledgeStatus = false,
+				Acknowledger = String.Empty,
+				Inverted = false,
+				LatchedState = String.Empty,
+				Masked = false,
+				State = String.Empty,
+				Timestamp = default(DateTime),
+				UnmaskedState = String.Empty,
+				DeviceName = String.Empty,
+			});
+		}
+
+		public bool Contains(string name, string devicePath)
+		{
+			return alarms.Exists(x => x.Name == name && x.Path == devicePath);
+		}
+
+		public void RemoveAlarmsLinkedToDevicePaths(IReadOnlyList<string> devicePaths)
+		{
+			var alarmsToRemove = alarms
+				.Where(x => devicePaths.Contains(x.Path))
+				.ToList();
+
+			foreach (var alarmToRemove in alarmsToRemove)
+			{
+				alarms.Remove(alarmToRemove);
+			}
+		}
+
+		public void SaveAlarmsToProtocol(SLProtocolExt protocol, IReadOnlyList<string> dveDevicePaths)
+		{
+			// Overview Alarms
+			List<object[]> rows = alarms
+				.DistinctBy(x => x.AlarmIndex)
+				.Select(alarm => new OverviewalarmsQActionRow
+				{
+					Overviewalarms_index_1001 = alarm.AlarmIndex,
+					Overviewalarms_name_1002 = alarm.Name,
+					Overviewalarms_path_1003 = alarm.Path,
+					Overviewalarms_value_1004 = alarm.Value,
+					Overviewalarms_origin_1005 = !String.IsNullOrEmpty(alarm.Origin) ? alarm.Origin : DefaultValue,
+					Overviewalarms_acknowledgestatus_1006 = Convert.ToInt32(alarm.AcknowledgeStatus),
+					Overviewalarms_acknowledger_1007 = !String.IsNullOrEmpty(alarm.Acknowledger) ? alarm.Acknowledger : DefaultValue,
+					Overviewalarms_inverted_1008 = Convert.ToInt32(alarm.Inverted),
+					Overviewalarms_latchedstate_1009 = alarm.LatchedState,
+					Overviewalarms_masked_1010 = Convert.ToInt32(alarm.Masked),
+					Overviewalarms_state_1011 = alarm.State,
+					Overviewalarms_timestamp_1012 = alarm.Timestamp.ToOADate(),
+					Overviewalarms_unmaskedstate_1013 = alarm.UnmaskedState,
+					Overviewalarms_devicename_1014 = alarm.DeviceName,
+				}.ToObjectArray())
+				.ToList();
+
+			protocol.FillArray(Parameter.Overviewalarms.tablePid, rows, NotifyProtocol.SaveOption.Full);
+
+			SaveDveAlarmsToProtocol(protocol, dveDevicePaths);
+		}
+
+		public void SaveDveAlarmsToProtocol(SLProtocolExt protocol, IReadOnlyList<string> dveDevicePaths)
+		{
+			// DVE Table Devices
+			List<object[]> dveRows = new List<object[]>();
+
+			if (dveDevicePaths.Any())
+			{
+				dveRows = alarms
+					.DistinctBy(x => x.AlarmIndex)
+					.Where(alarm => dveDevicePaths.Contains(alarm.Path))
+					.Select(alarm => (object[])new DvetablealarmsQActionRow
+					{
+						Dvetablealarms_index_1601 = alarm.AlarmIndex,
+						Dvetablealarms_name_1602 = alarm.Name,
+						Dvetablealarms_path_1603 = alarm.Path,
+						Dvetablealarms_value_1604 = alarm.Value,
+						Dvetablealarms_origin_1605 = !String.IsNullOrEmpty(alarm.Origin) ? alarm.Origin : DefaultValue,
+						Dvetablealarms_acknowledgestatus_1606 = Convert.ToInt32(alarm.AcknowledgeStatus),
+						Dvetablealarms_acknowledger_1607 = !String.IsNullOrEmpty(alarm.Acknowledger) ? alarm.Acknowledger : DefaultValue,
+						Dvetablealarms_inverted_1608 = Convert.ToInt32(alarm.Inverted),
+						Dvetablealarms_latchedstate_1609 = alarm.LatchedState,
+						Dvetablealarms_masked_1610 = Convert.ToInt32(alarm.Masked),
+						Dvetablealarms_state_1611 = alarm.State,
+						Dvetablealarms_timestamp_1612 = alarm.Timestamp.ToOADate(),
+						Dvetablealarms_unmaskedstate_1613 = alarm.UnmaskedState,
+						Dvetablealarms_devicename_1614 = alarm.DeviceName,
+					})
+					.ToList();
+			}
+
+			protocol.FillArray(Parameter.Dvetablealarms.tablePid, dveRows, NotifyProtocol.SaveOption.Full);
+		}
+
+		public void Update(OrbitAlarms orbitAlarms, string devicePath, string deviceName)
+		{
+			foreach (var orbitAlarm in orbitAlarms.AlarmElements)
+			{
+				if (orbitAlarm.Id.Path != devicePath)
+				{
+					// Should not happen.
+					continue;
+				}
+
+				if (orbitAlarm.Id.Name == "NAME" || orbitAlarm.Id.Name == "ADDRESS")
+				{
+					// The device name & roll call address is not an useful alarm.
+					continue;
+				}
+
+				if (!Contains(orbitAlarm.Id.Name, orbitAlarm.Id.Path))
+				{
+					Add(orbitAlarm.Id.Name, orbitAlarm.Id.Path);
+				}
+
+				var alarm = this[orbitAlarm.Id.Name, orbitAlarm.Id.Path];
+				alarm.Value = orbitAlarm.State.Value;
+				alarm.Origin = orbitAlarm.Origin;
+				alarm.AcknowledgeStatus = orbitAlarm.State.IsAcknowledged;
+				alarm.Acknowledger = orbitAlarm.State.Acknowledger;
+				alarm.Inverted = orbitAlarm.State.IsInverted;
+				alarm.LatchedState = orbitAlarm.State.LatchedState;
+				alarm.Masked = orbitAlarm.State.Ismasked;
+				alarm.State = orbitAlarm.State.AlarmState;
+				alarm.Timestamp = orbitAlarm.State.Timestamp;
+				alarm.UnmaskedState = orbitAlarm.State.UnmaskedState;
+				alarm.DeviceName = deviceName;
+			}
+
+			var receivedAlarmNames = new HashSet<string>(orbitAlarms.AlarmElements.Select(x => x.Id.Name));
+			var removedAlarms = alarms
+				.Where(x => x.Path == devicePath && !receivedAlarmNames.Contains(x.Name))
+				.ToList();
+
+			foreach (var removedAlarm in removedAlarms)
+			{
+				alarms.Remove(removedAlarm);
+			}
+		}
+
+		public IEnumerator<Alarm> GetEnumerator()
+		{
+			return alarms.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return alarms.GetEnumerator();
+		}
+	}
+}
+
+//---------------------------------
+// Tables\Device.cs
+//---------------------------------
+namespace Skyline.Protocol.Tables
+{
+	using Skyline.Protocol.Enums;
+
+	public class DeviceInfo
+	{
+		public DetectionStatus DetectionStatus { get; set; }
+
+		public string Path { get; set; }
+
+		public string Name { get; set; }
+
+		public string DveName { get; set; }
+
+		public bool HasDve { get; set; }
+	}
+}
+
+//---------------------------------
+// Tables\Devices.cs
+//---------------------------------
+namespace Skyline.Protocol.Tables
+{
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Linq;
+	using Skyline.DataMiner.Net.Messages;
+	using Skyline.DataMiner.Scripting;
+	using Skyline.Protocol.Enums;
+	using Skyline.Protocol.JsonData;
+	using Parameter = Skyline.DataMiner.Scripting.Parameter;
+
+	public class Devices : IEnumerable<DeviceInfo>
+	{
+		private readonly List<DeviceInfo> devices;
+
+		private readonly Queue<TableEvent> bufferDveDevicesEvents = new Queue<TableEvent>();
+
+		public Devices(SLProtocol protocol)
+		{
+			var dveDevices = protocol.GetKeys(Parameter.Dvetabledevices.tablePid);
+
+			// Collect Device Info
+			var deviceColumnIdx = new uint[]
+			{
+				Parameter.Overviewdevices.Idx.overviewdevices_devicepath_1201,
+				Parameter.Overviewdevices.Idx.overviewdevices_detectionstatus_1202,
+				Parameter.Overviewdevices.Idx.overviewdevices_devicename_1205,
+				Parameter.Overviewdevices.Idx.overviewdevicesdvename_1206,
+			};
+			var deviceColumns = (object[])protocol.NotifyProtocol(
+				(int)NotifyType.NT_GET_TABLE_COLUMNS,
+				Parameter.Overviewdevices.tablePid,
+				deviceColumnIdx);
+
+			devices = new List<DeviceInfo>();
+
+			var paths = (object[])deviceColumns[0];
+			var detectionStatuses = (object[])deviceColumns[1];
+			var names = (object[])deviceColumns[2];
+			var deviceDveNames = (object[])deviceColumns[3];
+
+			for (int i = 0; i < paths.Length; i++)
+			{
+				devices.Add(new DeviceInfo
+				{
+					Path = Convert.ToString(paths[i]),
+					DetectionStatus = (DetectionStatus)Convert.ToInt32(detectionStatuses[i]),
+					Name = Convert.ToString(names[i]),
+					HasDve = dveDevices.Contains(Convert.ToString(paths[i])),
+					DveName = Convert.ToString(deviceDveNames[i]),
+				});
+			}
+		}
+
+		public IReadOnlyList<DeviceInfo> Collection => devices;
+
+		public IReadOnlyCollection<TableEvent> BufferDveDevicesEvents => bufferDveDevicesEvents;
+
+		public DeviceInfo this[string devicePath]
+		{
+			get
+			{
+				return devices.Find(x => x.Path == devicePath);
+			}
+		}
+
+		public List<string> DetectedDevicePaths()
+		{
+			return devices
+				.Where(x => x.DetectionStatus == DetectionStatus.Detected)
+				.Select(x => x.Path)
+				.ToList();
+		}
+
+		public List<string> NotDetectedDevicePaths()
+		{
+			return devices
+				.Where(x => x.DetectionStatus == DetectionStatus.NotDetected)
+				.Select(x => x.Path)
+				.ToList();
+		}
+
+		public List<string> DveDevicePaths()
+		{
+			return devices
+				.Where(x => x.HasDve)
+				.Select(x => x.Path)
+				.ToList();
+		}
+
+		public void Add(string devicePath)
+		{
+			devices.Add(new DeviceInfo
+			{
+				Path = devicePath,
+				DetectionStatus = DetectionStatus.Detected,
+				Name = String.Empty,
+				HasDve = false,
+				DveName = devicePath,
+			});
+		}
+
+		public bool Contains(string devicePath)
+		{
+			return devices.Exists(x => x.Path == devicePath);
+		}
+
+		public void CreateDve(string devicePath, string deviceDveName)
+		{
+			DeviceInfo device = this[devicePath];
+			if (device == default(DeviceInfo) || device.HasDve)
+			{
+				return;
+			}
+
+			device.HasDve = true;
+
+			bufferDveDevicesEvents.Enqueue(new TableEvent
+			{
+				Paths = new List<string> { devicePath },
+				Names = new List<string> { deviceDveName },
+				Action = TableAction.CreateEntry,
+			});
+		}
+
+		public void CreateDve(IReadOnlyList<string> devicePaths, IReadOnlyList<string> deviceDveNames)
+		{
+			for (int i = 0; i < devicePaths.Count; i++)
+			{
+				CreateDve(devicePaths[i], deviceDveNames[i]);
+			}
+		}
+
+		public void Remove(string devicePath)
+		{
+			DeviceInfo deviceToRemove = this[devicePath];
+			if (deviceToRemove == default(DeviceInfo))
+			{
+				return;
+			}
+
+			if (deviceToRemove.HasDve)
+			{
+				deviceToRemove.HasDve = false;
+
+				bufferDveDevicesEvents.Enqueue(new TableEvent
+				{
+					Paths = new List<string> { devicePath },
+					Action = TableAction.RemoveEntry,
+				});
+			}
+
+			if (deviceToRemove.DetectionStatus == DetectionStatus.NotDetected)
+			{
+				devices.Remove(deviceToRemove);
+			}
+		}
+
+		public void Remove(IReadOnlyList<string> devicePaths)
+		{
+			foreach (var devicePath in devicePaths)
+			{
+				Remove(devicePath);
+			}
+		}
+
+		public void Update(OrbitDevices orbitDevices)
+		{
+			if (orbitDevices?.DevicePaths == null)
+			{
+				return;
+			}
+
+			foreach (var orbitDevicePath in orbitDevices.DevicePaths)
+			{
+				if (Contains(orbitDevicePath))
+				{
+					continue;
+				}
+
+				Add(orbitDevicePath);
+			}
+
+			// Place all the not received devices on not detected.
+			var notDetectedDevices = devices
+				.Where(x => !orbitDevices.DevicePaths.Contains(x.Path))
+				.ToList();
+
+			foreach (var notDetectedDevice in notDetectedDevices)
+			{
+				notDetectedDevice.DetectionStatus = DetectionStatus.NotDetected;
+			}
+		}
+
+		public void UpdateDeviceName(string devicePath, string deviceName)
+		{
+			DeviceInfo device = this[devicePath];
+			if (device == default(DeviceInfo))
+			{
+				return;
+			}
+
+			device.Name = deviceName;
+		}
+
+		public void UpdateDeviceDveName(string devicePath, string deviceDveName)
+		{
+			DeviceInfo device = this[devicePath];
+			if (device == default(DeviceInfo))
+			{
+				return;
+			}
+
+			device.DveName = deviceDveName;
+			if (device.HasDve)
+			{
+				bufferDveDevicesEvents.Enqueue(new TableEvent
+				{
+					Paths = new List<string> { devicePath },
+					Names = new List<string> { deviceDveName },
+					Action = TableAction.ChangeCustomName,
+				});
+			}
+		}
+
+		public void UpdateDeviceDveNames(IReadOnlyList<string> devicePaths, IReadOnlyList<string> deviceDveNames)
+		{
+			for (int i = 0; i < devicePaths.Count; i++)
+			{
+				UpdateDeviceDveName(devicePaths[i], deviceDveNames[i]);
+			}
+		}
+
+		public void SaveDevicesToProtocol(SLProtocolExt protocol)
+		{
+			// Overview Devices
+			List<object[]> rows = devices
+				.Select(device => (object[])new OverviewdevicesQActionRow
+				{
+					Overviewdevices_devicepath_1201 = device.Path,
+					Overviewdevices_detectionstatus_1202 = Convert.ToInt32(device.DetectionStatus),
+					Overviewdevices_devicename_1205 = device.Name,
+					Overviewdevicesdvename_1206 = device.DveName,
+				})
+				.ToList();
+
+			protocol.FillArray(Parameter.Overviewdevices.tablePid, rows, NotifyProtocol.SaveOption.Full);
+
+			// DVE Table Devices
+			while (bufferDveDevicesEvents.Any())
+			{
+				var dveDeviceEvent = bufferDveDevicesEvents.Dequeue();
+
+				for (int i = 0; i < dveDeviceEvent.Paths.Count; i++)
+				{
+					switch (dveDeviceEvent.Action)
+					{
+						case TableAction.CreateEntry:
+							{
+								var entry = new DvetabledevicesQActionRow
+								{
+									Dvetabledevices_devicepath_1401 = dveDeviceEvent.Paths[i],
+									Dvetabledevicesname_1403 = dveDeviceEvent.Names[i],
+								};
+								protocol
+									.AddRow(Parameter.Dvetabledevices.tablePid, (object[])entry);
+								break;
+							}
+
+						case TableAction.RemoveEntry:
+							{
+								protocol
+									.DeleteRow(Parameter.Dvetabledevices.tablePid, dveDeviceEvent.Paths[i]);
+								break;
+							}
+
+						case TableAction.ChangeCustomName:
+							{
+								var entry = new DvetabledevicesQActionRow
+								{
+									Dvetabledevices_devicepath_1401 = dveDeviceEvent.Paths[i],
+									Dvetabledevicesname_1403 = dveDeviceEvent.Names[i],
+								};
+								protocol
+									.SetRow(Parameter.Dvetabledevices.tablePid, dveDeviceEvent.Paths[i], (object[])entry);
+								break;
+							}
+
+						default:
+							{
+								// Do nothing.
+								break;
+							}
+					}
+				}
+			}
+		}
+
+		public IEnumerator<DeviceInfo> GetEnumerator()
+		{
+			return devices.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return devices.GetEnumerator();
+		}
+	}
+}]]></QAction>
+    <QAction id="2" name="Process Orbit Data" encoding="csharp" triggers="3;4;5;201;411" dllImport="newtonsoft.json\13.0.3\lib\net45\Newtonsoft.Json.dll;system.threading.tasks.dataflow\7.0.0\lib\net462\System.Threading.Tasks.Dataflow.dll;skyline.dataminer.core.dataminersystem.common\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Common.dll;skyline.dataminer.core.dataminersystem.protocol\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Protocol.dll;newtonsoft.json\13.0.2\lib\net45\;[ProtocolName].[ProtocolVersion].QAction.1.dll"><![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+using Skyline.DataMiner.Scripting;
+using Skyline.Protocol.Enums;
+using Skyline.Protocol.HttpManager;
+using Skyline.Protocol.JsonData;
+using Skyline.Protocol.Logging;
+using Skyline.Protocol.LoopManager;
+using Skyline.Protocol.Tables;
+using Skyline.Protocol.Triggers;
+
+//---------------------------------
+// QAction_2.cs
+//---------------------------------
+
+/// <summary>
+///     DataMiner QAction Class: Run Channel Label Loop.
+///     <para>
+///         This class is not static, like other QActions, and so is not the Run method. This QAction is supposed to
+///         maintain its data between executions.
+///     </para>
+///     <para>
+///         This allows the QAction to maintain status data, and allows for loop behavior. In this case, a LoopManager
+///         class has been created, and objects are instantiated.
+///         Every time that is required, each manager will set data on parameters, and trigger HTTP requests. When data is
+///         received, the QAction is triggered by its arrival,
+///         and it can then be saved in the corresponding table objects (through the handle methods), and the loops can be
+///         advanced, depending on the data received.
+///     </para>
+///     <para />
+///     <para>Once all loop data is received, then we can fill all the data at once, and stop the loop.</para>
+/// </summary>
+public class QAction
+{
+	private readonly LoopManager alarmBuffer = new LoopManager(Parameter.processsgetdevicescontent_5, Parameter.sessionparameteralarmpath_22);
+	private readonly InstanceStorage storage = new InstanceStorage();
+	private bool isLoopRunning;
+
+	public void Run(SLProtocolExt protocol)
+	{
+		int triggerId = protocol.GetTriggerParameter();
+		try
+		{
+			if (triggerId == Parameter.reinitializepollinglogic_411)
+			{
+				isLoopRunning = false;
+				storage.Initialize(protocol);
+				alarmBuffer.EndLoop();
+				protocol.CheckTrigger((int)ProtocolTriggers.RunCreateSubscriberRequest_9); // create subscriber immediately on other connection
+				protocol.CheckTrigger((int)ProtocolTriggers.RefreshDevices_2); // refresh device list
+				return;
+			}
+
+			Alarms alarms = storage.GetAlarms(protocol);
+			Devices devices = storage.GetDevices(protocol);
+
+			switch (triggerId)
+			{
+				case Parameter.startgetalarmsloop_3:
+					HandleStartGetAlarmsLoop(protocol, devices);
+					return;
+
+				case Parameter.processgetalarmscontent_4:
+					HandleProcessGetAlarmContents(protocol, devices, alarms);
+					return;
+
+				case Parameter.processsgetdevicescontent_5:
+					HandleNewDeviceContent(protocol, devices, alarms);
+					return;
+
+				case Parameter.Write.tableeventmessage_201:
+					if (!alarmBuffer.HasLoopFinished)
+					{
+						protocol.ShowInformationMessage("This action is only possible if all the devices and their alarms have been polled.");
+						return;
+					}
+
+					HandleNewTableEvents(protocol, alarms, devices);
+					return;
+
+				default:
+					LogHandler.LogError(protocol, "The parameter " + triggerId + " has not been implemented. Please, contact Skyline Communications to solve this issue.");
+					return;
+			}
+		}
+		catch (Exception ex)
+		{
+			LogHandler.LogError(protocol, "The alarm loop is terminated because of the error: " + ex);
+			isLoopRunning = false;
+			alarmBuffer.EndLoop();
+		}
+	}
+
+	private static string GetDeviceNameOrDefault(OrbitAlarms orbitAlarms)
+	{
+		OrbitAlarm orbitAlarmWithName = orbitAlarms.AlarmElements.FirstOrDefault(x => x.Id.Name == "NAME");
+		if (orbitAlarmWithName == default(OrbitAlarm))
+		{
+			return "UNKNOWN";
+		}
+
+		return orbitAlarmWithName.State.Value;
+	}
+
+	private static void HandleNewAlarmContent(SLProtocolExt protocol, Devices devices, Alarms alarms, string devicePath)
+	{
+		try
+		{
+			var getAlarmsSessionData = (object[])protocol.GetParameters(new uint[] { Parameter.getalarmsstatuscode_20, Parameter.getalarmscontent_21 });
+			string getAlarmsStatusCode = Convert.ToString(getAlarmsSessionData[0]);
+			string getAlarmsContent = Convert.ToString(getAlarmsSessionData[1]);
+
+			if (!HttpManager.IsHtttpHeaderExpected(getAlarmsStatusCode) || !HttpManager.IsValidJsonBasic(getAlarmsContent))
+			{
+				LogHandler.LogError(protocol, "HandleNewAlarmInformationReceived", "Invalid JSON for the device path " + devicePath + ", not deserializing: " + getAlarmsContent);
+				return;
+			}
+
+			var orbitAlarms = JsonConvert.DeserializeObject<OrbitAlarms>("{ \"alarms\":" + getAlarmsContent + "}");
+			var deviceName = GetDeviceNameOrDefault(orbitAlarms);
+
+			alarms.Update(orbitAlarms, devicePath, deviceName);
+			devices.UpdateDeviceName(devicePath, deviceName);
+		}
+		catch (Exception ex)
+		{
+			LogHandler.LogError(protocol, "HandleNewAlarmInformationReceived", "Could not process the new alarm data because of the error: " + ex);
+		}
+	}
+
+	private static void HandleNewDeviceContent(SLProtocolExt protocol, Devices devices, Alarms alarms)
+	{
+		var getParameters = (object[])protocol.GetParameters(new uint[] { Parameter.getdevicesstatuscode_23, Parameter.getdevicescontent_24, Parameter.automaticremoval_203 });
+		string getDevicesStatusCode = Convert.ToString(getParameters[0]);
+		string getDevicesContent = Convert.ToString(getParameters[1]);
+		AutomaticRemoval automaticRemoval = (AutomaticRemoval)Convert.ToInt32(getParameters[2]);
+
+		if (!HttpManager.IsHtttpHeaderExpected(getDevicesStatusCode) || !HttpManager.IsValidJsonBasic(getDevicesContent))
+		{
+			LogHandler.LogError(protocol, "HandleNewDeviceContent", "Cannot serialize the device content.");
+			return;
+		}
+
+		var orbitDevices = JsonConvert.DeserializeObject<OrbitDevices>("{ \"devicePaths\":" + getDevicesContent + "}");
+
+		devices.Update(orbitDevices);
+
+		if (automaticRemoval == AutomaticRemoval.Enabled)
+		{
+			List<string> devicePathsToRemove = devices.NotDetectedDevicePaths();
+
+			devices.Remove(devicePathsToRemove);
+			alarms.RemoveAlarmsLinkedToDevicePaths(devicePathsToRemove);
+		}
+
+		protocol.CheckTrigger((int)ProtocolTriggers.StartAlarmsResponseLoop_6); // Get the alarms for each device; the device information will be stored when all data (devices + alarms) is collected.
+	}
+
+	private static void HandleNewTableEvents(SLProtocolExt protocol, Alarms alarms, Devices devices)
+	{
+		string tableEventMessage = Convert.ToString(protocol.GetParameter(Parameter.Write.tableeventmessage_201));
+
+		var tableEvent = JsonConvert.DeserializeObject<TableEvent>(tableEventMessage);
+
+		switch (tableEvent.Action)
+		{
+			case TableAction.RemoveEntry:
+			{
+				// Remove alarms & (DVE) devices internally.
+				devices.Remove(tableEvent.Paths);
+
+				// Remove DVE alarms & (DVE) devices (order is important).
+				alarms.SaveAlarmsToProtocol(protocol, devices.DveDevicePaths());
+				devices.SaveDevicesToProtocol(protocol);
+				break;
+			}
+
+			case TableAction.CreateEntry:
+			{
+				// Add DVE devices & DVE alarms (order is important).
+				devices.CreateDve(tableEvent.Paths, tableEvent.Names);
+
+				devices.SaveDevicesToProtocol(protocol);
+				alarms.SaveAlarmsToProtocol(protocol, devices.DveDevicePaths());
+				break;
+			}
+
+			case TableAction.ChangeCustomName:
+			{
+				// Update Custom Name of Device and its DVE.
+				devices.UpdateDeviceDveNames(tableEvent.Paths, tableEvent.Names);
+				devices.SaveDevicesToProtocol(protocol);
+				break;
+			}
+
+			default:
+			{
+				// Do nothing.
+				break;
+			}
+		}
+	}
+
+	private void HandleProcessGetAlarmContents(SLProtocolExt protocol, Devices devices, Alarms alarms)
+	{
+		HandleNewAlarmContent(protocol, devices, alarms, alarmBuffer.CurrentRequest);
+		alarmBuffer.AdvanceLoopOneStep(protocol);
+
+		if (alarmBuffer.HasLoopFinished)
+		{
+			// Terminate loop
+			isLoopRunning = false;
+			alarmBuffer.EndLoop();
+
+			// Update table OverviewDevices
+			devices.SaveDevicesToProtocol(protocol);
+
+			// Update alarms in table OverviewAlarms (Table ID: 1000) & table DveTableAlarms (Table ID: 1600)
+			alarms.SaveAlarmsToProtocol(protocol, devices.DveDevicePaths());
+
+			protocol.CheckTrigger((int)ProtocolTriggers.RunCreateSubscriberRequest_9);
+		}
+	}
+
+	private void HandleStartGetAlarmsLoop(SLProtocolExt protocol, Devices devices)
+	{
+		if (isLoopRunning)
+		{
+			// We don't want overlapping loops, it's a logic killer and a waste of resources
+			return;
+		}
+
+		PrepareNewLoop(protocol, devices);
+
+		if (!isLoopRunning)
+		{
+			// If after attempting to prepare a new loop, we fail, something is really wrong, and we shouldn't push our luck
+			protocol.SetParameter(Parameter.polledwithsubscriptionstatus_7, -1);
+			alarmBuffer.EndLoop();
+			return;
+		}
+
+		protocol.SetParameter(Parameter.polledwithsubscriptionstatus_7, 0);
+		alarmBuffer.AdvanceLoopOneStep(protocol);
+	}
+
+	private void PrepareNewLoop(SLProtocolExt protocol, Devices devices)
+	{
+		try
+		{
+			isLoopRunning = true;
+
+			// Need to get the device paths from overview devices;
+			var devicePaths = devices.DetectedDevicePaths();
+			if (devicePaths.Any())
+			{
+				alarmBuffer.PrepareNewLoop(devicePaths);
+			}
+			else
+			{
+				isLoopRunning = false;
+				return;
+			}
+		}
+		catch (Exception ex)
+		{
+			LogHandler.LogError(protocol, "PrepareNewLoop", "Could not prepare the new alarm loop because of the error: " + ex);
+			isLoopRunning = false;
+		}
+	}
+}
+//---------------------------------
+// InstanceStorage.cs
+//---------------------------------
+
+public class InstanceStorage
+{
+	private Alarms alarms;
+	private Devices devices;
+	private bool initialized;
+
+	public Alarms GetAlarms(SLProtocolExt protocol)
+	{
+		if (!initialized)
+		{
+			Initialize(protocol);
+		}
+
+		return alarms;
+	}
+
+	public Devices GetDevices(SLProtocolExt protocol)
+	{
+		if (!initialized)
+		{
+			Initialize(protocol);
+		}
+
+		return devices;
+	}
+
+	public void Initialize(SLProtocolExt protocol)
+	{
+		alarms = new Alarms(protocol);
+		devices = new Devices(protocol);
+
+		initialized = true;
+	}
+}]]></QAction>
+    <QAction id="3" name="DVE Table Sets" encoding="csharp" triggers="1203;1204;1256" row="true" dllImport="newtonsoft.json\13.0.3\lib\net45\Newtonsoft.Json.dll;system.threading.tasks.dataflow\7.0.0\lib\net462\System.Threading.Tasks.Dataflow.dll;skyline.dataminer.core.dataminersystem.common\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Common.dll;skyline.dataminer.core.dataminersystem.protocol\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Protocol.dll;newtonsoft.json\13.0.2\lib\net45\;[ProtocolName].[ProtocolVersion].QAction.1.dll"><![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+using Skyline.DataMiner.Net.Helper;
+using Skyline.DataMiner.Net.Messages;
+using Skyline.DataMiner.Scripting;
+using Skyline.Protocol.Enums;
+using Skyline.Protocol.JsonData;
+using Parameter = Skyline.DataMiner.Scripting.Parameter;
+
+/// <summary>
+///     DataMiner QAction Class.
+/// </summary>
+public static class QAction
+{
+	/// <summary>
+	///     The QAction entry point.
+	/// </summary>
+	/// <param name="protocol">Link with SLProtocol process.</param>
+	public static void Run(SLProtocolExt protocol)
+	{
+		try
+		{
+			var devicePath = protocol.RowKey();
+			var triggerParam = protocol.GetTriggerParameter();
+			var dveName = Convert.ToString(
+				protocol.GetParameterIndexByKey(
+					Parameter.Overviewdevices.tablePid,
+					devicePath,
+					Parameter.Overviewdevices.Idx.overviewdevicesdvename_1206 + 1));
+
+			TableAction tableAction;
+			switch (triggerParam)
+			{
+				case 1203: // OverviewDevices_CreateDve
+				{
+					tableAction = TableAction.CreateEntry;
+					if (dveName.IsNullOrEmpty())
+					{
+						dveName = devicePath;
+					}
+
+					break;
+				}
+
+				case 1204: // OverviewDevices_RemoveDve
+				{
+					tableAction = TableAction.RemoveEntry;
+					break;
+				}
+
+				case Parameter.Write.overviewdevicesdvename_1256:
+				{
+					var writeDveName = Convert.ToString(protocol.GetParameter(Parameter.Write.overviewdevicesdvename_1256));
+					var error = ValidateDveName(protocol, writeDveName);
+					if (error.IsNotNullOrEmpty())
+					{
+						protocol.ShowInformationMessage(error);
+						return;
+					}
+
+					dveName = writeDveName.IsNullOrEmpty() ? devicePath : writeDveName;
+					tableAction = TableAction.ChangeCustomName;
+					break;
+				}
+
+				default:
+					throw new ArgumentException("Failed to update the DVEs because the trigger id " + triggerParam + " is unknown.");
+			}
+
+			TableEvent tableEvent = new TableEvent
+			{
+				Paths = new List<string> { devicePath },
+				Names = new List<string> { dveName },
+				Action = tableAction,
+			};
+
+			protocol.SetParameter(Parameter.Write.tableeventmessage_201, JsonConvert.SerializeObject(tableEvent));
+		}
+		catch (Exception ex)
+		{
+			protocol.Log("QA" + protocol.QActionID + "|" + protocol.GetTriggerParameter() + "|Run|Exception thrown:" + Environment.NewLine + ex, LogType.Error, LogLevel.NoLogging);
+		}
+	}
+
+	private static string ValidateDveName(SLProtocolExt protocol, string writeDveName)
+	{
+		var tableColumns = (object[])protocol.NotifyProtocol(
+			(int)NotifyType.NT_GET_TABLE_COLUMNS,
+			Parameter.Overviewdevices.tablePid,
+			new uint[] { Parameter.Overviewdevices.Idx.overviewdevicesdvename_1206 });
+		var dveNames = (object[])tableColumns[0];
+		var dveNameExists = dveNames.Where(
+			dve
+				=> Convert.ToString(dve).IsNotNullOrEmpty()
+				   && Convert.ToString(dve).Equals(writeDveName));
+		return dveNameExists.Any() ? String.Format("Error: {0} already exists.", writeDveName) : String.Empty;
+	}
+}]]></QAction>
+    <QAction id="4" name="Subscription Handler" encoding="csharp" triggers="8;11" dllImport="newtonsoft.json\13.0.3\lib\net45\Newtonsoft.Json.dll;system.threading.tasks.dataflow\7.0.0\lib\net462\System.Threading.Tasks.Dataflow.dll;skyline.dataminer.core.dataminersystem.common\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Common.dll;skyline.dataminer.core.dataminersystem.protocol\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Protocol.dll;newtonsoft.json\13.0.2\lib\net45\;[ProtocolName].[ProtocolVersion].QAction.1.dll"><![CDATA[using System;
+using Newtonsoft.Json;
+using Skyline.DataMiner.Scripting;
+using Skyline.Protocol.JsonData;
+using Skyline.Protocol.Triggers;
+
+/// <summary>
+///     DataMiner QAction Class: Subscription Handler.
+/// </summary>
+public static class QAction
+{
+	/// <summary>
+	///     The QAction entry point.
+	/// </summary>
+	/// <param name="protocol">Link with SLProtocol process.</param>
+	public static void Run(SLProtocol protocol)
+	{
+		var triggerParam = protocol.GetTriggerParameter();
+		try
+		{
+			switch (triggerParam)
+			{
+				case Parameter.createsubscriber_11:
+				{
+					CreateSubscriberRequest(protocol);
+					return;
+				}
+
+				case Parameter.subscriptionid_8:
+				{
+					HandleCreatedSubscriptionResponse(protocol);
+					return;
+				}
+
+				default:
+				{
+					protocol.Log($"QA{protocol.QActionID}|Run|Unhandled Trigger Param {triggerParam}", LogType.Error, LogLevel.NoLogging);
+					return;
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			protocol.Log($"QA{protocol.QActionID}|{triggerParam}|Run|Exception thrown:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
+		}
+	}
+
+	private static void CreateSubscriberRequest(SLProtocol protocol)
+	{
+		var subscriberRequest = new SubscriberRequest();
+		var requestBodyJson = JsonConvert.SerializeObject(subscriberRequest);
+		protocol.SetParameter(Parameter.createsubscriberrequestbody_9, requestBodyJson);
+		protocol.CheckTrigger((int)ProtocolTriggers.RunCreateSubscriber_8);
+	}
+
+	private static void HandleCreatedSubscriptionResponse(SLProtocol protocol)
+	{
+		var responseParams = (object[])protocol.GetParameters(new uint[] { Parameter.subscriptionid_8, Parameter.createsubscriberstatuscode_10 });
+		var subscriberId = Convert.ToString(responseParams[0]);
+		var statusCode = Convert.ToString(responseParams[1]);
+		if (!statusCode.Contains("200") || String.IsNullOrEmpty(subscriberId))
+		{
+			protocol.SetParameter(Parameter.polledwithsubscriptionstatus_7, -1);
+			protocol.Log($"QA{protocol.QActionID}|Run|{statusCode}", LogType.Error, LogLevel.NoLogging);
+			return;
+		}
+
+		protocol.SetParameter(Parameter.polledwithsubscriptionstatus_7, 1);
+	}
+}]]></QAction>
+    <QAction id="5" name="Process Alarm Changes Response" encoding="csharp" triggers="13" dllImport="newtonsoft.json\13.0.3\lib\net45\Newtonsoft.Json.dll;system.threading.tasks.dataflow\7.0.0\lib\net462\System.Threading.Tasks.Dataflow.dll;skyline.dataminer.core.dataminersystem.common\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Common.dll;skyline.dataminer.core.dataminersystem.protocol\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Protocol.dll;newtonsoft.json\13.0.2\lib\net45\;[ProtocolName].[ProtocolVersion].QAction.1.dll"><![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+using Skyline.DataMiner.Core.DataMinerSystem.Protocol;
+using Skyline.DataMiner.Scripting;
+using Skyline.Protocol.JsonData;
+using Parameter = Skyline.DataMiner.Scripting.Parameter;
+
+/// <summary>
+///     DataMiner QAction Class: QActionName.
+/// </summary>
+public static class QAction
+{
+	/// <summary>
+	///     The QAction entry point.
+	/// </summary>
+	/// <param name="protocol">Link with SLProtocol process.</param>
+	public static void Run(SLProtocol protocol)
+	{
+		try
+		{
+			var alarmChangesJson = Convert.ToString(protocol.GetParameter(Parameter.getalarmchangesresponse_13));
+			var alarmChanges = JsonConvert.DeserializeObject<OrbitAlarmChanges>(alarmChangesJson);
+			if (alarmChanges == null)
+			{
+				return;
+			}
+
+			var updateEntries = alarmChanges.Items.Where(item => item.Update != null)
+				.Select(x => x.Update)
+				.ToList();
+			var deleteEntries = alarmChanges.Items.Where(item => item.Delete != null)
+				.Select(x => x.Delete)
+				.ToList();
+
+			var overviewKeysToDelete = new List<string>();
+			var dveKeysToDelete = new List<string>();
+
+			var overviewRowsToUpdate = new Dictionary<string, object[]>();
+			var dveRowsToUpdate = new Dictionary<string, object[]>();
+
+			string[] dveIndices = protocol.GetKeys(Parameter.Dvetabledevices.tablePid);
+			GetDeleteEntries(dveIndices, deleteEntries, ref overviewKeysToDelete, ref dveKeysToDelete);
+			List<AlarmRecord> alarmRecords = GetAlarmRecords(protocol);
+
+			foreach (var updateAlarm in updateEntries)
+			{
+				var primaryKey = $"{updateAlarm.Id.Name}/{updateAlarm.Id.Path}";
+				var deviceName = GetDeviceName(alarmRecords, primaryKey);
+
+				var row = GetOverviewUpdateRow(updateAlarm, primaryKey, deviceName);
+				overviewRowsToUpdate[primaryKey] = row;
+
+				if (dveIndices.Contains(updateAlarm.Id.Path))
+				{
+					dveRowsToUpdate[primaryKey] = row;
+				}
+			}
+
+			if (overviewKeysToDelete.Any())
+			{
+				protocol.DeleteRow(Parameter.Overviewalarms.tablePid, overviewKeysToDelete.ToArray());
+			}
+
+			if (dveKeysToDelete.Any())
+			{
+				protocol.DeleteRow(Parameter.Dvetablealarms.tablePid, dveKeysToDelete.ToArray());
+			}
+
+			if (overviewRowsToUpdate.Any())
+			{
+				protocol.FillArray(Parameter.Overviewalarms.tablePid, overviewRowsToUpdate.Values.ToList(), NotifyProtocol.SaveOption.Partial);
+			}
+
+			if (dveRowsToUpdate.Any())
+			{
+				protocol.FillArray(Parameter.Dvetablealarms.tablePid, dveRowsToUpdate.Values.ToList(), NotifyProtocol.SaveOption.Partial);
+			}
+		}
+		catch (Exception ex)
+		{
+			protocol.Log($"QA{protocol.QActionID}|{protocol.GetTriggerParameter()}|Run|Exception thrown:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
+		}
+	}
+
+	private static List<AlarmRecord> GetAlarmRecords(SLProtocol protocol)
+	{
+		var columnIdx = new uint[]
+		{
+			Parameter.Overviewalarms.Idx.overviewalarms_index_1001,
+			Parameter.Overviewalarms.Idx.overviewalarms_devicename_1014,
+		};
+		return protocol.GetLocalElement()
+			.GetTable(Parameter.Overviewalarms.tablePid)
+			.GetColumns(
+				columnIdx,
+				(string key, string name) => new AlarmRecord { Index = key, Name = name })
+			.ToList();
+	}
+
+	private static void GetDeleteEntries(string[] currentIndices, List<Id> deleteEntries, ref List<string> overviewKeysToDelete, ref List<string> dveKeysToDelete)
+	{
+		foreach (var deleteId in deleteEntries)
+		{
+			string key = String.Join("/", deleteId.Name, deleteId.Path);
+			overviewKeysToDelete.Add(key);
+			if (currentIndices.Contains(deleteId.Path))
+			{
+				dveKeysToDelete.Add(key);
+			}
+		}
+	}
+
+	private static string GetDeviceName(List<AlarmRecord> alarmRecords, string primaryKey)
+	{
+		if (primaryKey.Contains("NAME") || primaryKey.Contains("ADDRESS"))
+		{
+			return String.Empty;
+		}
+
+		return alarmRecords.Find(x => x.Index == primaryKey)?.Name ?? "UNKNOWN";
+	}
+
+	private static object[] GetOverviewUpdateRow(OrbitAlarm alarm, string primaryKey, string deviceName)
+	{
+		var overviewRow = new OverviewalarmsQActionRow
+		{
+			Overviewalarms_index_1001 = primaryKey,
+			Overviewalarms_name_1002 = alarm.Id.Name,
+			Overviewalarms_path_1003 = alarm.Id.Path,
+			Overviewalarms_value_1004 = alarm.State.Value,
+			Overviewalarms_origin_1005 = alarm.Origin ?? "-1",
+			Overviewalarms_acknowledgestatus_1006 = Convert.ToInt32(alarm.State.IsAcknowledged),
+			Overviewalarms_acknowledger_1007 = alarm.State.Acknowledger ?? "-1",
+			Overviewalarms_inverted_1008 = Convert.ToInt32(alarm.State.IsInverted),
+			Overviewalarms_latchedstate_1009 = alarm.State.LatchedState,
+			Overviewalarms_masked_1010 = Convert.ToInt32(alarm.State.Ismasked),
+			Overviewalarms_state_1011 = alarm.State.AlarmState,
+			Overviewalarms_timestamp_1012 = alarm.State.Timestamp.ToOADate(),
+			Overviewalarms_unmaskedstate_1013 = alarm.State.UnmaskedState,
+			Overviewalarms_devicename_1014 = deviceName,
+		};
+
+		return overviewRow.ToObjectArray();
+	}
+
+	private sealed class AlarmRecord
+	{
+		public string Index { get; set; }
+
+		public string Name { get; set; }
+	}
+}]]></QAction>
+    <QAction id="400" name="Redundancy Management" encoding="csharp" triggers="410;452;455;65008" dllImport="newtonsoft.json\13.0.3\lib\net45\Newtonsoft.Json.dll;system.threading.tasks.dataflow\7.0.0\lib\net462\System.Threading.Tasks.Dataflow.dll;skyline.dataminer.core.dataminersystem.common\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Common.dll;skyline.dataminer.core.dataminersystem.protocol\1.1.1.9\lib\net462\Skyline.DataMiner.Core.DataMinerSystem.Protocol.dll;newtonsoft.json\13.0.2\lib\net45\;[ProtocolName].[ProtocolVersion].QAction.1.dll"><![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Skyline.DataMiner.Scripting;
+using Skyline.Protocol.Triggers;
+
+/// <summary>
+///     DataMiner QAction Class: Redundancy Management.
+/// </summary>
+public static class QAction
+{
+	private enum ActiveConnection
+	{
+		Main = 0,
+		Redundant = 1,
+	}
+
+	/// <summary>
+	///     The QAction entry point.
+	/// </summary>
+	/// <param name="protocol">Link with SLProtocol process.</param>
+	public static void Run(SLProtocol protocol)
+	{
+		try
+		{
+			int triggerId = protocol.GetTriggerParameter();
+			var parameters = Array.ConvertAll(
+				(object[])protocol.GetParameters(
+					new uint[]
+					{
+						400, // IP
+						Parameter.dynamicpollingip_401,
+						Parameter.redundantipaddress_402,
+						Parameter.redundantipport_403,
+						Parameter.dynamicpollinglastswitchtime_404,
+						Parameter.dynamicpollingactiveconnection_405,
+						(uint)triggerId,
+					}),
+				Convert.ToString);
+			string pollingIp = parameters[0];
+			string dynamicIp = parameters[1];
+			string redundantIp = parameters[2];
+			string redundantPort = parameters[3];
+			string lastSwitchTime = parameters[4];
+			if (!Enum.TryParse(parameters[5], true, out ActiveConnection activeConnection))
+			{
+				activeConnection = ActiveConnection.Main;
+			}
+
+			string value = parameters[6];
+
+			string mainPollingIp = pollingIp.Split(';')[0].Replace("http://", String.Empty).Replace("https://", String.Empty);
+			switch (triggerId)
+			{
+				case 65008:
+					// Switch after timeout was detected by element timeout
+					bool isTimeout = value == "7"; // TIMEOUT
+					if (!isTimeout)
+					{
+						return;
+					}
+
+					SwitchDynamicPollingIp(protocol, mainPollingIp, dynamicIp, redundantIp, redundantPort, lastSwitchTime, false);
+					ReInitializePolling(protocol);
+					break;
+
+				case Parameter.afterstartuptrigger_410:
+					InitializeDynamicIp(protocol, mainPollingIp);
+					break;
+
+				case Parameter.Write.redundantipaddress_452:
+					UpdateRedundantIp(protocol, mainPollingIp, value, redundantPort, activeConnection);
+					break;
+
+				case Parameter.Write.redundantipport_453:
+					UpdateRedundantIp(protocol, mainPollingIp, redundantIp, value, activeConnection);
+					break;
+
+				case Parameter.Write.dynamicpollingactiveconnection_455:
+					SwitchDynamicPollingIp(protocol, mainPollingIp, dynamicIp, redundantIp, redundantPort, lastSwitchTime, true);
+					ReInitializePolling(protocol);
+					break;
+
+				default:
+					protocol.Log($"QA{protocol.QActionID}|Run|Trigger not supported: {triggerId}", LogType.Error, LogLevel.NoLogging);
+					return;
+			}
+		}
+		catch (Exception ex)
+		{
+			protocol.Log($"QA{protocol.QActionID}|{protocol.GetTriggerParameter()}|Run|Exception thrown:{Environment.NewLine}{ex}", LogType.Error, LogLevel.NoLogging);
+		}
+	}
+
+	private static void SwitchDynamicPollingIp(
+		SLProtocol protocol,
+		string pollingIp,
+		string dynamicIp,
+		string redundantIpAddress,
+		string redundantPort,
+		string lastSwitchTime,
+		bool manualAction)
+	{
+		// Switch dynamic IP to redundant IP or Original IP if available.
+		// This trigger went off after a timeout
+		if (String.IsNullOrEmpty(dynamicIp) || String.IsNullOrEmpty(redundantIpAddress) || redundantIpAddress == "-1")
+		{
+			////protocol.Log("QA" + protocol.QActionID + "|SwitchDynamicIp|Could not switch dynamic polling IP because Redundant IP Address was not filled in.", LogType.DebugInfo, LogLevel.NoLogging);
+			return;
+		}
+
+		if (!manualAction)
+		{
+			DateTime lastSwitch = DateTime.FromOADate(Convert.ToDouble(lastSwitchTime));
+			if ((DateTime.Now - lastSwitch).TotalMinutes < 15)
+			{
+				// Driver has already switched once in the last 15 minutes, don't switch to avoid driver switching between polling IPs for a long time in case all groups go in timeout.
+				protocol.Log(
+					"QA" + protocol.QActionID
+						 + "|SwitchDynamicIp|Did not switch because driver already switched polling IP a short time ago. This to prevent the driver from switching back and forth continuously.",
+					LogType.DebugInfo,
+					LogLevel.NoLogging);
+				return;
+			}
+		}
+
+		var paramsToSet = new Dictionary<int, object>
+		{
+			{ Parameter.dynamicpollinglastswitchtime_404, DateTime.Now.ToOADate() },
+		};
+
+		if (pollingIp.Equals(dynamicIp))
+		{
+			// Switch to redundant
+			paramsToSet[Parameter.dynamicpollingip_401] = redundantIpAddress + ":" + redundantPort;
+			paramsToSet[Parameter.dynamicpollingactiveconnection_405] = (int)ActiveConnection.Redundant;
+		}
+		else
+		{
+			// Switch back to original
+			paramsToSet[Parameter.dynamicpollingip_401] = pollingIp;
+			paramsToSet[Parameter.dynamicpollingactiveconnection_405] = (int)ActiveConnection.Main;
+		}
+
+		protocol.SetParameters(paramsToSet.Keys.ToArray(), paramsToSet.Values.ToArray());
+	}
+
+	private static void InitializeDynamicIp(SLProtocol protocol, string mainPollingIp)
+	{
+		protocol.SetParameters(
+			new[] { Parameter.dynamicpollingip_401, Parameter.dynamicpollingactiveconnection_405 },
+			new object[] { mainPollingIp, (int)ActiveConnection.Main });
+	}
+
+	private static void UpdateRedundantIp(SLProtocol protocol, string mainPollingIp, string redundantIp, string redundantPort, ActiveConnection activeConnection)
+	{
+		if (redundantIp != "-1" && !Regex.IsMatch(redundantIp, @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"))
+		{
+			protocol.ShowInformationMessage("Redundant IP is not a valid IPv4 Address");
+			protocol.Log($"QA{protocol.QActionID}|UpdateRedundantIp|No valid IP Address entered: {redundantIp}", LogType.Error, LogLevel.NoLogging);
+			return;
+		}
+
+		var paramsToSet = new Dictionary<int, object>
+		{
+			{ Parameter.dynamicpollingip_401, mainPollingIp },
+			{ Parameter.redundantipaddress_402, redundantIp },
+			{ Parameter.redundantipport_403, redundantPort },
+		};
+		if (redundantIp == "-1")
+		{
+			paramsToSet[Parameter.dynamicpollinglastswitchtime_404] = DateTime.Now.ToOADate();
+			paramsToSet[Parameter.dynamicpollingactiveconnection_405] = (int)ActiveConnection.Main;
+		}
+
+		protocol.SetParameters(paramsToSet.Keys.ToArray(), paramsToSet.Values.ToArray());
+
+		if (activeConnection == ActiveConnection.Redundant)
+		{
+			// Active connection got updated -> re-initialize everything
+			ReInitializePolling(protocol);
+		}
+	}
+
+	private static void ReInitializePolling(SLProtocol protocol)
+	{
+		protocol.CheckTrigger((int)ProtocolTriggers.ReinitializeTrigger_411);
+	}
+}]]></QAction>
+  </QActions>
+  <HTTP>
+    <Session name="GetAlarms" id="1">
+      <Connection id="1" name="GetAlarms">
+        <Request verb="GET" url="/alarmapi/v1/alarms?">
+          <Parameters>
+            <Parameter key="path" pid="22" />
+          </Parameters>
+        </Request>
+        <Response statusCode="20">
+          <Content pid="21" />
+        </Response>
+      </Connection>
+    </Session>
+    <Session name="GetDevices" id="2">
+      <Connection id="1" name="GetDevices">
+        <Request verb="GET" url="/alarmapi/v1/devices">
+        </Request>
+        <Response statusCode="23">
+          <Content pid="24" />
+        </Response>
+      </Connection>
+    </Session>
+    <Session name="Create Subscriber" id="3">
+      <Connection id="1">
+        <Request verb="PUT" url="/alarmapi/v1/subscribers">
+          <Data pid="9" />
+        </Request>
+        <Response statusCode="10">
+          <Content pid="8" />
+        </Response>
+      </Connection>
+    </Session>
+    <Session name="Get Alarm Changes" id="4">
+      <Connection id="1">
+        <Request verb="GET" url="/alarmapi/v1/alarms/changes?">
+          <Parameters>
+            <Parameter key="subscriptionId" pid="8" />
+          </Parameters>
+          <Headers>
+            <Header key="Accept">application/json</Header>
+          </Headers>
+        </Request>
+        <Response statusCode="12">
+          <Content pid="13" />
+        </Response>
+      </Connection>
+    </Session>
+  </HTTP>
+  <Groups>
+    <Group id="3">
+      <Name>Get Alarms</Name>
+      <Description>Get Alarms</Description>
+      <Type>poll</Type>
+      <Content>
+        <Session>1</Session>
+      </Content>
+    </Group>
+    <Group id="4">
+      <Name>Get Devices</Name>
+      <Description>Get Devices</Description>
+      <Type>poll</Type>
+      <Content>
+        <Session>2</Session>
+      </Content>
+    </Group>
+    <Group id="5">
+      <Name>Start Alarms Response Loop</Name>
+      <Description>Start Alarms Response Loop</Description>
+      <Type>poll trigger</Type>
+      <Content>
+        <Trigger>7</Trigger>
+      </Content>
+    </Group>
+    <Group id="6">
+      <Name>Create Subscriber</Name>
+      <Description>Create Subscriber</Description>
+      <Type>poll</Type>
+      <Content>
+        <Session>3</Session>
+      </Content>
+    </Group>
+    <Group id="10">
+      <Name>Get Alarm Changes</Name>
+      <Description>Get Alarm Changes</Description>
+      <Type>poll</Type>
+      <Condition><![CDATA[id:7 == 1]]></Condition>
+      <Content>
+        <Session>4</Session>
+      </Content>
+    </Group>
+    <Group id="11">
+      <Name>Count Up Get Alarms Counter</Name>
+      <Description>Count Up Get Alarms Counter</Description>
+      <Type>poll action</Type>
+      <Content>
+        <Action>11</Action>
+      </Content>
+    </Group>
+    <Group id="15">
+      <Name>After Startup Group</Name>
+      <Description>After Startup Group</Description>
+      <Type>poll action</Type>
+      <Content>
+        <Action>16</Action>
+      </Content>
+    </Group>
+  </Groups>
+  <Triggers>
+    <Trigger id="2">
+      <Name>Refresh Devices</Name>
+      <On id="200">parameter</On>
+      <Time>change</Time>
+      <Type>action</Type>
+      <Content>
+        <Id>3</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="3">
+      <Name>Process Get Alarms Response</Name>
+      <On id="3">group</On>
+      <Time>after</Time>
+      <Type>action</Type>
+      <Content>
+        <Id>4</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="4">
+      <Name>Process Get Devices Response</Name>
+      <On id="4">group</On>
+      <Time>after</Time>
+      <Type>action</Type>
+      <Content>
+        <Id>5</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="5">
+      <Name>Get Alarms From Device</Name>
+      <Type>action</Type>
+      <Content>
+        <Id>6</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="6">
+      <Name>Start Alarms Response Loop</Name>
+      <Type>action</Type>
+      <Content>
+        <Id>7</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="7">
+      <Name>Run QAction 3</Name>
+      <Type>action</Type>
+      <Content>
+        <Id>8</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="8">
+      <Name>Run Create Subscriber</Name>
+      <Type>action</Type>
+      <Content>
+        <Id>9</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="9">
+      <Name>Run Create Subscriber Request</Name>
+      <Type>action</Type>
+      <Content>
+        <Id>10</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="10">
+      <Name>After Get Alarm Changes Increase Counter</Name>
+      <On id="11">group</On>
+      <Time>after</Time>
+      <Type>action</Type>
+      <Condition><![CDATA[id:101 >= id:100]]></Condition>
+      <Content>
+        <Id>12</Id>
+        <Id>13</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="15">
+      <Name>After Startup</Name>
+      <On>protocol</On>
+      <Time>after startup</Time>
+      <Type>action</Type>
+      <Content>
+        <Id>15</Id>
+      </Content>
+    </Trigger>
+    <Trigger id="411">
+      <Name>Reinitialize Trigger</Name>
+      <Type>action</Type>
+      <Content>
+        <Id>411</Id>
+      </Content>
+    </Trigger>
+  </Triggers>
+  <Actions>
+    <Action id="3">
+      <Name>Refresh Devices</Name>
+      <On id="4">group</On>
+      <Type>execute one top</Type>
+    </Action>
+    <Action id="4">
+      <Name>Process Get Alarms Response</Name>
+      <On id="4">parameter</On>
+      <Type>run actions</Type>
+    </Action>
+    <Action id="5">
+      <Name>Process Get Devices Response</Name>
+      <On id="5">parameter</On>
+      <Type>run actions</Type>
+    </Action>
+    <Action id="6">
+      <Name>Get Alarms From Device</Name>
+      <On id="3">group</On>
+      <Type>execute next</Type>
+    </Action>
+    <Action id="7">
+      <Name>Start Alarms Response Loop</Name>
+      <On id="5">group</On>
+      <Type>execute next</Type>
+    </Action>
+    <Action id="8">
+      <Name>Run QAction 3</Name>
+      <On id="3">parameter</On>
+      <Type>run actions</Type>
+    </Action>
+    <Action id="9">
+      <Name>Run Create Subscriber</Name>
+      <On id="6">group</On>
+      <Type>execute next</Type>
+    </Action>
+    <Action id="10">
+      <Name>Run Create Subscriber Request</Name>
+      <On id="11">parameter</On>
+      <Type>run actions</Type>
+    </Action>
+    <Action id="11">
+      <Name>Increase Get Alarm Poll Counter</Name>
+      <On id="101">parameter</On>
+      <Type value="1">increment</Type>
+    </Action>
+    <Action id="12">
+      <Name>Reset Counter</Name>
+      <On id="101">parameter</On>
+      <Type id="102">copy</Type>
+    </Action>
+    <Action id="13">
+      <Name>Run Get Alarm Changes</Name>
+      <On id="10">group</On>
+      <Type>execute next</Type>
+    </Action>
+    <Action id="15">
+      <Name>After Startup Group</Name>
+      <On id="15">group</On>
+      <Type>execute next</Type>
+    </Action>
+    <Action id="16">
+      <Name>After Startup Parameter</Name>
+      <On id="410">parameter</On>
+      <Type>run actions</Type>
+    </Action>
+    <Action id="411">
+      <Name>Reinitialize Polling</Name>
+      <On id="411">parameter</On>
+      <Type>run actions</Type>
+    </Action>
+  </Actions>
+  <Timers>
+    <Timer id="1">
+      <Name>Fast Timer (1s)</Name>
+      <Time initial="true">1000</Time>
+      <Interval>75</Interval>
+      <Content>
+        <Group>11</Group>
+      </Content>
+    </Timer>
+    <Timer id="2">
+      <Name>Medium Timer (15 min)</Name>
+      <Time initial="true">900000</Time>
+      <Interval>75</Interval>
+      <Content>
+        <Group>4</Group>
+      </Content>
+    </Timer>
+  </Timers>
+  <PortSettings name="HTTP Connection">
+    <BusAddress>
+      <DefaultValue>ByPassProxy</DefaultValue>
+      <Disabled>true</Disabled>
+    </BusAddress>
+    <PortTypeUDP>
+      <Disabled>true</Disabled>
+    </PortTypeUDP>
+    <PortTypeSerial>
+      <Disabled>true</Disabled>
+    </PortTypeSerial>
+    <TimeoutTime>
+      <Disabled>true</Disabled>
+    </TimeoutTime>
+    <TimeoutTimeElement>
+      <Disabled>true</Disabled>
+    </TimeoutTimeElement>
+  </PortSettings>
+  <Compliancies>
+    <MinimumRequiredVersion>10.0.10.0 - 9454</MinimumRequiredVersion>
+    <CassandraReady>true</CassandraReady>
+  </Compliancies>
+  <VersionHistory>
+    <Branches>
+      <Branch id="1">
+        <Comment>Main Branch</Comment>
+        <SystemVersions>
+          <SystemVersion id="0">
+            <MajorVersions>
+              <MajorVersion id="0">
+                <MinorVersions>
+                  <MinorVersion id="1">
+                    <Date>2021-06-02</Date>
+                    <Provider>
+                      <Author>FAN</Author>
+                      <Company>Skyline Communications</Company>
+                    </Provider>
+                    <Changes>
+                      <NewFeature>Command: GetDevices</NewFeature>
+                      <NewFeature>Command: GetAlarms</NewFeature>
+                      <NewFeature>DVE implementation: Devices -&gt; Alarms</NewFeature>
+                    </Changes>
+                    <References>
+                      <TaskId>151020</TaskId>
+                    </References>
+                  </MinorVersion>
+                  <MinorVersion id="2" basedOn="1.0.0.1">
+                    <Date>2023-03-02</Date>
+                    <Provider>
+                      <Author>FAN</Author>
+                      <Company>Skyline Communications</Company>
+                    </Provider>
+                    <Changes>
+                      <Fix>The bus address is by default set to 'ByPassProxy'.</Fix>
+                    </Changes>
+                    <References>
+                      <TaskId>204951</TaskId>
+                    </References>
+                  </MinorVersion>
+                  <MinorVersion id="3" basedOn="1.0.0.2">
+                    <Date>2023-07-06</Date>
+                    <Provider>
+                      <Author>CHA</Author>
+                      <Company>Skyline Communications</Company>
+                    </Provider>
+                    <Changes>
+                      <NewFeature>add custom DVE name feature</NewFeature>
+                    </Changes>
+                    <References>
+                      <TaskId>203152</TaskId>
+                    </References>
+                  </MinorVersion>
+                  <MinorVersion id="4" basedOn="1.0.0.3">
+                    <Date>2023-09-14</Date>
+                    <Provider>
+                      <Author>CHA</Author>
+                      <Company>Skyline Communications</Company>
+                    </Provider>
+                    <Changes>
+                      <Change>Rework internal flow to incroporate GetAlarmChanges endpoint</Change>
+                    </Changes>
+                    <References>
+                      <TaskId>215952</TaskId>
+                    </References>
+                  </MinorVersion>
+                  <MinorVersion id="5" basedOn="1.0.0.4">
+                    <Date>2024-03-15</Date>
+                    <Provider>
+                      <Author>RME</Author>
+                      <Company>Skyline Communications</Company>
+                    </Provider>
+                    <Changes>
+                      <NewFeature>Redundant Connection added. Allows the communication to fall back on a backup device.</NewFeature>
+                    </Changes>
+                    <References>
+                      <TaskId>235072</TaskId>
+                    </References>
+                  </MinorVersion>
+                </MinorVersions>
+              </MajorVersion>
+              <MajorVersion id="1">
+                <MinorVersions>
+                  <MinorVersion id="1" basedOn="1.0.0.3">
+                    <Date>2023-08-22</Date>
+                    <Provider>
+                      <Author>CHA</Author>
+                      <Company>Skyline Communications</Company>
+                    </Provider>
+                    <Changes>
+                      <Change>Gets alarm changes through subscription after first polling of devices and alarms</Change>
+                    </Changes>
+                    <References>
+                      <TaskId>215952</TaskId>
+                    </References>
+                  </MinorVersion>
+                </MinorVersions>
+              </MajorVersion>
+            </MajorVersions>
+          </SystemVersion>
+        </SystemVersions>
+      </Branch>
+    </Branches>
+  </VersionHistory>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>x+Ub6rWTcVJcQq1jGPDGPmfM4HU=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>RHWOuDIfdVBpDj/kTFmXETP0Thn2jJg5WsIQ0FSa2sCc6ArbH1lEDwTGvWifI3/3X3Ry6I8LrVDXzvqdEJ74wi64FmaMwkTsqDKAs5D3rIHQl2FOEaWK8Cr9+7syPAC4kVejKdgHjDEfiLaqSXjkq5lh5qv1BmpXm02OUHW2iqY=</SignatureValue>
+  </Signature>
+</Protocol>

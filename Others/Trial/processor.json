@@ -1,0 +1,684 @@
+2025-06-08 18:37:25,349 - INFO - Press CTRL+C to quit
+2025-06-08 18:37:25,616 - INFO - [172.19.180.160] Fetching IML entries from https://172.19.180.160/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:25,616 - INFO - [172.19.215.163] Fetching IML entries from https://172.19.215.163/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:25,629 - INFO - [172.19.180.199] Fetching IML entries from https://172.19.180.199/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:25,693 - INFO - [172.19.180.161] Fetching IML entries from https://172.19.180.161/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:25,693 - INFO - [172.19.215.155] Fetching IML entries from https://172.19.215.155/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:25,701 - INFO - [172.19.180.177] Fetching IML entries from https://172.19.180.177/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:28,980 - INFO - [172.19.180.160] Successfully fetched 226 IML entries.
+2025-06-08 18:37:28,980 - INFO - [172.19.180.160] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:28,993 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:28] "GET /get_ilo_status/5/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:29,012 - INFO - [172.19.180.199] Fetching IML entries from https://172.19.180.199/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,227 - INFO - [172.19.215.163] Successfully fetched 243 IML entries.
+2025-06-08 18:37:29,227 - INFO - [172.19.215.163] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:29,243 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:29] "GET /get_ilo_status/21/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:29,243 - INFO - [172.19.180.161] Successfully fetched 232 IML entries.
+2025-06-08 18:37:29,259 - INFO - [172.19.180.161] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:29,259 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:29] "GET /get_ilo_status/6/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:29,267 - INFO - [172.19.180.207] Fetching IML entries from https://172.19.180.207/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,283 - INFO - [172.19.215.155] Fetching IML entries from https://172.19.215.155/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,510 - INFO - [172.19.215.163] Fetching IML entries from https://172.19.215.163/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,593 - INFO - [172.19.180.199] Successfully fetched 245 IML entries.
+2025-06-08 18:37:29,653 - INFO - [172.19.180.162] Fetching IML entries from https://172.19.180.162/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,699 - INFO - [172.19.180.199] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:29,699 - INFO - [172.19.180.178] Fetching IML entries from https://172.19.180.178/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,711 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:29] "GET /get_ilo_status/5/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:29,716 - INFO - [172.19.180.201] Fetching IML entries from https://172.19.180.201/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,726 - INFO - [172.19.180.164] Fetching IML entries from https://172.19.180.164/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,769 - INFO - [172.19.215.155] Successfully fetched 252 IML entries.
+2025-06-08 18:37:29,769 - INFO - [172.19.180.214] Fetching IML entries from https://172.19.180.214/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,778 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:37:29,789 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:37:29,795 - INFO - [172.19.215.155] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:29,852 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:29] "GET /get_ilo_status/5/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:29,932 - INFO - [172.19.215.168] Fetching IML entries from https://172.19.215.168/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,940 - INFO - [172.19.180.185] Fetching IML entries from https://172.19.180.185/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,948 - INFO - [172.19.215.167] Fetching IML entries from https://172.19.215.167/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,948 - INFO - [172.19.180.208] Fetching IML entries from https://172.19.180.208/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,964 - INFO - [172.19.180.167] Fetching IML entries from https://172.19.180.167/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,964 - INFO - [172.19.180.162] Fetching IML entries from https://172.19.180.162/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,972 - INFO - [172.19.215.154] Fetching IML entries from https://172.19.215.154/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,980 - INFO - [172.19.180.163] Fetching IML entries from https://172.19.180.163/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,988 - INFO - [172.19.180.200] Fetching IML entries from https://172.19.180.200/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:29,996 - INFO - [172.19.215.177] Fetching IML entries from https://172.19.215.177/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:30,020 - INFO - [172.19.180.177] Successfully fetched 229 IML entries.
+2025-06-08 18:37:30,028 - INFO - [172.19.180.177] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:30,036 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:30] "GET /get_ilo_status/22/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:30,180 - INFO - [172.19.180.197] Fetching IML entries from https://172.19.180.197/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:30,188 - INFO - [172.19.180.156] Fetching IML entries from https://172.19.180.156/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:30,277 - INFO - [172.19.215.153] Fetching IML entries from https://172.19.215.153/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:30,277 - INFO - [172.19.180.157] Fetching IML entries from https://172.19.180.157/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:30,304 - INFO - [172.19.180.197] Fetching IML entries from https://172.19.180.197/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:30,312 - INFO - [172.19.215.153] Fetching IML entries from https://172.19.215.153/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:32,911 - INFO - [172.19.180.207] Successfully fetched 233 IML entries.
+2025-06-08 18:37:32,920 - INFO - [172.19.180.207] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:32,944 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:32] "GET /get_ilo_status/22/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:33,203 - INFO - [172.19.215.163] Successfully fetched 243 IML entries.
+2025-06-08 18:37:33,210 - INFO - [172.19.215.163] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:33,210 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:33] "GET /get_ilo_status/22/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:33,240 - INFO - [172.19.180.201] Successfully fetched 224 IML entries.
+2025-06-08 18:37:33,251 - INFO - [172.19.180.201] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:33,251 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:33] "GET /get_ilo_status/9/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:33,545 - INFO - [172.19.180.178] Successfully fetched 236 IML entries.
+2025-06-08 18:37:33,552 - INFO - [172.19.180.178] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:33,562 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:33] "GET /get_ilo_status/23/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:33,865 - INFO - [172.19.215.155] Successfully fetched 252 IML entries.
+2025-06-08 18:37:33,865 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:37:33,865 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:37:33,865 - INFO - [172.19.215.155] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:33,876 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:33] "GET /get_ilo_status/6/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:34,586 - INFO - [172.19.180.156] Successfully fetched 200 IML entries.
+2025-06-08 18:37:34,609 - INFO - [172.19.180.167] Successfully fetched 226 IML entries.
+2025-06-08 18:37:34,613 - INFO - [172.19.180.200] Successfully fetched 233 IML entries.
+2025-06-08 18:37:34,613 - INFO - [172.19.180.156] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:34,613 - INFO - [172.19.180.167] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:34,631 - INFO - [172.19.215.168] Successfully fetched 212 IML entries.
+2025-06-08 18:37:34,633 - INFO - [172.19.180.200] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:34,633 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:34] "GET /get_ilo_status/1/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:34,633 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:34] "GET /get_ilo_status/12/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:34,648 - INFO - [172.19.215.168] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:34,652 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:34] "GET /get_ilo_status/8/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:34,657 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:34] "GET /get_ilo_status/31/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:34,657 - INFO - [172.19.180.158] Fetching IML entries from https://172.19.180.158/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:34,908 - INFO - [172.19.180.185] Successfully fetched 232 IML entries.
+2025-06-08 18:37:34,908 - INFO - [172.19.215.154] Successfully fetched 226 IML entries.
+2025-06-08 18:37:34,908 - INFO - [172.19.180.163] Successfully fetched 232 IML entries.
+2025-06-08 18:37:34,908 - INFO - [172.19.215.177] Successfully fetched 221 IML entries.
+2025-06-08 18:37:34,944 - INFO - [172.19.180.185] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:34,944 - INFO - [172.19.180.199] Successfully fetched 245 IML entries.
+2025-06-08 18:37:34,944 - INFO - [172.19.180.162] Successfully fetched 232 IML entries.
+2025-06-08 18:37:34,980 - INFO - [172.19.180.157] Successfully fetched 244 IML entries.
+2025-06-08 18:37:34,980 - INFO - [172.19.215.154] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:34,980 - INFO - [172.19.180.163] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:34,997 - INFO - [172.19.215.167] Successfully fetched 232 IML entries.
+2025-06-08 18:37:34,997 - INFO - [172.19.215.177] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:35,005 - INFO - [172.19.180.199] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:35,005 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/30/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:35,014 - INFO - [172.19.180.162] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:35,024 - INFO - [172.19.180.157] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:35,030 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/3/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:35,033 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/8/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:35,045 - INFO - [172.19.215.167] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:35,049 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/50/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:35,049 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/6/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:35,055 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/7/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:35,055 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/2/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:35,055 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/29/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:35,073 - INFO - [172.19.180.198] Fetching IML entries from https://172.19.180.198/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:35,193 - INFO - [172.19.180.208] Successfully fetched 241 IML entries.
+2025-06-08 18:37:35,201 - INFO - [172.19.180.208] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:35,212 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/24/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:35,212 - INFO - [172.19.180.197] Successfully fetched 228 IML entries.
+2025-06-08 18:37:35,215 - INFO - [172.19.180.197] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:35,222 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/1/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:35,222 - INFO - [172.19.215.154] Fetching IML entries from https://172.19.215.154/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:35,783 - INFO - [172.19.180.214] Successfully fetched 246 IML entries.
+2025-06-08 18:37:35,799 - INFO - [172.19.180.214] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:35,799 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:35] "GET /get_ilo_status/35/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:37,589 - INFO - [172.19.180.164] Successfully fetched 222 IML entries.
+2025-06-08 18:37:37,589 - INFO - [172.19.180.164] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:37,597 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:37] "GET /get_ilo_status/9/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:38,483 - INFO - [172.19.180.162] Successfully fetched 232 IML entries.
+2025-06-08 18:37:38,498 - INFO - [172.19.180.162] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:38,503 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:38] "GET /get_ilo_status/7/VS_M HTTP/1.1" 200 -
+2025-06-08 18:37:38,954 - INFO - [172.19.215.153] Successfully fetched 235 IML entries.
+2025-06-08 18:37:38,964 - INFO - [172.19.215.153] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:38,964 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:38] "GET /get_ilo_status/1/VS_B HTTP/1.1" 200 -
+2025-06-08 18:37:38,985 - INFO - [172.19.180.159] Fetching IML entries from https://172.19.180.159/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:39,093 - INFO - [172.19.180.198] Successfully fetched 231 IML entries.
+2025-06-08 18:37:39,093 - INFO - [172.19.180.198] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:39,102 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:39] "GET /get_ilo_status/3/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:39,110 - INFO - [172.19.180.198] Fetching IML entries from https://172.19.180.198/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:39,555 - INFO - [172.19.180.197] Successfully fetched 228 IML entries.
+2025-06-08 18:37:39,555 - INFO - [172.19.180.197] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:39,566 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:39] "GET /get_ilo_status/2/VS_P HTTP/1.1" 200 -
+2025-06-08 18:37:39,574 - INFO - [172.19.215.154] Fetching IML entries from https://172.19.215.154/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:37:39,985 - INFO - [172.19.180.158] Successfully fetched 227 IML entries.
+2025-06-08 18:37:39,993 - INFO - [172.19.180.158] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:37:40,005 - INFO - [172.19.215.154] Successfully fetched 226 IML entries.
+2025-06-08 18:37:40,006 - INFO - 127.0.0.1 - - [08/Jun/2025 18:37:40] "GET /get_ilo_status/3/VS_M HTTP/1.1" 200 -
+PS C:\Users\DELL\Desktop\VigilSiddhi> & C:/Users/DELL/AppData/Local/Programs/Python/Python39/python.exe c:/Users/DELL/Desktop/VigilSiddhi/backend/ilo_proxy_api.py
+2025-06-08 18:38:01,294 - ERROR - Error decoding JSON config file: Expecting value: line 9 column 5 (char 194)
+ * Serving Flask app 'ilo_proxy_api'
+ * Debug mode: off
+2025-06-08 18:38:01,320 - INFO - WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.250.147:5000
+2025-06-08 18:38:01,320 - INFO - Press CTRL+C to quit
+2025-06-08 18:38:01,334 - INFO - [172.19.180.208] Fetching IML entries from https://172.19.180.208/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:01,393 - INFO - [172.19.215.164] Fetching IML entries from https://172.19.215.164/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:01,509 - INFO - [172.19.215.164] Fetching IML entries from https://172.19.215.164/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:01,525 - INFO - [172.19.180.208] Fetching IML entries from https://172.19.180.208/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:01,531 - INFO - [172.19.180.179] Fetching IML entries from https://172.19.180.179/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:01,539 - INFO - [172.19.180.180] Fetching IML entries from https://172.19.180.180/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:02,751 - INFO - [172.19.180.209] Fetching IML entries from https://172.19.180.209/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:02,804 - INFO - [172.19.215.165] Fetching IML entries from https://172.19.215.165/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:02,860 - INFO - [172.19.180.181] Fetching IML entries from https://172.19.180.181/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:03,252 - INFO - [172.19.180.65] Fetching IML entries from https://172.19.180.65/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:03,252 - INFO - [172.19.180.197] Fetching IML entries from https://172.19.180.197/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:03,252 - INFO - [172.19.215.153] Fetching IML entries from https://172.19.215.153/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:03,252 - INFO - [172.19.180.157] Fetching IML entries from https://172.19.180.157/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:03,252 - INFO - [172.19.180.197] Fetching IML entries from https://172.19.180.197/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:03,252 - INFO - [172.19.215.153] Fetching IML entries from https://172.19.215.153/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:05,178 - INFO - [172.19.215.164] Successfully fetched 205 IML entries.
+2025-06-08 18:38:05,178 - INFO - [172.19.215.164] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:05,187 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:05] "GET /get_ilo_status/23/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:05,259 - INFO - [172.19.180.179] Successfully fetched 228 IML entries.
+2025-06-08 18:38:05,267 - INFO - [172.19.180.179] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:05,267 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:05] "GET /get_ilo_status/24/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:05,680 - INFO - [172.19.180.208] Successfully fetched 241 IML entries.
+2025-06-08 18:38:05,695 - INFO - [172.19.180.208] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:05,701 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:05] "GET /get_ilo_status/23/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:06,371 - INFO - [172.19.215.165] Successfully fetched 206 IML entries.
+2025-06-08 18:38:06,387 - INFO - [172.19.215.165] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:06,392 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:06] "GET /get_ilo_status/25/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:06,593 - INFO - [172.19.180.180] Successfully fetched 231 IML entries.
+2025-06-08 18:38:06,593 - INFO - [172.19.180.180] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:06,607 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:06] "GET /get_ilo_status/25/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:06,833 - INFO - [172.19.180.181] Successfully fetched 227 IML entries.
+2025-06-08 18:38:06,850 - INFO - [172.19.180.181] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:06,853 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:06] "GET /get_ilo_status/26/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:07,248 - INFO - [172.19.180.209] Successfully fetched 230 IML entries.
+2025-06-08 18:38:07,255 - INFO - [172.19.180.209] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:07,255 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:07] "GET /get_ilo_status/25/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:07,297 - INFO - [172.19.180.65] Successfully fetched 207 IML entries.
+2025-06-08 18:38:07,297 - INFO - [172.19.180.65] Final IML status determined: warning with 1 active alarms.
+2025-06-08 18:38:07,309 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:07] "GET /get_ilo_status/1/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:07,314 - INFO - [172.19.180.158] Fetching IML entries from https://172.19.180.158/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:07,646 - INFO - [172.19.180.197] Successfully fetched 228 IML entries.
+2025-06-08 18:38:07,659 - INFO - [172.19.180.197] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:07,665 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:07] "GET /get_ilo_status/1/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:07,665 - INFO - [172.19.180.198] Fetching IML entries from https://172.19.180.198/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:07,713 - INFO - [172.19.215.153] Successfully fetched 235 IML entries.
+2025-06-08 18:38:07,713 - INFO - [172.19.215.153] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:07,725 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:07] "GET /get_ilo_status/1/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:07,732 - INFO - [172.19.215.154] Fetching IML entries from https://172.19.215.154/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:07,760 - INFO - [172.19.215.164] Successfully fetched 205 IML entries.
+2025-06-08 18:38:07,799 - INFO - [172.19.215.164] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:07,799 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:07] "GET /get_ilo_status/24/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:07,896 - INFO - [172.19.180.157] Successfully fetched 244 IML entries.
+2025-06-08 18:38:07,896 - INFO - [172.19.180.157] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:07,913 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:07] "GET /get_ilo_status/2/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:07,913 - INFO - [172.19.180.159] Fetching IML entries from https://172.19.180.159/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:09,076 - INFO - [172.19.180.208] Successfully fetched 241 IML entries.
+2025-06-08 18:38:09,083 - INFO - [172.19.180.208] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:09,090 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:09] "GET /get_ilo_status/24/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:10,740 - INFO - [172.19.215.153] Successfully fetched 235 IML entries.
+2025-06-08 18:38:10,740 - INFO - [172.19.215.153] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:10,757 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:10] "GET /get_ilo_status/2/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:10,765 - INFO - [172.19.180.198] Fetching IML entries from https://172.19.180.198/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:10,826 - INFO - [172.19.180.158] Successfully fetched 227 IML entries.
+2025-06-08 18:38:10,826 - INFO - [172.19.180.158] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:10,834 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:10] "GET /get_ilo_status/3/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:10,843 - INFO - [172.19.215.154] Fetching IML entries from https://172.19.215.154/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:11,311 - INFO - [172.19.180.197] Successfully fetched 228 IML entries.
+2025-06-08 18:38:11,319 - INFO - [172.19.180.197] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:11,319 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:11] "GET /get_ilo_status/2/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:11,319 - INFO - [172.19.180.160] Fetching IML entries from https://172.19.180.160/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:11,530 - INFO - [172.19.180.198] Successfully fetched 231 IML entries.
+2025-06-08 18:38:11,535 - INFO - [172.19.180.198] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:11,535 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:11] "GET /get_ilo_status/3/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:11,546 - INFO - [172.19.180.199] Fetching IML entries from https://172.19.180.199/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:11,668 - INFO - [172.19.180.159] Successfully fetched 232 IML entries.
+2025-06-08 18:38:11,668 - INFO - [172.19.180.159] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:11,676 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:11] "GET /get_ilo_status/4/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:11,679 - INFO - [172.19.215.155] Fetching IML entries from https://172.19.215.155/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:12,025 - INFO - [172.19.215.154] Successfully fetched 226 IML entries.
+2025-06-08 18:38:12,025 - INFO - [172.19.215.154] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:12,032 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:12] "GET /get_ilo_status/3/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:12,036 - INFO - [172.19.180.161] Fetching IML entries from https://172.19.180.161/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:14,768 - INFO - [172.19.180.160] Successfully fetched 226 IML entries.
+2025-06-08 18:38:14,776 - INFO - [172.19.180.160] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:14,782 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:14] "GET /get_ilo_status/5/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:14,782 - INFO - [172.19.180.199] Fetching IML entries from https://172.19.180.199/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:14,917 - INFO - [172.19.180.198] Successfully fetched 231 IML entries.
+2025-06-08 18:38:14,928 - INFO - [172.19.180.198] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:14,928 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:14] "GET /get_ilo_status/4/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:14,943 - INFO - [172.19.215.155] Fetching IML entries from https://172.19.215.155/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:15,365 - INFO - [172.19.180.199] Successfully fetched 245 IML entries.
+2025-06-08 18:38:15,365 - INFO - [172.19.180.199] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:15,376 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:15] "GET /get_ilo_status/5/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:15,380 - INFO - [172.19.180.162] Fetching IML entries from https://172.19.180.162/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:15,794 - INFO - [172.19.180.161] Successfully fetched 232 IML entries.
+2025-06-08 18:38:15,809 - INFO - [172.19.180.161] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:15,809 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:15] "GET /get_ilo_status/6/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:15,818 - INFO - [172.19.180.200] Fetching IML entries from https://172.19.180.200/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:16,710 - INFO - [172.19.215.155] Successfully fetched 252 IML entries.
+2025-06-08 18:38:16,717 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:16,717 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:16,721 - INFO - [172.19.215.155] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:16,721 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:16] "GET /get_ilo_status/5/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:16,729 - INFO - [172.19.215.156] Fetching IML entries from https://172.19.215.156/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:18,203 - INFO - [172.19.215.154] Successfully fetched 226 IML entries.
+2025-06-08 18:38:18,219 - INFO - [172.19.215.154] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:18,236 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:18] "GET /get_ilo_status/4/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:18,238 - INFO - [172.19.180.163] Fetching IML entries from https://172.19.180.163/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:19,559 - INFO - [172.19.180.199] Successfully fetched 245 IML entries.
+2025-06-08 18:38:19,559 - INFO - [172.19.180.199] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:19,570 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:19] "GET /get_ilo_status/6/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:19,570 - INFO - [172.19.180.200] Fetching IML entries from https://172.19.180.200/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:19,709 - INFO - [172.19.180.162] Successfully fetched 232 IML entries.
+2025-06-08 18:38:19,709 - INFO - [172.19.180.162] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:19,720 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:19] "GET /get_ilo_status/7/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:19,720 - INFO - [172.19.215.156] Fetching IML entries from https://172.19.215.156/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:20,150 - INFO - [172.19.180.200] Successfully fetched 233 IML entries.
+2025-06-08 18:38:20,150 - INFO - [172.19.180.200] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:20,161 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:20] "GET /get_ilo_status/7/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:20,163 - INFO - [172.19.180.164] Fetching IML entries from https://172.19.180.164/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:20,609 - INFO - [172.19.215.155] Successfully fetched 252 IML entries.
+2025-06-08 18:38:20,625 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:20,625 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:20,625 - INFO - [172.19.215.155] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:20,632 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:20] "GET /get_ilo_status/6/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:20,641 - INFO - [172.19.180.201] Fetching IML entries from https://172.19.180.201/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:22,704 - INFO - [172.19.180.163] Successfully fetched 232 IML entries.
+2025-06-08 18:38:22,710 - INFO - [172.19.180.163] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:22,718 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:22] "GET /get_ilo_status/8/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:22,718 - INFO - [172.19.215.157] Fetching IML entries from https://172.19.215.157/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:23,167 - INFO - [172.19.215.156] Successfully fetched 233 IML entries.
+2025-06-08 18:38:23,167 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:23,167 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:23,167 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:23,167 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:23,167 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:23,167 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:23,175 - INFO - [172.19.215.156] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:23,175 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:23] "GET /get_ilo_status/7/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:23,183 - INFO - [172.19.180.165] Fetching IML entries from https://172.19.180.165/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:24,060 - INFO - [172.19.180.200] Successfully fetched 233 IML entries.
+2025-06-08 18:38:24,060 - INFO - [172.19.180.200] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:24,070 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:24] "GET /get_ilo_status/8/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:24,070 - INFO - [172.19.180.201] Fetching IML entries from https://172.19.180.201/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:24,207 - INFO - [172.19.180.164] Successfully fetched 222 IML entries.
+2025-06-08 18:38:24,207 - INFO - [172.19.180.164] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:24,221 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:24] "GET /get_ilo_status/9/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:24,225 - INFO - [172.19.215.157] Fetching IML entries from https://172.19.215.157/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:26,000 - INFO - [172.19.180.201] Successfully fetched 224 IML entries.
+2025-06-08 18:38:26,008 - INFO - [172.19.180.201] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:26,008 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:26] "GET /get_ilo_status/9/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:26,016 - INFO - [172.19.180.166] Fetching IML entries from https://172.19.180.166/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:26,593 - INFO - [172.19.215.156] Successfully fetched 233 IML entries.
+2025-06-08 18:38:26,610 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:26,610 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:26,610 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:26,610 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:26,612 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:26,612 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:26,612 - INFO - [172.19.215.156] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:26,619 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:26] "GET /get_ilo_status/8/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:26,619 - INFO - [172.19.180.202] Fetching IML entries from https://172.19.180.202/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:26,920 - INFO - [172.19.215.157] Successfully fetched 181 IML entries.
+2025-06-08 18:38:26,920 - INFO - [172.19.215.157] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:26,920 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:26] "GET /get_ilo_status/9/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:26,934 - INFO - [172.19.215.158] Fetching IML entries from https://172.19.215.158/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:27,647 - INFO - [172.19.180.165] Successfully fetched 232 IML entries.
+2025-06-08 18:38:27,660 - INFO - [172.19.180.165] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:27,660 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:27] "GET /get_ilo_status/10/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:27,660 - INFO - [172.19.180.167] Fetching IML entries from https://172.19.180.167/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:28,843 - INFO - [172.19.180.201] Successfully fetched 224 IML entries.
+2025-06-08 18:38:28,860 - INFO - [172.19.180.201] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:28,866 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:28] "GET /get_ilo_status/10/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:28,866 - INFO - [172.19.180.202] Fetching IML entries from https://172.19.180.202/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:29,307 - INFO - [172.19.215.157] Successfully fetched 181 IML entries.
+2025-06-08 18:38:29,307 - INFO - [172.19.215.157] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:29,307 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:29] "GET /get_ilo_status/10/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:29,319 - INFO - [172.19.215.158] Fetching IML entries from https://172.19.215.158/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:30,201 - INFO - [172.19.180.166] Successfully fetched 231 IML entries.
+2025-06-08 18:38:30,210 - INFO - [172.19.180.166] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:30,215 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:30] "GET /get_ilo_status/11/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:30,215 - INFO - [172.19.180.168] Fetching IML entries from https://172.19.180.168/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:30,793 - INFO - [172.19.180.202] Successfully fetched 230 IML entries.
+2025-06-08 18:38:30,810 - INFO - [172.19.180.202] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:30,812 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:30] "GET /get_ilo_status/11/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:30,820 - INFO - [172.19.180.203] Fetching IML entries from https://172.19.180.203/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:31,693 - INFO - [172.19.180.167] Successfully fetched 226 IML entries.
+2025-06-08 18:38:31,710 - INFO - [172.19.180.167] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:31,716 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:31] "GET /get_ilo_status/12/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:31,716 - INFO - [172.19.215.159] Fetching IML entries from https://172.19.215.159/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:32,006 - INFO - [172.19.215.158] Successfully fetched 252 IML entries.
+2025-06-08 18:38:32,022 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:32,022 - INFO - [172.19.215.158] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:32,029 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:32] "GET /get_ilo_status/11/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:32,037 - INFO - [172.19.180.169] Fetching IML entries from https://172.19.180.169/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:34,285 - INFO - [172.19.180.202] Successfully fetched 230 IML entries.
+2025-06-08 18:38:34,285 - INFO - [172.19.180.202] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:34,301 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:34] "GET /get_ilo_status/12/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:34,302 - INFO - [172.19.180.203] Fetching IML entries from https://172.19.180.203/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:34,725 - INFO - [172.19.180.203] Successfully fetched 231 IML entries.
+2025-06-08 18:38:34,725 - INFO - [172.19.180.203] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:34,742 - INFO - [172.19.180.168] Successfully fetched 228 IML entries.
+2025-06-08 18:38:34,746 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:34] "GET /get_ilo_status/13/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:34,746 - INFO - [172.19.180.168] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:34,757 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:34] "GET /get_ilo_status/13/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:34,765 - INFO - [172.19.215.159] Fetching IML entries from https://172.19.215.159/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:34,765 - INFO - [172.19.180.170] Fetching IML entries from https://172.19.180.170/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:35,776 - INFO - [172.19.215.158] Successfully fetched 252 IML entries.
+2025-06-08 18:38:35,776 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:35,793 - INFO - [172.19.215.158] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:35,794 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:35] "GET /get_ilo_status/12/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:35,794 - INFO - [172.19.180.204] Fetching IML entries from https://172.19.180.204/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:37,597 - INFO - [172.19.215.159] Successfully fetched 235 IML entries.
+2025-06-08 18:38:37,597 - INFO - [172.19.215.159] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:37,607 - INFO - [172.19.180.169] Successfully fetched 227 IML entries.
+2025-06-08 18:38:37,609 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:37] "GET /get_ilo_status/13/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:37,612 - INFO - [172.19.180.169] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:37,621 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:37] "GET /get_ilo_status/14/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:37,627 - INFO - [172.19.215.160] Fetching IML entries from https://172.19.215.160/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:37,634 - INFO - [172.19.180.171] Fetching IML entries from https://172.19.180.171/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:38,327 - INFO - [172.19.180.203] Successfully fetched 231 IML entries.
+2025-06-08 18:38:38,343 - INFO - [172.19.180.203] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:38,349 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:38] "GET /get_ilo_status/14/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:38,349 - INFO - [172.19.180.204] Fetching IML entries from https://172.19.180.204/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:38,645 - INFO - [172.19.180.170] Successfully fetched 223 IML entries.
+2025-06-08 18:38:38,645 - INFO - [172.19.180.170] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:38,658 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:38] "GET /get_ilo_status/15/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:38,658 - INFO - [172.19.215.160] Fetching IML entries from https://172.19.215.160/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:40,885 - INFO - [172.19.180.204] Successfully fetched 214 IML entries.
+2025-06-08 18:38:40,885 - INFO - [172.19.180.204] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:40,897 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:40] "GET /get_ilo_status/15/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:40,899 - INFO - [172.19.180.172] Fetching IML entries from https://172.19.180.172/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:41,339 - INFO - [172.19.215.159] Successfully fetched 235 IML entries.
+2025-06-08 18:38:41,339 - INFO - [172.19.215.159] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:41,349 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:41] "GET /get_ilo_status/14/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:41,357 - INFO - [172.19.180.205] Fetching IML entries from https://172.19.180.205/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:41,927 - INFO - [172.19.215.160] Successfully fetched 176 IML entries.
+2025-06-08 18:38:41,927 - INFO - [172.19.180.171] Successfully fetched 234 IML entries.
+2025-06-08 18:38:41,927 - INFO - [172.19.215.160] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:41,946 - INFO - [172.19.180.171] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:41,952 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:41] "GET /get_ilo_status/15/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:41,953 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:41] "GET /get_ilo_status/16/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:41,961 - INFO - [172.19.215.161] Fetching IML entries from https://172.19.215.161/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:41,961 - INFO - [172.19.180.173] Fetching IML entries from https://172.19.180.173/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:43,374 - INFO - [172.19.180.204] Successfully fetched 214 IML entries.
+2025-06-08 18:38:43,374 - INFO - [172.19.180.204] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:43,390 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:43] "GET /get_ilo_status/16/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:43,394 - INFO - [172.19.180.205] Fetching IML entries from https://172.19.180.205/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:44,226 - INFO - [172.19.215.160] Successfully fetched 176 IML entries.
+2025-06-08 18:38:44,226 - INFO - [172.19.215.160] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:44,238 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:44] "GET /get_ilo_status/16/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:44,238 - INFO - [172.19.215.161] Fetching IML entries from https://172.19.215.161/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:45,026 - INFO - [172.19.180.172] Successfully fetched 233 IML entries.
+2025-06-08 18:38:45,026 - INFO - [172.19.180.172] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:45,036 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:45] "GET /get_ilo_status/17/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:45,036 - INFO - [172.19.180.174] Fetching IML entries from https://172.19.180.174/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:45,976 - INFO - [172.19.180.205] Successfully fetched 236 IML entries.
+2025-06-08 18:38:45,976 - INFO - [172.19.180.205] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:45,991 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:45] "GET /get_ilo_status/17/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:45,999 - INFO - [172.19.180.206] Fetching IML entries from https://172.19.180.206/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:46,484 - INFO - [172.19.180.173] Successfully fetched 229 IML entries.
+2025-06-08 18:38:46,501 - INFO - [172.19.180.173] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:46,503 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:46] "GET /get_ilo_status/18/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:46,505 - INFO - [172.19.215.162] Fetching IML entries from https://172.19.215.162/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:46,567 - INFO - [172.19.215.161] Successfully fetched 232 IML entries.
+2025-06-08 18:38:46,567 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:46,575 - INFO - [172.19.215.161] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:46,578 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:46] "GET /get_ilo_status/17/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:46,581 - INFO - [172.19.180.175] Fetching IML entries from https://172.19.180.175/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:48,615 - INFO - [172.19.180.174] Successfully fetched 228 IML entries.
+2025-06-08 18:38:48,626 - INFO - [172.19.180.174] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:48,626 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:48] "GET /get_ilo_status/19/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:48,642 - INFO - [172.19.180.206] Fetching IML entries from https://172.19.180.206/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:49,559 - INFO - [172.19.215.161] Successfully fetched 232 IML entries.
+2025-06-08 18:38:49,559 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:38:49,576 - INFO - [172.19.215.161] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:49,580 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:49] "GET /get_ilo_status/18/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:49,580 - INFO - [172.19.215.162] Fetching IML entries from https://172.19.215.162/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:49,616 - INFO - [172.19.215.162] Successfully fetched 201 IML entries.
+2025-06-08 18:38:49,627 - INFO - [172.19.215.162] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:49,632 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:49] "GET /get_ilo_status/19/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:49,632 - INFO - [172.19.180.176] Fetching IML entries from https://172.19.180.176/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:49,700 - INFO - [172.19.180.205] Successfully fetched 236 IML entries.
+2025-06-08 18:38:49,708 - INFO - [172.19.180.205] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:49,714 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:49] "GET /get_ilo_status/18/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:49,714 - INFO - [172.19.180.207] Fetching IML entries from https://172.19.180.207/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:49,911 - INFO - [172.19.180.206] Successfully fetched 234 IML entries.
+2025-06-08 18:38:49,911 - INFO - [172.19.180.206] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:49,923 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:49] "GET /get_ilo_status/19/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:49,925 - INFO - [172.19.215.163] Fetching IML entries from https://172.19.215.163/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:50,900 - INFO - [172.19.180.175] Successfully fetched 233 IML entries.
+2025-06-08 18:38:50,909 - INFO - [172.19.180.175] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:50,909 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:50] "GET /get_ilo_status/20/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:50,921 - INFO - [172.19.180.177] Fetching IML entries from https://172.19.180.177/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:52,840 - INFO - [172.19.180.206] Successfully fetched 234 IML entries.
+2025-06-08 18:38:52,857 - INFO - [172.19.180.206] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:52,859 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:52] "GET /get_ilo_status/20/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:52,867 - INFO - [172.19.215.162] Successfully fetched 201 IML entries.
+2025-06-08 18:38:52,880 - INFO - [172.19.215.162] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:52,880 - INFO - [172.19.180.207] Fetching IML entries from https://172.19.180.207/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:52,888 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:52] "GET /get_ilo_status/20/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:52,902 - INFO - [172.19.215.163] Fetching IML entries from https://172.19.215.163/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:53,145 - INFO - [172.19.180.176] Successfully fetched 231 IML entries.
+2025-06-08 18:38:53,145 - INFO - [172.19.180.176] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:53,154 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:53] "GET /get_ilo_status/21/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:53,158 - INFO - [172.19.180.178] Fetching IML entries from https://172.19.180.178/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:53,531 - INFO - [172.19.180.207] Successfully fetched 233 IML entries.
+2025-06-08 18:38:53,542 - INFO - [172.19.180.207] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:53,550 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:53] "GET /get_ilo_status/21/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:53,556 - INFO - [172.19.180.208] Fetching IML entries from https://172.19.180.208/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:53,987 - INFO - [172.19.215.163] Successfully fetched 243 IML entries.
+2025-06-08 18:38:53,987 - INFO - [172.19.215.163] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:53,999 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:53] "GET /get_ilo_status/21/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:54,003 - INFO - [172.19.215.164] Fetching IML entries from https://172.19.215.164/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:54,726 - INFO - [172.19.180.177] Successfully fetched 229 IML entries.
+2025-06-08 18:38:54,726 - INFO - [172.19.180.177] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:54,739 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:54] "GET /get_ilo_status/22/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:54,739 - INFO - [172.19.180.179] Fetching IML entries from https://172.19.180.179/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:56,843 - INFO - [172.19.180.207] Successfully fetched 233 IML entries.
+2025-06-08 18:38:56,847 - INFO - [172.19.180.207] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:56,847 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:56] "GET /get_ilo_status/22/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:56,861 - INFO - [172.19.180.208] Fetching IML entries from https://172.19.180.208/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:57,586 - INFO - [172.19.180.178] Successfully fetched 236 IML entries.
+2025-06-08 18:38:57,602 - INFO - [172.19.180.178] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:57,609 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:57] "GET /get_ilo_status/23/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:57,611 - INFO - [172.19.215.164] Fetching IML entries from https://172.19.215.164/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:57,901 - INFO - [172.19.180.208] Successfully fetched 241 IML entries.
+2025-06-08 18:38:57,918 - INFO - [172.19.180.208] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:57,923 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:57] "GET /get_ilo_status/23/VS_P HTTP/1.1" 200 -
+2025-06-08 18:38:57,925 - INFO - [172.19.215.164] Successfully fetched 205 IML entries.
+2025-06-08 18:38:57,933 - INFO - [172.19.215.164] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:57,942 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:57] "GET /get_ilo_status/23/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:57,942 - INFO - [172.19.180.180] Fetching IML entries from https://172.19.180.180/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:57,962 - INFO - [172.19.180.209] Fetching IML entries from https://172.19.180.209/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:58,342 - INFO - [172.19.215.163] Successfully fetched 243 IML entries.
+2025-06-08 18:38:58,359 - INFO - [172.19.215.163] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:58,373 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:58] "GET /get_ilo_status/22/VS_B HTTP/1.1" 200 -
+2025-06-08 18:38:58,382 - INFO - [172.19.215.165] Fetching IML entries from https://172.19.215.165/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:38:58,932 - INFO - [172.19.180.179] Successfully fetched 228 IML entries.
+2025-06-08 18:38:58,945 - INFO - [172.19.180.179] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:38:58,945 - INFO - 127.0.0.1 - - [08/Jun/2025 18:38:58] "GET /get_ilo_status/24/VS_M HTTP/1.1" 200 -
+2025-06-08 18:38:58,953 - INFO - [172.19.180.181] Fetching IML entries from https://172.19.180.181/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:01,628 - INFO - [172.19.180.208] Successfully fetched 241 IML entries.
+2025-06-08 18:39:01,644 - INFO - [172.19.180.208] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:01,651 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:01] "GET /get_ilo_status/24/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:01,652 - INFO - [172.19.180.209] Fetching IML entries from https://172.19.180.209/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:02,083 - INFO - [172.19.180.180] Successfully fetched 231 IML entries.
+2025-06-08 18:39:02,083 - INFO - [172.19.180.180] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:02,094 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:02] "GET /get_ilo_status/25/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:02,101 - INFO - [172.19.215.165] Fetching IML entries from https://172.19.215.165/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:02,689 - INFO - [172.19.215.165] Successfully fetched 206 IML entries.
+2025-06-08 18:39:02,689 - INFO - [172.19.215.165] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:02,704 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:02] "GET /get_ilo_status/25/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:02,708 - INFO - [172.19.180.182] Fetching IML entries from https://172.19.180.182/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:02,828 - INFO - [172.19.180.209] Successfully fetched 230 IML entries.
+2025-06-08 18:39:02,828 - INFO - [172.19.180.209] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:02,842 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:02] "GET /get_ilo_status/25/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:02,854 - INFO - [172.19.180.210] Fetching IML entries from https://172.19.180.210/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:03,578 - INFO - [172.19.180.181] Successfully fetched 227 IML entries.
+2025-06-08 18:39:03,578 - INFO - [172.19.180.181] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:03,589 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:03] "GET /get_ilo_status/26/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:03,602 - INFO - [172.19.215.166] Fetching IML entries from https://172.19.215.166/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:04,329 - INFO - [172.19.215.164] Successfully fetched 205 IML entries.
+2025-06-08 18:39:04,329 - INFO - [172.19.215.164] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:04,341 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:04] "GET /get_ilo_status/24/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:04,341 - INFO - [172.19.180.183] Fetching IML entries from https://172.19.180.183/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:06,291 - INFO - [172.19.180.209] Successfully fetched 230 IML entries.
+2025-06-08 18:39:06,291 - INFO - [172.19.180.209] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:06,307 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:06] "GET /get_ilo_status/26/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:06,311 - INFO - [172.19.180.210] Fetching IML entries from https://172.19.180.210/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:06,741 - INFO - [172.19.180.210] Successfully fetched 207 IML entries.
+2025-06-08 18:39:06,741 - INFO - [172.19.180.210] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:06,749 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:06] "GET /get_ilo_status/27/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:06,752 - INFO - [172.19.215.166] Fetching IML entries from https://172.19.215.166/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:06,880 - INFO - [172.19.215.165] Successfully fetched 206 IML entries.
+2025-06-08 18:39:06,903 - INFO - [172.19.215.165] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:06,912 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:06] "GET /get_ilo_status/26/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:06,912 - INFO - [172.19.180.211] Fetching IML entries from https://172.19.180.211/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:07,027 - INFO - [172.19.180.182] Successfully fetched 235 IML entries.
+2025-06-08 18:39:07,027 - INFO - [172.19.180.182] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:07,042 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:07] "GET /get_ilo_status/27/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:07,046 - INFO - [172.19.215.167] Fetching IML entries from https://172.19.215.167/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:08,100 - INFO - [172.19.215.166] Successfully fetched 223 IML entries.
+2025-06-08 18:39:08,101 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:39:08,106 - INFO - [172.19.215.166] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:08,109 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:08] "GET /get_ilo_status/27/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:08,117 - INFO - [172.19.180.185] Fetching IML entries from https://172.19.180.185/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:08,684 - INFO - [172.19.180.183] Successfully fetched 236 IML entries.
+2025-06-08 18:39:08,690 - INFO - [172.19.180.183] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:08,692 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:08] "GET /get_ilo_status/28/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:08,702 - INFO - [172.19.180.184] Fetching IML entries from https://172.19.180.184/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:10,628 - INFO - [172.19.180.210] Successfully fetched 207 IML entries.
+2025-06-08 18:39:10,644 - INFO - [172.19.180.210] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:10,648 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:10] "GET /get_ilo_status/28/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:10,656 - INFO - [172.19.180.211] Fetching IML entries from https://172.19.180.211/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:11,387 - INFO - [172.19.215.166] Successfully fetched 223 IML entries.
+2025-06-08 18:39:11,387 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:39:11,387 - INFO - [172.19.215.166] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:11,404 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:11] "GET /get_ilo_status/28/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:11,412 - INFO - [172.19.215.167] Fetching IML entries from https://172.19.215.167/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:11,693 - INFO - [172.19.215.167] Successfully fetched 232 IML entries.
+2025-06-08 18:39:11,693 - INFO - [172.19.215.167] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:11,708 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:11] "GET /get_ilo_status/29/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:11,717 - INFO - [172.19.180.186] Fetching IML entries from https://172.19.180.186/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:12,123 - INFO - [172.19.180.185] Successfully fetched 232 IML entries.
+2025-06-08 18:39:12,138 - INFO - [172.19.180.185] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:12,144 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:12] "GET /get_ilo_status/30/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:12,152 - INFO - [172.19.180.212] Fetching IML entries from https://172.19.180.212/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:13,026 - INFO - [172.19.180.184] Successfully fetched 233 IML entries.
+2025-06-08 18:39:13,026 - INFO - [172.19.180.184] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:13,042 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:13] "GET /get_ilo_status/29/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:13,046 - INFO - [172.19.215.168] Fetching IML entries from https://172.19.215.168/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:13,977 - INFO - [172.19.180.211] Successfully fetched 226 IML entries.
+2025-06-08 18:39:13,982 - INFO - [172.19.180.211] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:13,984 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:13] "GET /get_ilo_status/29/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:13,991 - INFO - [172.19.180.212] Fetching IML entries from https://172.19.180.212/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:15,793 - INFO - [172.19.215.167] Successfully fetched 232 IML entries.
+2025-06-08 18:39:15,799 - INFO - [172.19.215.167] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:15,801 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:15] "GET /get_ilo_status/30/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:15,805 - INFO - [172.19.180.187] Fetching IML entries from https://172.19.180.187/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:16,099 - INFO - [172.19.180.211] Successfully fetched 226 IML entries.
+2025-06-08 18:39:16,105 - INFO - [172.19.180.211] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:16,109 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:16] "GET /get_ilo_status/30/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:16,118 - INFO - [172.19.180.188] Fetching IML entries from https://172.19.180.188/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:16,534 - INFO - [172.19.180.186] Successfully fetched 237 IML entries.
+2025-06-08 18:39:16,540 - INFO - [172.19.180.186] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:16,543 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:16] "GET /get_ilo_status/31/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:16,550 - INFO - [172.19.180.213] Fetching IML entries from https://172.19.180.213/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:17,126 - INFO - [172.19.215.168] Successfully fetched 212 IML entries.
+2025-06-08 18:39:17,134 - INFO - [172.19.215.168] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:17,134 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:17] "GET /get_ilo_status/31/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:17,142 - INFO - [172.19.215.168] Fetching IML entries from https://172.19.215.168/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:17,279 - INFO - [172.19.180.212] Successfully fetched 225 IML entries.
+2025-06-08 18:39:17,280 - INFO - [172.19.180.212] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:17,286 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:17] "GET /get_ilo_status/31/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:17,286 - INFO - [172.19.215.169] Fetching IML entries from https://172.19.215.169/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:19,692 - INFO - [172.19.180.187] Successfully fetched 217 IML entries.
+2025-06-08 18:39:19,692 - INFO - [172.19.180.187] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:19,703 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:19] "GET /get_ilo_status/32/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:19,708 - INFO - [172.19.180.189] Fetching IML entries from https://172.19.180.189/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:20,278 - INFO - [172.19.180.212] Successfully fetched 225 IML entries.
+2025-06-08 18:39:20,278 - INFO - [172.19.180.212] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:20,292 - INFO - [172.19.180.188] Successfully fetched 225 IML entries.
+2025-06-08 18:39:20,292 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:20] "GET /get_ilo_status/32/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:20,292 - INFO - [172.19.180.188] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:20,303 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:20] "GET /get_ilo_status/33/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:20,303 - INFO - [172.19.180.213] Fetching IML entries from https://172.19.180.213/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:20,314 - INFO - [172.19.215.169] Fetching IML entries from https://172.19.215.169/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:21,628 - INFO - [172.19.215.168] Successfully fetched 212 IML entries.
+2025-06-08 18:39:21,628 - INFO - [172.19.180.213] Successfully fetched 224 IML entries.
+2025-06-08 18:39:21,628 - INFO - [172.19.215.168] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:21,646 - INFO - [172.19.180.213] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:21,652 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:21] "GET /get_ilo_status/32/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:21,653 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:21] "GET /get_ilo_status/33/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:21,653 - INFO - [172.19.180.190] Fetching IML entries from https://172.19.180.190/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:21,661 - INFO - [172.19.180.214] Fetching IML entries from https://172.19.180.214/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:22,072 - INFO - [172.19.215.169] Successfully fetched 186 IML entries.
+2025-06-08 18:39:22,072 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:39:22,072 - INFO - [172.19.215.169] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:22,086 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:22] "GET /get_ilo_status/33/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:22,098 - INFO - [172.19.215.170] Fetching IML entries from https://172.19.215.170/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:24,079 - INFO - [172.19.180.189] Successfully fetched 225 IML entries.
+2025-06-08 18:39:24,079 - INFO - [172.19.180.189] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:24,090 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:24] "GET /get_ilo_status/34/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:24,100 - INFO - [172.19.180.191] Fetching IML entries from https://172.19.180.191/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:24,660 - INFO - [172.19.215.169] Successfully fetched 186 IML entries.
+2025-06-08 18:39:24,660 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:39:24,660 - INFO - [172.19.215.169] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:24,672 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:24] "GET /get_ilo_status/34/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:24,680 - INFO - [172.19.180.214] Fetching IML entries from https://172.19.180.214/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:25,186 - INFO - [172.19.180.213] Successfully fetched 224 IML entries.
+2025-06-08 18:39:25,202 - INFO - [172.19.180.213] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:25,208 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:25] "GET /get_ilo_status/34/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:25,214 - INFO - [172.19.215.170] Fetching IML entries from https://172.19.215.170/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:25,441 - INFO - [172.19.180.190] Successfully fetched 239 IML entries.
+2025-06-08 18:39:25,453 - INFO - [172.19.180.190] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:25,456 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:25] "GET /get_ilo_status/35/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:25,463 - INFO - [172.19.180.192] Fetching IML entries from https://172.19.180.192/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:25,889 - INFO - [172.19.180.214] Successfully fetched 246 IML entries.
+2025-06-08 18:39:25,889 - INFO - [172.19.180.214] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:25,904 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:25] "GET /get_ilo_status/35/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:25,913 - INFO - [172.19.180.215] Fetching IML entries from https://172.19.180.215/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:26,496 - INFO - [172.19.215.170] Successfully fetched 236 IML entries.
+2025-06-08 18:39:26,496 - INFO - [172.19.215.170] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:26,508 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:26] "GET /get_ilo_status/35/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:26,517 - INFO - [172.19.180.193] Fetching IML entries from https://172.19.180.193/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:27,558 - INFO - [172.19.180.191] Successfully fetched 225 IML entries.
+2025-06-08 18:39:27,558 - INFO - [172.19.180.191] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:27,572 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:27] "GET /get_ilo_status/36/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:27,576 - INFO - [172.19.180.215] Fetching IML entries from https://172.19.180.215/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:28,781 - INFO - [172.19.180.192] Successfully fetched 201 IML entries.
+2025-06-08 18:39:28,781 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:39:28,781 - INFO - [172.19.180.192] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:28,797 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:28] "GET /get_ilo_status/37/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:28,800 - INFO - [172.19.215.171] Fetching IML entries from https://172.19.215.171/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:29,210 - INFO - [172.19.180.214] Successfully fetched 246 IML entries.
+2025-06-08 18:39:29,210 - INFO - [172.19.180.214] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:29,221 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:29] "GET /get_ilo_status/36/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:29,229 - INFO - [172.19.215.171] Fetching IML entries from https://172.19.215.171/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:29,841 - INFO - [172.19.180.215] Successfully fetched 234 IML entries.
+2025-06-08 18:39:29,841 - INFO - [172.19.180.215] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:29,853 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:29] "GET /get_ilo_status/37/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:29,861 - INFO - [172.19.180.216] Fetching IML entries from https://172.19.180.216/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:29,906 - INFO - [172.19.215.170] Successfully fetched 236 IML entries.
+2025-06-08 18:39:29,913 - INFO - [172.19.215.170] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:29,920 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:29] "GET /get_ilo_status/36/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:29,932 - INFO - [172.19.180.194] Fetching IML entries from https://172.19.180.194/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:30,494 - INFO - [172.19.180.193] Successfully fetched 222 IML entries.
+2025-06-08 18:39:30,509 - INFO - [172.19.180.193] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:30,514 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:30] "GET /get_ilo_status/38/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:30,519 - INFO - [172.19.215.172] Fetching IML entries from https://172.19.215.172/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:32,558 - INFO - [172.19.215.171] Successfully fetched 181 IML entries.
+2025-06-08 18:39:32,558 - INFO - [172.19.215.171] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:32,568 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:32] "GET /get_ilo_status/37/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:32,574 - INFO - [172.19.180.195] Fetching IML entries from https://172.19.180.195/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:32,899 - INFO - [172.19.180.215] Successfully fetched 234 IML entries.
+2025-06-08 18:39:32,908 - INFO - [172.19.180.215] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:32,915 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:32] "GET /get_ilo_status/38/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:32,920 - INFO - [172.19.180.216] Fetching IML entries from https://172.19.180.216/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:33,391 - INFO - [172.19.180.194] Successfully fetched 213 IML entries.
+2025-06-08 18:39:33,399 - INFO - [172.19.180.194] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:33,399 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:33] "GET /get_ilo_status/39/VS_M HTTP/1.1" 200 -
+2025-06-08 18:39:33,407 - INFO - [172.19.215.172] Successfully fetched 220 IML entries.
+2025-06-08 18:39:33,415 - WARNING - Invalid timestamp format encountered: 0000-00-00T00:00:00Z
+2025-06-08 18:39:33,415 - INFO - [172.19.215.172] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:33,423 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:33] "GET /get_ilo_status/39/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:33,423 - INFO - [172.19.215.172] Fetching IML entries from https://172.19.215.172/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:33,431 - INFO - [172.19.180.196] Fetching IML entries from https://172.19.180.196/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:35,190 - INFO - [172.19.215.171] Successfully fetched 181 IML entries.
+2025-06-08 18:39:35,191 - INFO - [172.19.215.171] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:35,191 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:35] "GET /get_ilo_status/38/VS_B HTTP/1.1" 200 -
+2025-06-08 18:39:35,199 - INFO - [172.19.215.173] Fetching IML entries from https://172.19.215.173/redfish/v1/Systems/1/LogServices/IML/Entries
+2025-06-08 18:39:35,482 - INFO - [172.19.180.216] Successfully fetched 238 IML entries.
+2025-06-08 18:39:35,482 - INFO - [172.19.180.216] Final IML status determined: ok with 0 active alarms.
+2025-06-08 18:39:35,497 - INFO - 127.0.0.1 - - [08/Jun/2025 18:39:35] "GET /get_ilo_status/39/VS_P HTTP/1.1" 200 -
+2025-06-08 18:39:35,502 - INFO - [172.19.180.217] Fetching IML entries from https://172.19.180.217/redfish/v1/Systems/1/LogServices/IML/Entries

@@ -25,10 +25,11 @@
             display: flex;
             align-items: center; /* Align items vertically in the center */
             justify-content: space-between; /* Pushes logo to left, title to center */
-            margin-bottom: 1rem; 
+            margin-bottom: 1rem;
             padding: 0.75rem 1.5rem; /* Add horizontal padding for full width utilization */
             width: 100%; /* Ensure header uses full width */
             box-sizing: border-box; /* Include padding in width */
+            position: relative; /* For dropdown menu positioning */
         }
 
         .dashboard-logo-container {
@@ -49,10 +50,48 @@
             flex-grow: 1; /* Allows title to take available space and center */
             text-align: center; /* Keep title centered */
             font-size: 1.5rem; /* Smaller title */
-            font-weight: 700; 
+            font-weight: 700;
             color: #63b3ed; /* A nice blue for the title */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             margin: 0; /* Remove default margins */
+        }
+
+        /* Hamburger menu styling */
+        .menu-icon {
+            cursor: pointer;
+            font-size: 1.8rem; /* Larger icon */
+            color: #a0aec0;
+            padding: 0.5rem;
+            border-radius: 0.375rem; /* rounded-md */
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .menu-icon:hover {
+            background-color: #4a5568; /* hover:bg-gray-700 */
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%; /* Position below the header */
+            left: 0;
+            background-color: #2d3748; /* bg-gray-800 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            min-width: 150px;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #e2e8f0; /* text-gray-200 */
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #4a5568; /* hover:bg-gray-700 */
         }
 
         /* Main dashboard grid for channels */
@@ -60,7 +99,7 @@
             flex-grow: 1; /* Allow the grid to take available space */
             display: grid;
             /* Adjusted for dynamic channels per row, with increased minimum width to prevent text truncation */
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
             gap: 0.75rem; /* Gap between blocks */
             padding: 0.75rem; /* Padding around the grid */
             width: 100%; /* Utilize full width */
@@ -71,8 +110,8 @@
         /* Channel block styling for square shape */
         .channel-block {
             background-color: #2d3748; /* Slightly lighter dark background */
-            border-radius: 0.6rem; 
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); 
+            border-radius: 0.6rem;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease-in-out;
             position: relative; /* Needed for absolute positioning of inner content */
             padding-bottom: 100%; /* This creates the square aspect ratio */
@@ -161,11 +200,11 @@
         .global-group-status-container {
             padding: 1rem 1.5rem; /* Add horizontal padding for full width utilization */
             background-color: #2d3748;
-            border-radius: 0.6rem; 
+            border-radius: 0.6rem;
             margin: 0.75rem 0; /* Remove auto margins, adjust vertical margin */
             width: 100%; /* Utilize full width */
             box-sizing: border-box; /* Include padding in width */
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); 
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
         }
 
@@ -200,6 +239,63 @@
         .status-warning { background-color: #f59e0b; } /* Yellow-500 */
         .status-unknown { background-color: #6b7280; } /* Gray-500 */
 
+        /* Docker Alarm Console specific styles */
+        .alarm-console-container {
+            padding: 1rem 1.5rem;
+            background-color: #2d3748;
+            border-radius: 0.6rem;
+            margin: 0.75rem 0;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            overflow-x: auto; /* Allow horizontal scrolling for table on small screens */
+        }
+
+        .alarm-console-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .alarm-console-table th,
+        .alarm-console-table td {
+            padding: 0.75rem;
+            border: 1px solid #4a5568; /* Darker border */
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .alarm-console-table th {
+            background-color: #4a5568; /* Header background */
+            font-weight: 700;
+            color: #e2e8f0;
+            white-space: nowrap; /* Prevent headers from wrapping */
+        }
+
+        .alarm-console-table td {
+            background-color: #2d3748; /* Cell background */
+            color: #cbd5e0;
+        }
+
+        /* Trending Dashboard iFrame styles */
+        .trending-dashboard-container {
+            flex-grow: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .trending-dashboard-container iframe {
+            width: 100%;
+            height: 800px; /* Fixed height as requested */
+            border: none;
+            border-radius: 0.6rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 1024px) {
             .dashboard-grid {
@@ -214,10 +310,16 @@
             .large-cp-block {
                 min-height: 2.5rem; /* Adjusted min-height */
             }
+            .dashboard-title {
+                font-size: 1.3rem; /* Smaller on smaller screens */
+            }
             .global-status-block {
                 min-width: 6.5rem;
                 min-height: 3rem;
                 font-size: 0.75rem;
+            }
+            .trending-dashboard-container iframe {
+                height: 600px; /* Adjust iframe height for smaller screens */
             }
         }
 
@@ -250,6 +352,14 @@
                 min-height: 2.8rem;
                 font-size: 0.7rem;
             }
+            .alarm-console-table th,
+            .alarm-console-table td {
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+            .trending-dashboard-container iframe {
+                height: 400px; /* Further adjust iframe height for smaller screens */
+            }
         }
 
         @media (max-width: 480px) {
@@ -258,7 +368,7 @@
             }
             .channel-device-grid {
                 /* When single column, stack internal elements vertically */
-                grid-template-columns: 1fr; 
+                grid-template-columns: 1fr;
                 grid-template-rows: auto;
                 grid-template-areas: none; /* Remove grid areas for stacking */
             }
@@ -277,71 +387,143 @@
             .global-group-status-container {
                 max-width: 98%;
             }
+            .global-blocks-grid {
+                justify-content: flex-start; /* Align blocks to start on smallest screens */
+            }
             .global-status-block {
-                min-width: 48%; /* Two blocks per row on smallest screens */
+                min-width: calc(50% - 0.3rem); /* Two blocks per row on smallest screens, considering gap */
                 min-height: 2.2rem;
+                font-size: 0.65rem;
+            }
+            .alarm-console-table th,
+            .alarm-console-table td {
                 font-size: 0.65rem;
             }
         }
     </style>
+    <!-- Font Awesome for hamburger icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="py-4"> 
+    <div class="py-4">
         <header class="dashboard-header">
+            <div class="flex items-center">
+                <!-- Hamburger Menu Icon -->
+                <div class="menu-icon mr-4" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <!-- Dropdown Menu -->
+                <div id="dropdown-menu" class="dropdown-menu hidden">
+                    <a href="#" onclick="showView('dashboard')">Dashboard</a>
+                    <a href="#" onclick="showView('trending')">Trending</a>
+                </div>
+            </div>
             <div class="dashboard-logo-container">
                 <img src="Media/logo.png" alt="VigilSiddhi Logo" class="dashboard-logo" onerror="this.onerror=null;this.src='https://placehold.co/80x80/63b3ed/ffffff?text=VigilSiddhi+Logo';">
             </div>
             <h1 class="dashboard-title">VigilSiddhi Dashboard</h1>
-            <div></div>
+            <div></div> <!-- Spacer for centering title -->
         </header>
-        <div id="dashboard" class="dashboard-grid">
-        </div>
-    </div>
 
-    <div id="global-group-status" class="global-group-status-container">
-        <h2 class="text-xl font-semibold text-center mb-4 text-blue-400">Overall System Status</h2>
-        <div class="global-blocks-grid">
+        <!-- Dashboard View -->
+        <div id="dashboard-view">
+            <div id="dashboard" class="dashboard-grid">
             </div>
+
+            <div id="global-group-status" class="global-group-status-container">
+                <h2 class="text-xl font-semibold text-center mb-4 text-blue-400">Overall System Status</h2>
+                <div class="global-blocks-grid">
+                    </div>
+            </div>
+
+            <!-- Docker Alarm Console Section -->
+            <div id="alarm-console" class="alarm-console-container">
+                <h2 class="text-xl font-semibold text-center mb-4 text-red-400">iLO Alarm Console (Last 30 Days)</h2>
+                <div class="overflow-x-auto">
+                    <table class="alarm-console-table">
+                        <thead>
+                            <tr>
+                                <th>Server IP</th>
+                                <th>Message</th>
+                                <th>Severity</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alarm-console-table-body">
+                            <!-- Alarm rows will be inserted here by JavaScript -->
+                            <tr><td colspan="4" class="text-center">No active iLO alarms found.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trending View -->
+        <div id="trending-view" class="trending-dashboard-container hidden">
+            <iframe
+             src="https://play.grafana.org/d/asserts-nginx/nginx-ingress-controller?orgId=1&from=now-1h&to=now&timezone=utc&var-ds=grafanacloud-demoinfra-prom&var-env=$__all&var-site=$__all&var-namespace=$__all&var-controller_class=$__all&var-controller=$__all&var-ingress=$__all"
+             width="100%"
+             height="800"
+             frameborder="0"
+             allowfullscreen>
+            </iframe>
+        </div>
+
     </div>
 
     <script>
         // Define the number of channels
-        const NUM_CHANNELS = 50;
+        const NUM_CHANNELS = 1; // Changed to 1 to only check Channel 01 status
 
         // Define all individual devices for a channel, along with their grid area for layout
-        // Added iloIp for devices monitored by iLO and labelLines for 2-row labels
-        const channelDevices = [
-            { id: 'VS_M', name: 'VS M', area: 'vs-m', iloIp: '192.168.1.10' },
-            { id: 'VS_P', name: 'VS P', area: 'vs-p', iloIp: '192.168.1.11' },
-            { id: 'VS_B', name: 'VS B', area: 'vs-b', iloIp: '192.168.1.12' },
-            { id: 'CP_VS42M', name: '186-11 VS42M', area: 'cp-vs42m', isLarge: true, labelLines: ['VS42M', '186-11'] }, 
-            { id: 'CP_PGM42M', name: '402-11 PGM42M', area: 'cp-pgm42m', isLarge: true, labelLines: ['PGM42M', '402-11'] }, 
-            { id: 'DA_M', name: 'DA M', area: 'da-m' },
-            { id: 'DA_P', name: 'DA P', area: 'da-p' },
-            { id: 'DA_B', name: 'DA B', area: 'da-b' },
-            { id: 'DA_M_OUT', name: 'DA M OUT', area: 'da-m-out' },
-            { id: 'DA_B_OUT', name: 'DA B OUT', area: 'da-b-out' },
+        // iloIp will now be fetched dynamically from a loaded config
+        const channelDevicesBlueprint = [
+            { id: 'VS_M', name: 'VS M', area: 'vs-m', usesIlo: true },
+            { id: 'VS_P', name: 'VS P', area: 'vs-p', usesIlo: true },
+            { id: 'VS_B', name: 'VS B', area: 'vs-b', usesIlo: true },
+            { id: 'CP_VS42M', name: '186-11 VS42M', area: 'cp-vs42m', isLarge: true, labelLines: ['VS42M', '186-11'], usesIlo: false },
+            { id: 'CP_PGM42M', name: '402-11 PGM42M', area: 'cp-pgm42m', isLarge: true, labelLines: ['PGM42M', '402-11'], usesIlo: false },
+            { id: 'DA_M', name: 'DA M', area: 'da-m', usesIlo: false },
+            { id: 'DA_P', name: 'DA P', area: 'da-p', usesIlo: false },
+            { id: 'DA_B', name: 'DA B', area: 'da-b', usesIlo: false },
+            { id: 'DA_M_OUT', name: 'DA M OUT', area: 'da-m-out', usesIlo: false },
+            { id: 'DA_B_OUT', name: 'DA B OUT', area: 'da-b-out', usesIlo: false },
         ];
 
         // Define the global group status blocks
         const globalGroupStatusBlocks = [
-            { id: 'GROUP_ILO_M', name: 'iLO M' },
-            { id: 'GROUP_ILO_P', name: 'iLO P' },
-            { id: 'GROUP_ILO_B', name: 'iLO B' },
-            { id: 'GROUP_ENC_M', name: 'Encoder M' },
-            { id: 'GROUP_ENC_B', name: 'Encoder B' },
-            { id: 'GROUP_CISCO_D9800', name: 'Cisco D9800' },
-            { id: 'GROUP_CISCO_SWITCH', name: 'Cisco Switch' },
-            { id: 'GROUP_NEXUS_SWITCH', name: 'Nexus Switch' },
-            { id: 'GROUP_KMX', name: 'KMX' },
+            { id: 'GROUP_ILO_M', name: 'iLO M', collectiveType: 'VS_M' }, // Collective status for all VS_M servers
+            { id: 'GROUP_ILO_P', name: 'iLO P', collectiveType: 'VS_P' }, // Collective status for all VS_P servers
+            { id: 'GROUP_ILO_B', name: 'iLO B', collectiveType: 'VS_B' }, // Collective status for all VS_B servers
+            { id: 'GROUP_ENC_M', name: 'Encoder M', collectiveType: null },
+            { id: 'GROUP_ENC_B', name: 'Encoder B', collectiveType: null },
+            { id: 'GROUP_CISCO_D9800', name: 'Cisco D9800', collectiveType: null },
+            { id: 'GROUP_CISCO_SWITCH', name: 'Cisco Switch', collectiveType: null },
+            { id: 'GROUP_NEXUS_SWITCH', name: 'Nexus Switch', collectiveType: null },
+            { id: 'GROUP_KMX', name: 'KMX', collectiveType: null },
         ];
 
         // Base URL for your Flask iLO proxy API
         const ILO_PROXY_API_BASE_URL = 'http://127.0.0.1:5000'; // Adjust if your proxy is on a different address/port
 
-        // Function to generate a status for simulated devices (always 'ok' by default)
-        function getRandomStatus() {
-            return 'ok'; 
+        // Cache for iLO IP addresses from the backend to avoid re-fetching the config
+        let channelIloIpMap = new Map(); // Key: `${channelId}-${deviceId}`, Value: ip
+
+        // Function to toggle the dropdown menu visibility
+        function toggleMenu() {
+            const dropdown = document.getElementById('dropdown-menu');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Function to switch between views
+        function showView(viewId) {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('trending-view').classList.add('hidden');
+
+            document.getElementById(`${viewId}-view`).classList.remove('hidden');
+
+            // Close the menu after selection
+            toggleMenu();
         }
 
         // Function to update a single status block (device or global group)
@@ -369,26 +551,48 @@
             }
         }
 
-        // Function to fetch status from the iLO proxy and render it
-        async function fetchIloStatusAndRender(channelNum, deviceId, iloIp) {
+        // Function to fetch status for an individual iLO device and update its block
+        async function fetchIndividualIloStatus(channelNum, deviceId) {
             const elementId = `channel-${channelNum}-${deviceId}`;
             const element = document.getElementById(elementId);
             if (!element) return;
 
             try {
-                const response = await fetch(`${ILO_PROXY_API_BASE_URL}/get_ilo_status/${iloIp}`);
+                // Fetch the IP from the proxy's internal mapping
+                // The proxy is responsible for knowing which IP belongs to which (channel, device) combination
+                const response = await fetch(`${ILO_PROXY_API_BASE_URL}/get_ilo_status/${channelNum}/${deviceId}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
                 const status = data.status; // 'ok', 'warning', 'alarm', 'unknown'
+                const alarms = data.alarms || []; // Array of active alarms
 
-                // Only update the color, keep the original device name text constant
                 updateStatusBlock(elementId, status);
+                // For individual iLO devices, we'll append their alarms to a global list
+                return alarms; // Return alarms to be aggregated by updateAllStatuses
             } catch (error) {
-                console.error(`Error fetching status for ${iloIp}:`, error);
-                // On error, set to unknown (gray)
-                updateStatusBlock(elementId, 'unknown'); 
+                console.error(`Error fetching status for Channel ${channelNum} ${deviceId}:`, error);
+                updateStatusBlock(elementId, 'unknown');
+                return []; // Return empty array on error
+            }
+        }
+
+        // Function to fetch collective iLO status for global blocks
+        async function fetchCollectiveIloStatus(collectiveType) {
+            try {
+                const response = await fetch(`${ILO_PROXY_API_BASE_URL}/get_collective_ilo_status/${collectiveType}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const status = data.status; // 'ok', 'warning', 'alarm', 'unknown'
+                const alarms = data.alarms || []; // Array of active alarms for the collective type
+
+                return { status, alarms };
+            } catch (error) {
+                console.error(`Error fetching collective status for ${collectiveType}:`, error);
+                return { status: 'unknown', alarms: [] };
             }
         }
 
@@ -400,29 +604,93 @@
                 devices: {}
             };
 
-            const promises = channelDevices.map(async device => {
-                if (device.iloIp) {
+            const channelPromises = channelDevicesBlueprint.map(async device => {
+                const elementId = `${channelData.channelId}-${device.id}`;
+                if (device.usesIlo) {
                     // For iLO-monitored devices, fetch real status from the proxy
-                    await fetchIloStatusAndRender(channelNum, device.id, device.iloIp);
+                    // This will return alarms to be aggregated at a higher level
+                    return fetchIndividualIloStatus(channelNum, device.id);
                 } else {
                     // For other devices, simulate status (which will be 'ok' by default now)
-                    const elementId = `${channelData.channelId}-${device.id}`;
                     const status = getRandomStatus();
-                    // Only update the color, keep the original device name text constant
                     updateStatusBlock(elementId, status);
+                    return []; // No alarms for simulated devices
                 }
             });
-            await Promise.all(promises); 
-            return channelData;
+            // Await all promises for the channel in parallel
+            const allChannelAlarms = await Promise.all(channelPromises);
+            return allChannelAlarms.flat(); // Flatten the array of arrays of alarms
         }
 
-        // Function to simulate fetching global group status data
-        async function fetchGlobalGroupStatus() {
-            const globalStatuses = {};
-            globalGroupStatusBlocks.forEach(groupBlock => {
-                globalStatuses[groupBlock.id] = 'ok'; // Always 'ok' by default
+        // Function to update all channel and global statuses
+        let allCurrentAlarms = []; // Global array to store all active alarms for the console
+
+        async function updateAllStatuses() {
+            allCurrentAlarms = []; // Clear alarms before each full update cycle
+
+            // Update channel-specific devices (only channel 1)
+            const channelUpdatePromises = [];
+            // Loop changed to only include channel 1
+            for (let i = 1; i <= NUM_CHANNELS; i++) { // NUM_CHANNELS is now 1
+                channelUpdatePromises.push(fetchChannelStatus(i));
+            }
+            const resultsFromChannels = await Promise.all(channelUpdatePromises);
+            resultsFromChannels.forEach(alarms => {
+                allCurrentAlarms.push(...alarms); // Aggregate alarms from all channels
             });
-            return globalStatuses;
+
+            // Update global group status blocks in parallel
+            const globalUpdatePromises = globalGroupStatusBlocks.map(async groupBlock => {
+                const blockDivId = `global-${groupBlock.id}`;
+                if (groupBlock.collectiveType) {
+                    const { status, alarms } = await fetchCollectiveIloStatus(groupBlock.collectiveType);
+                    updateStatusBlock(blockDivId, status);
+                    allCurrentAlarms.push(...alarms); // Aggregate alarms from global blocks
+                } else {
+                    // For other global blocks, simulate status
+                    updateStatusBlock(blockDivId, getRandomStatus());
+                }
+            });
+            await Promise.all(globalUpdatePromises);
+
+            // Sort all collected alarms by timestamp (newest first)
+            allCurrentAlarms.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            // Render all collected alarms in the console
+            renderAlarmConsole(allCurrentAlarms);
+        }
+
+        // Function to render the alarm console table
+        function renderAlarmConsole(alarms) {
+            const tableBody = document.getElementById('alarm-console-table-body');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            if (alarms.length === 0) {
+                const noAlarmsRow = document.createElement('tr');
+                noAlarmsRow.innerHTML = `<td colspan="4" class="text-center py-4">No active iLO alarms found.</td>`;
+                tableBody.appendChild(noAlarmsRow);
+            } else {
+                alarms.forEach(alarm => {
+                    const row = document.createElement('tr');
+                    let timeFormatted = alarm.timestamp;
+                    try {
+                        // Attempt to reformat time for better readability, if possible
+                        const date = new Date(alarm.timestamp);
+                        timeFormatted = date.toLocaleString(); // Uses local timezone and format
+                    } catch (e) {
+                        // Fallback to original if date parsing fails
+                        console.warn("Could not parse alarm timestamp:", alarm.timestamp, e);
+                    }
+
+                    row.innerHTML = `
+                        <td>${alarm.server_ip}</td>
+                        <td>${alarm.message}</td>
+                        <td>${alarm.severity}</td>
+                        <td>${timeFormatted}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
         }
 
         // Function to render the dashboard (channels and global blocks)
@@ -431,7 +699,8 @@
             dashboardContainer.innerHTML = ''; // Clear existing channel content
 
             // Render individual channel blocks
-            for (let i = 1; i <= NUM_CHANNELS; i++) {
+            // Loop changed to only include channel 1
+            for (let i = 1; i <= NUM_CHANNELS; i++) { // NUM_CHANNELS is now 1
                 const channelId = `channel-${i}`;
                 const channelName = `Channel ${String(i).padStart(2, '0')}`;
 
@@ -441,7 +710,7 @@
 
                 let channelDevicesHtml = '';
                 // Create a map for quick lookup of devices by their area for grid placement
-                const deviceMap = new Map(channelDevices.map(d => [d.area, d]));
+                const deviceMap = new Map(channelDevicesBlueprint.map(d => [d.area, d]));
 
                 // Define the order of grid cells based on grid-template-areas
                 const gridAreasOrder = [
@@ -464,7 +733,7 @@
                             // Initial status is 'ok' (green) for faster perceived loading
                             channelDevicesHtml += `
                                 <div id="${channelId}-${device.id}"
-                                     class="device-status status-ok ${device.isLarge ? 'large-cp-block' : ''}" 
+                                     class="device-status status-ok ${device.isLarge ? 'large-cp-block' : ''}"
                                      data-area="${device.area}">
                                     ${displayText}
                                 </div>
@@ -498,29 +767,16 @@
             });
 
             // Initial asynchronous update of all statuses (doesn't block rendering)
-            updateAllStatuses(); 
-        }
-
-        // Function to update all channel and global statuses
-        async function updateAllStatuses() {
-            // Update channel-specific devices (includes iLO fetches and other simulations)
-            for (let i = 1; i <= NUM_CHANNELS; i++) {
-                await fetchChannelStatus(i); 
-            }
-
-            // Update global group status blocks
-            const globalStatuses = await fetchGlobalGroupStatus();
-            for (const blockId in globalStatuses) {
-                // Only update the color, keep the original block name text constant
-                updateStatusBlock(`global-${blockId}`, globalStatuses[blockId]);
-            }
+            updateAllStatuses();
         }
 
         // Initialize the dashboard when the window loads
         window.onload = function() {
             renderDashboard();
             // Set up auto-update every 5 seconds (adjust as needed)
-            setInterval(updateAllStatuses, 5000); 
+            setInterval(updateAllStatuses, 5000); // Request new status every 5 seconds
+            // Show dashboard view by default
+            showView('dashboard');
         };
     </script>
 </body>
