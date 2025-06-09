@@ -13,7 +13,7 @@
     "name": "iLO P",
     "type": "VS_P",
     "additional_ips": [
-      { "ip": "172.19.180.130", "username": "Administrator", "password": "Sony@2024!" },
+      { "ip": "172.19.180.65", "username": "Administrator", "password": "Sony@2024!" },
       
     ]
   },

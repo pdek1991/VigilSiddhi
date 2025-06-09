@@ -1,0 +1,22 @@
+hosts:
+  - name: Laptop
+    ip: 127.0.0.1
+    username: vigilsiddhi
+    password: vigilsiddhi
+    
+    services:
+      
+      - SysMain
+      - Power
+    processes:
+      - chrome
+     
+
+
+  # - name: WIN-SERVER-2
+  #   ip: 192.168.1.20
+  #   username: adminuser
+  #   password: another_password
+  #   processes:
+  #     - MSSQLSERVER
+  #     - Dhcp
