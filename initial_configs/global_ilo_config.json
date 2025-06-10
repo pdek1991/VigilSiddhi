@@ -1,0 +1,110 @@
+[
+  {
+    "id": "GROUP_ILO_M",
+    "name": "iLO M",
+    "type": "VS_M",
+    "additional_ips": [
+      {
+        "ip": "172.19.180.63",
+        "username": "Administrator",
+        "password": "Sony@2024!"
+      }
+    ]
+  },
+  {
+    "id": "GROUP_ILO_P",
+    "name": "iLO P",
+    "type": "VS_P",
+    "additional_ips": [
+      {
+        "ip": "172.19.180.65",
+        "username": "Administrator",
+        "password": "Sony@2024!"
+      }
+    ]
+  },
+  {
+    "id": "GROUP_ILO_B",
+    "name": "iLO B",
+    "type": "VS_B",
+    "additional_ips": [
+      {
+        "ip": "172.19.180.51",
+        "username": "Administrator",
+        "password": "Sony@2024!"
+      }
+    ]
+  },
+  {
+    "id": "GROUP_ENCODER_M",
+    "name": "Encoder M",
+    "type": "Encoder M",
+    "additional_ips": [
+      {
+        "ip": "172.19.180.65",
+        "username": "Administrator",
+        "password": "Sony@2024!"
+      }
+    ]
+  },
+  {
+    "id": "GROUP_ENC_B",
+    "name": "Encoder B",
+    "type": null,
+    "additional_ips": [
+      {
+        "ip": "10.0.0.100",
+        "username": "N/A",
+        "password": "N/A"
+      }
+    ]
+  },
+  {
+    "id": "GROUP_CISCO_D9800",
+    "name": "Cisco D9800",
+    "type": null,
+    "additional_ips": [
+      {
+        "ip": "10.0.0.101",
+        "username": "N/A",
+        "password": "N/A"
+      }
+    ]
+  },
+  {
+    "id": "GROUP_CISCO_SWITCH",
+    "name": "Cisco Switch",
+    "type": null,
+    "additional_ips": [
+      {
+        "ip": "10.0.0.102",
+        "username": "N/A",
+        "password": "N/A"
+      }
+    ]
+  },
+  {
+    "id": "GROUP_NEXUS_SWITCH",
+    "name": "Nexus Switch",
+    "type": null,
+    "additional_ips": [
+      {
+        "ip": "10.0.0.103",
+        "username": "N/A",
+        "password": "N/A"
+      }
+    ]
+  },
+  {
+    "id": "GROUP_KMX",
+    "name": "KMX",
+    "type": null,
+    "additional_ips": [
+      {
+        "ip": "10.0.0.104",
+        "username": "N/A",
+        "password": "N/A"
+      }
+    ]
+  }
+]

@@ -1,0 +1,402 @@
+[
+  {
+    "channel_id": 1,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.65", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.197", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.153", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 2,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.157", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.197", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.153", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 3,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.158", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.198", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.154", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 4,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.159", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.198", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.154", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 5,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.160", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.65", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.155", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 6,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.161", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.199", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.155", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 7,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.162", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.200", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.156", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 8,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.163", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.200", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.156", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 9,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.164", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.201", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.157", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 10,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.165", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.201", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.157", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 11,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.166", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.202", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.158", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 12,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.167", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.202", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.158", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 13,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.168", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.203", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.159", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 14,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.169", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.203", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.159", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 15,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.65", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.204", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.160", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 16,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.171", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.204", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.160", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 17,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.172", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.205", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.161", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 18,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.173", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.205", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.161", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 19,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.174", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.206", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.162", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 20,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.175", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.206", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.162", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 21,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.176", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.207", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.163", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 22,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.177", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.207", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.163", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 23,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.178", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.208", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.164", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 24,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.179", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.208", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.164", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 25,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.180", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.209", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.165", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 26,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.181", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.209", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.165", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 27,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.182", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.210", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.166", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 28,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.183", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.210", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.166", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 29,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.184", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.211", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.167", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 30,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.185", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.211", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.167", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 31,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.186", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.212", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.168", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 32,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.187", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.212", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.168", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 33,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.188", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.213", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.169", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 34,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.189", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.213", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.169", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 35,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.190", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.214", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.170", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 36,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.191", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.214", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.170", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 37,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.192", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.215", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.171", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 38,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.193", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.215", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.171", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 39,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.194", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.216", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.172", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 40,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.195", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.216", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.172", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 41,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.196", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.217", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.173", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 42,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.156", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.217", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.173", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 43,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.157", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.218", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.174", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 44,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.158", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.218", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.174", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 45,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.159", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.219", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.175", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 46,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.160", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.219", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.175", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 47,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.161", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.220", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.176", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 48,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.162", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.220", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.176", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 49,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.163", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.221", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.177", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  },
+  {
+    "channel_id": 50,
+    "devices": [
+      { "id": "VS_M", "ip": "172.19.180.65", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_P", "ip": "172.19.180.221", "username": "Administrator", "password": "Sony@2024!" },
+      { "id": "VS_B", "ip": "172.19.215.177", "username": "Administrator", "password": "Sony@2024!" }
+    ]
+  }
+]
