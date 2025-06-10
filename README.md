@@ -1,7 +1,7 @@
 VigilSiddhi Dashboard
 VigilSiddhi is a comprehensive monitoring and dashboard application designed to provide real-time status and alarm monitoring for various IT infrastructure components, including Cisco D9800 IRD devices, Windows hosts, and HPE iLO servers. It leverages Elasticsearch for data storage, a Flask backend for API exposure, and a modern web frontend for visualization.
 
-Features
+##Features
 Cisco D9800 IRD Monitoring:
 Fetches RF data (C/N Margin, Signal Level, Input Rate) and channel names from configured IRD devices.
 Generates and logs alarms based on IRD status and critical metrics.
@@ -28,7 +28,7 @@ Handles connection errors and provides informative warning/error messages.
 Data Flow
 The application follows a client-server architecture with Elasticsearch acting as the central data store.
 
-Configuration Loading:
+##Configuration Loading:
 
 The ElasticManager (from elastic_client.py) is responsible for connecting to Elasticsearch and loading initial configurations from channel_ilo_config.json, global_ilo_config.json, and windows_config.yaml (implied by elastic_client.py and windows_monitor.py config loading) into respective Elasticsearch indices (channel_config, global_config, windows_config).
 ird_monitor.py also loads its configurations from the ird_config Elasticsearch index.
@@ -55,7 +55,7 @@ The retrieved data is then rendered dynamically on the dashboard, providing an o
 Endpoints
 The Flask application exposes the following API endpoints:
 
-Dashboard & HTML Endpoints:
+##Dashboard & HTML Endpoints:
 
 / (GET): Serves the main dashboard HTML page (index.html).
 /alarm_console_fullscreen (GET): Serves the full-screen alarm console HTML page (alarm_console_fullscreen.html).
@@ -83,11 +83,10 @@ Configuration Management Endpoints:
 Elasticsearch Index Formats
 This section details the mappings for the Elasticsearch indices used by the application. The base Elasticsearch URL used in the examples is http://192.168.56.30:9200.
 
-ird_trend Index
+##ird_trend Index
 Purpose: Stores time-series trend data for Cisco D9800 IRD devices.
 Mapping:
-JSON
-
+```
 {
   "mappings": {
     "properties": {
@@ -100,11 +99,12 @@ JSON
     }
   }
 }
+```
 channel_config Index
 Purpose: Stores configurations for various channels, each potentially containing multiple devices.
 Mapping:
 JSON
-
+```
 {
   "mappings": {
     "properties": {
@@ -121,11 +121,13 @@ JSON
     }
   }
 }
+```
+
 global_config Index
 Purpose: Stores global group configurations, possibly for grouping different types of devices or services.
 Mapping:
 JSON
-
+```
 {
   "mappings": {
     "properties": {
@@ -143,11 +145,12 @@ JSON
     }
   }
 }
-windows_config Index
+```
+##windows_config Index
 Purpose: Stores configurations for Windows hosts, including their IP addresses, credentials, and lists of services/processes to monitor.
 Mapping:
 JSON
-
+```
 {
   "mappings": {
     "properties": {
@@ -160,11 +163,12 @@ JSON
     }
   }
 }
+```
 ird_config Index
 Purpose: Stores configurations specific to IRD devices, used by ird_monitor.py to fetch devices to monitor.
 Mapping:
 JSON
-
+```
 {
   "mappings": {
     "properties": {
@@ -176,11 +180,12 @@ JSON
     }
   }
 }
-active_alarms Index
+```
+##active_alarms Index
 Purpose: Stores currently active alarms for immediate display on the dashboard.
 Mapping:
 JSON
-
+```
 {
   "mappings": {
     "properties": {
@@ -196,11 +201,12 @@ JSON
     }
   }
 }
+```
 historical_alarms Index
 Purpose: Stores a complete history of all generated alarms.
 Mapping:
 JSON
-
+```
 {
   "mappings": {
     "properties": {
@@ -216,33 +222,39 @@ JSON
     }
   }
 }
+```
 Create Index with cURL
 You can create the necessary Elasticsearch indices using the following curl commands. Replace http://192.168.56.30:9200 with your Elasticsearch host and port if different.
 
 Bash
-
+```
 curl -X PUT "http://192.168.56.30:9200/ird_trend" -H "Content-Type: application/json" -d "{\"mappings\":{\"properties\":{\"@timestamp\":{\"type\":\"date\"},\"system_id\":{\"type\":\"integer\"},\"channel_name\":{\"type\":\"text\"},\"cn_margin\":{\"type\":\"float\"},\"signal_level\":{\"type\":\"float\"},\"input_rate\":{\"type\":\"long\"}}}}"
-
+```
+```
 curl -X PUT "http://192.168.56.30:9200/channel_config" -H "Content-Type: application/json" -d "{\"mappings\":{\"properties\":{\"channel_id\":{\"type\":\"integer\"},\"devices\":{\"type\":\"nested\",\"properties\":{\"id\":{\"type\":\"keyword\"},\"ip\":{\"type\":\"ip\"},\"username\":{\"type\":\"keyword\"},\"password\":{\"type\":\"keyword\"}}}}}}"
-
+```
+```
 curl -X PUT "http://192.168.56.30:9200/global_config" -H "Content-Type: application/json" -d "{\"mappings\":{\"properties\":{\"id\":{\"type\":\"keyword\"},\"name\":{\"type\":\"text\"},\"type\":{\"type\":\"keyword\"},\"additional_ips\":{\"type\":\"nested\",\"properties\":{\"ip\":{\"type\":\"ip\"},\"username\":{\"type\":\"keyword\"},\"password\":{\"type\":\"keyword\"}}}}}}"
-
+```
+```
 curl -X PUT "http://192.168.56.30:9200/windows_config" -H "Content-Type: application/json" -d "{\"mappings\":{\"properties\":{\"name\":{\"type\":\"keyword\"},\"ip\":{\"type\":\"ip\"},\"username\":{\"type\":\"keyword\"},\"password\":{\"type\":\"keyword\"},\"services\":{\"type\":\"keyword\"},\"processes\":{\"type\":\"keyword\"}}}}"
-
+```
+```
 curl -X PUT "http://192.168.56.30:9200/ird_config" -H "Content-Type: application/json" -d "{\"mappings\":{\"properties\":{\"system_id\":{\"type\":\"keyword\"},\"ip_address\":{\"type\":\"ip\"},\"username\":{\"type\":\"keyword\"},\"password\":{\"type\":\"keyword\"},\"channel_name\":{\"type\":\"text\"}}}}"
-
+```
+```
 curl -X PUT "http://192.168.56.30:9200/active_alarms" -H "Content-Type: application/json" -d "{\"mappings\":{\"properties\":{\"@timestamp\":{\"type\":\"date\"},\"alarm_id\":{\"type\":\"keyword\"},\"source\":{\"type\":\"keyword\"},\"server_ip\":{\"type\":\"ip\"},\"message\":{\"type\":\"text\"},\"severity\":{\"type\":\"keyword\"},\"channel_name\":{\"type\":\"keyword\"},\"device_name\":{\"type\":\"keyword\"},\"group_id\":{\"type\":\"keyword\"}}}}"
-
+```
+```
 curl -X PUT "http://192.168.56.30:9200/historical_alarms" -H "Content-Type: application/json" -d "{\"mappings\":{\"properties\":{\"@timestamp\":{\"type\":\"date\"},\"alarm_id\":{\"type\":\"keyword\"},\"source\":{\"type\":\"keyword\"},\"server_ip\":{\"type\":\"ip\"},\"message\":{\"type\":\"text\"},\"severity\":{\"type\":\"keyword\"},\"channel_name\":{\"type\":\"keyword\"},\"device_name\":{\"type\":\"keyword\"},\"group_id\":{\"type\":\"keyword\"}}}}"
+```
 Get Index Schema
 To retrieve the mapping (schema) for a specific index, use the following curl command.
 
 Bash
-
-curl -X GET "http://192.168.56.30:9200/historical_alarms?pretty"
+```curl -X GET "http://192.168.56.30:9200/historical_alarms?pretty"```
 Get Index Document
 To retrieve documents from an index (e.g., to see active alarms), use the following curl command. This will fetch the top 10 documents by default.
 
 Bash
-
-curl -X GET "http://192.168.56.30:9200/active_alarms/_search?pretty"
+```curl -X GET "http://192.168.56.30:9200/active_alarms/_search?pretty"```
